@@ -1,6 +1,6 @@
 (function(){
 var COL=window.AYMELEK_COL,CN=window.AYMELEK_CN,KEY='aymelek_admin_draft',$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
-var SZ={shoes:['36','37','38','39','40','41'],bags:['Tek Beden'],accessories:['Tek Beden']};function sizesOf(c){return SZ[c]||['XS','S','M','L','XL']}
+var SZ={care:['100 ml'],shoes:['36','37','38','39','40','41'],bags:['Tek Beden'],accessories:['Tek Beden']};function sizesOf(c){return SZ[c]||['XS','S','M','L','XL']}
 var list=[],tab='dash',edit=null,note='';
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function f(n){return n.toFixed(2).replace('.',',')+' €'}
