@@ -78,7 +78,7 @@ function preparePhoto(file){
 function showPhotos(){
  var box=$('#f_photos');if(!box)return;
  box.innerHTML=(edit.images||[]).map(function(src,i){return '<div><img src="'+esc(src)+'" alt="" width="68" height="76" style="object-fit:cover;display:block"><button type="button" class="ab" data-remove-photo="'+i+'">Kaldır</button></div>'}).join('');
- $('[data-remove-photo]',box).forEach(function(button){button.onclick=function(){edit.images.splice(+button.dataset.removePhoto,1);showPhotos()}});
+ Array.from(box.querySelectorAll('[data-remove-photo]')).forEach(function(button){button.onclick=function(){edit.images.splice(+button.dataset.removePhoto,1);showPhotos()}});
 }
 function bind(){
  var files=$('#f_files');
