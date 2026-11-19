@@ -116,3 +116,19 @@ body[data-page=admin]{background:transparent!important}
 .admin-summary dd{margin:0;font-weight:700}
 @media(max-width:1100px){.admin-content{grid-template-columns:1fr}.admin-summary{position:static;grid-row:1}.admin-summary dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}}
 @media(max-width:700px){.admin-shell{display:block}.admin-shell .ah{min-height:auto;position:static;display:flex;flex-direction:row;flex-wrap:wrap;gap:4px;padding:10px}.admin-brand{width:100%;padding:0 4px 4px}.admin-shell .ah a{margin-top:0}.admin-shell .ah button,.admin-shell .ah a{padding:8px}.admin-shell .ac{padding:12px 10px 36px}.admin-shell .ac .card{padding:12px}.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.admin-tools{width:100%}.admin-tools #sq,.admin-tools #admin-cat{flex:1 1 120px}.admin-product img{height:112px}}
+
+/* Storefront backdrop inspired by the gradient in the reference. */
+html:has(body:not([data-page=admin])){background:linear-gradient(180deg,#171F44 0%,#172747 28%,#12445B 68%,#278F8B 100%) fixed}
+body:not([data-page=admin]) .ann{background:#171F44;color:#FE81D1;border-bottom:1px solid rgba(116,255,237,.23)}
+body:not([data-page=admin]) .hero .txt{background:transparent!important;color:var(--ink)}
+body:not([data-page=admin]) .hero h1,body:not([data-page=admin]) .hero .sub,body:not([data-page=admin]) .hero .perks{color:var(--ink)}
+body:not([data-page=admin]) .hero h1 em{color:var(--pink)}
+body:not([data-page=admin]) .hero .eyebrow,body:not([data-page=admin]) .hero .perks span::before{color:var(--jade)}
+body:not([data-page=admin]) .hero .btn.p{background:var(--pink)!important;color:var(--midnight)!important;border-color:var(--pink)!important}
+body:not([data-page=admin]) .hero .btn.o:not(.wa):not(.p){color:var(--jade)!important;border-color:var(--jade)!important}
+body:not([data-page=admin]) .hero .btn.o:not(.wa):not(.p):hover{color:var(--midnight)!important}
+body:not([data-page=admin]) section.category-section.s,body:not([data-page=admin]) section.pv.s{background:rgba(23,31,68,.46);color:var(--ink)}
+body:not([data-page=admin]) .category-section .sh h2,body:not([data-page=admin]) .category-section .sh p,body:not([data-page=admin]) .pv h2,body:not([data-page=admin]) .pv p,body:not([data-page=admin]) .pv .bottle-card{color:var(--ink)}
+body:not([data-page=admin]) .category-section .cc,body:not([data-page=admin]) .pv .bottle-card[aria-pressed=true]{border-color:rgba(116,255,237,.55)}
+body:not([data-page=admin]) .pv #bvnxt.btn:not(.wa):not(.p){color:var(--jade)!important;border-color:var(--jade)!important}
+body:not([data-page=admin]) .hero :focus-visible,body:not([data-page=admin]) .category-section :focus-visible,body:not([data-page=admin]) .pv :focus-visible{outline-color:var(--jade)}
