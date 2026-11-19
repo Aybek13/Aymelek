@@ -415,7 +415,7 @@ P=[
 ].concat([
   {
     "id": 201,
-    "name": "Gül Suyu Yüz Spreyi",
+    "name": "Biberiye Spreyi",
     "cat": "care",
     "orig": 390,
     "currency": "TRY",
@@ -424,8 +424,8 @@ P=[
     },
     "colors": [
       [
-        "Pembe",
-        "#b75d7d"
+        "Yeşil",
+        "#646732"
       ]
     ],
     "showcaseModel": "spray",
@@ -434,11 +434,14 @@ P=[
     "isNew": true,
     "disc": 0,
     "desc": "100 ml · Demo bakım ürünü.",
-    "volume": "100 ml"
+    "volume": "100 ml",
+    "images": [
+      "showcase-photos/1.jpg"
+    ]
   },
   {
     "id": 202,
-    "name": "C Vitamini Serumu",
+    "name": "Kolajen Serum",
     "cat": "care",
     "orig": 690,
     "currency": "TRY",
@@ -447,8 +450,8 @@ P=[
     },
     "colors": [
       [
-        "Pembe",
-        "#a86230"
+        "Kahverengi",
+        "#95652e"
       ]
     ],
     "showcaseModel": "dropper",
@@ -457,11 +460,14 @@ P=[
     "isNew": true,
     "disc": 0,
     "desc": "30 ml · Demo bakım ürünü.",
-    "volume": "30 ml"
+    "volume": "30 ml",
+    "images": [
+      "showcase-photos/2.jpg"
+    ]
   },
   {
     "id": 203,
-    "name": "Yumuşak Yüz Temizleme Jeli",
+    "name": "Yüz Temizleme Jeli",
     "cat": "care",
     "orig": 490,
     "currency": "TRY",
@@ -470,8 +476,8 @@ P=[
     },
     "colors": [
       [
-        "Pembe",
-        "#536b63"
+        "Yeşil",
+        "#7c8a75"
       ]
     ],
     "showcaseModel": "pump",
@@ -480,11 +486,14 @@ P=[
     "isNew": true,
     "disc": 0,
     "desc": "150 ml · Demo bakım ürünü.",
-    "volume": "150 ml"
+    "volume": "150 ml",
+    "images": [
+      "showcase-photos/3.jpg"
+    ]
   },
   {
     "id": 204,
-    "name": "Günlük Nemlendirici Losyon",
+    "name": "Günlük Nemlendirici",
     "cat": "care",
     "orig": 590,
     "currency": "TRY",
@@ -494,7 +503,7 @@ P=[
     "colors": [
       [
         "Pembe",
-        "#786782"
+        "#bf9385"
       ]
     ],
     "showcaseModel": "airless",
@@ -503,11 +512,14 @@ P=[
     "isNew": true,
     "disc": 0,
     "desc": "50 ml · Demo bakım ürünü.",
-    "volume": "50 ml"
+    "volume": "50 ml",
+    "images": [
+      "showcase-photos/4.jpg"
+    ]
   },
   {
     "id": 205,
-    "name": "Bitkisel Saç Bakım Yağı",
+    "name": "Saç Bakım Yağı",
     "cat": "care",
     "orig": 540,
     "currency": "TRY",
@@ -516,8 +528,8 @@ P=[
     },
     "colors": [
       [
-        "Pembe",
-        "#7b522a"
+        "Kahverengi",
+        "#6b4128"
       ]
     ],
     "showcaseModel": "oil",
@@ -526,11 +538,14 @@ P=[
     "isNew": true,
     "disc": 0,
     "desc": "50 ml · Demo bakım ürünü.",
-    "volume": "50 ml"
+    "volume": "50 ml",
+    "images": [
+      "showcase-photos/5.jpg"
+    ]
   },
   {
     "id": 206,
-    "name": "Misel Temizleme Suyu",
+    "name": "Misel Su",
     "cat": "care",
     "orig": 440,
     "currency": "TRY",
@@ -539,8 +554,8 @@ P=[
     },
     "colors": [
       [
-        "Pembe",
-        "#406a84"
+        "Mavi",
+        "#6da1b4"
       ]
     ],
     "showcaseModel": "flip",
@@ -549,12 +564,15 @@ P=[
     "isNew": true,
     "disc": 0,
     "desc": "200 ml · Demo bakım ürünü.",
-    "volume": "200 ml"
+    "volume": "200 ml",
+    "images": [
+      "showcase-photos/6.jpg"
+    ]
   }
 ],P).map(norm);
 window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
 function mergeShowcaseDemo(local){
- if(localStorage.getItem('aymelek_showcase_six')||local.some(function(p){return p.id>=201&&p.id<=206}))return local;
+ if(localStorage.getItem('aymelek_showcase_six')||local.some(function(p){return p.id>=201&&p.id<=206}))return local.map(function(p){var demo=window.AYMELEK_DEFAULTS.find(function(item){return item.id===p.id&&item.id>=201&&item.id<=206});if(!demo||p.images&&p.images.length)return p;return Object.assign({},p,{images:demo.images})});
  var samples=window.AYMELEK_DEFAULTS.filter(function(p){return p.id>=201&&p.id<=206});
  return local.map(function(p){return [41,42,45].includes(p.id)?Object.assign({},p,{showcaseOrder:0,showcaseModel:''}):p}).concat(samples);
 }
