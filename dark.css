@@ -132,3 +132,36 @@ body:not([data-page=admin]) .category-section .sh h2,body:not([data-page=admin])
 body:not([data-page=admin]) .category-section .cc,body:not([data-page=admin]) .pv .bottle-card[aria-pressed=true]{border-color:rgba(116,255,237,.55)}
 body:not([data-page=admin]) .pv #bvnxt.btn:not(.wa):not(.p){color:var(--jade)!important;border-color:var(--jade)!important}
 body:not([data-page=admin]) .hero :focus-visible,body:not([data-page=admin]) .category-section :focus-visible,body:not([data-page=admin]) .pv :focus-visible{outline-color:var(--jade)}
+
+/* Translucent plum storefront palette */
+html:has(body:not([data-page=admin])) {
+  background: radial-gradient(ellipse at 76% 28%, #67415f, transparent 58%),
+              linear-gradient(170deg, #241326, #45243e);
+}
+body:not([data-page=admin]) {
+  --midnight: #281529;
+  --pink: #edbfd1;
+  --jade: #f0c9dd;
+  --ink: #fff5e8;
+  --mut: #ead6e1;
+  --pnl: #452740;
+  --ln: rgba(237, 191, 209, .28);
+}
+body:not([data-page=admin]) :is(.ann, .hdr, .msb, footer) {
+  background: rgba(40, 21, 41, .74);
+}
+body:not([data-page=admin]) .ann {
+  color: var(--pink);
+  border-bottom-color: var(--ln);
+}
+body:not([data-page=admin]) .hero .txt {
+  background: linear-gradient(90deg, rgba(40, 21, 41, .58), transparent) !important;
+}
+body:not([data-page=admin]) section.category-section.s,
+body:not([data-page=admin]) section.pv.s {
+  background: rgba(65, 34, 61, .48);
+}
+body:not([data-page=admin]) .category-section .cc,
+body:not([data-page=admin]) .pv .bottle-card[aria-pressed=true] {
+  border-color: var(--ln);
+}
