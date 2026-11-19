@@ -65,7 +65,7 @@ pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.ge
    if(q&&(p.name+' '+cn+' '+p.brand).toLowerCase().indexOf(q)<0)return 0;if(p.price>mx)return 0;
    if(sz.length&&!sz.some(function(s){return p.stock[s]>0}))return 0;if(co.length&&!p.colors.some(function(c){return co.indexOf(c[0])>-1}))return 0;
    if(br.length&&br.indexOf(p.brand)<0)return 0;if(d.get('av')&&!p.avail)return 0;if(d.get('di')&&!p.disc)return 0;if(d.get('nw')&&!p.isNew)return 0;return 1});
-  var so=$('#so').value;r.sort(function(a,b){return so=='asc'?a.price-b.price:so=='desc'?b.price-a.price:so=='new'?(b.isNew-a.isNew)||(b.id-a.id):so=='best'?(b.best-a.best)||(a.id-b.id):a.id-b.id});
+  var so=$('#so').value;r.sort(function(a,b){return so=='asc'?a.price-b.price:so=='desc'?b.price-a.price:so=='new'?(b.isNew-a.isNew)||(b.id-a.id):so=='best'?(b.best-a.best)||(a.id-b.id):(Number(b.demo===true)-Number(a.demo===true))||a.id-b.id});
   $('#ttl').textContent=q?'“'+S.q+'” için sonuçlar':T[cat]||'Tüm Ürünler';document.title=($('#ttl').textContent)+' — AYMELEK';$('#cnt').textContent=r.length+' ürün';
   $('#pg').innerHTML=r.length?r.map(function(p){return card(p)}).join(''):'<div class="empty" style="grid-column:1/-1"><p>Aramanıza uygun ürün bulunamadı.</p><button class="btn o" type="button" id="clr2">FİLTRELERİ TEMİZLE</button></div>';
   var c2=$('#clr2');if(c2)c2.onclick=clear}
@@ -106,6 +106,312 @@ pages.wishlist=function(){var ids=rd('aymelek_wishlist'),l=ids.map(pid).filter(B
 pages.static=function(){};
 function norm(p){p.stock=p.stock||{};p.sizes=Object.keys(p.stock);p.disc=+p.disc||0;p.orig=+p.orig;p.price=Math.round(p.orig*(100-p.disc)/100);p.avail=p.sizes.some(function(k){return p.stock[k]>0});p.colors=p.colors&&p.colors.length?p.colors:[COL[0]];return p}
 [['Yeşil','#2E7D32','yesil'],['Pembe','#F4BFD0','pembe'],['Mor','#8E5BB8','mor'],['Mavi','#8FB3D9','mavi'],['Turuncu','#C9772B','turuncu']].forEach(function(c,j){var st={'100 ml':24};P.push({id:41+j,name:'Biberiye Suyu · '+c[0],cat:'care',orig:15,disc:0,price:15,sizes:['100 ml'],stock:st,colors:[[c[0],c[1]]],isNew:j<2,best:j==0,brand:'AYMELEK',avail:true,mat:MAT.care,desc:'AYMELEK Hidrosel Saç ve Cilt Bakımı, 100 ml sprey şişede. (Örnek ürün ve örnek fiyat)',images:['bakim-'+c[2]+'.jpg'],bottle:{Yeşil:'#2E7D32',Pembe:'#E58AA8',Mor:'#8E5BB8',Mavi:'#2F6FA8',Turuncu:'#B8641F'}[c[0]],label:'BİBERİYE SUYU'})});
+P=[
+  {
+    "id": 101,
+    "name": "Kemerli Bej Trençkot",
+    "cat": "clothing",
+    "orig": 89,
+    "disc": 0,
+    "stock": {
+      "S": 8,
+      "M": 8,
+      "L": 8
+    },
+    "colors": [
+      [
+        "Bej",
+        "#D5B997"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Kemerli Bej Trençkot. Demo katalog ürünü.",
+    "images": [
+      "demo-products/1.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 102,
+    "name": "Siyah Kruvaze Blazer",
+    "cat": "clothing",
+    "orig": 79,
+    "disc": 0,
+    "stock": {
+      "S": 8,
+      "M": 8,
+      "L": 8
+    },
+    "colors": [
+      [
+        "Siyah",
+        "#171317"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Siyah Kruvaze Blazer. Demo katalog ürünü.",
+    "images": [
+      "demo-products/2.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 103,
+    "name": "Pudra Saten Midi Elbise",
+    "cat": "dresses",
+    "orig": 69,
+    "disc": 0,
+    "stock": {
+      "S": 8,
+      "M": 8,
+      "L": 8
+    },
+    "colors": [
+      [
+        "Pudra",
+        "#E7B8BE"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Pudra Saten Midi Elbise. Demo katalog ürünü.",
+    "images": [
+      "demo-products/3.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 104,
+    "name": "Çiçek Desenli Midi Elbise",
+    "cat": "dresses",
+    "orig": 65,
+    "disc": 0,
+    "stock": {
+      "S": 8,
+      "M": 8,
+      "L": 8
+    },
+    "colors": [
+      [
+        "Krem",
+        "#EFE3D3"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Çiçek Desenli Midi Elbise. Demo katalog ürünü.",
+    "images": [
+      "demo-products/4.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 105,
+    "name": "Beyaz Minimal Sneaker",
+    "cat": "shoes",
+    "orig": 59,
+    "disc": 0,
+    "stock": {
+      "36": 8,
+      "37": 8,
+      "38": 8,
+      "39": 8,
+      "40": 8
+    },
+    "colors": [
+      [
+        "Beyaz",
+        "#FFFFFF"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Beyaz Minimal Sneaker. Demo katalog ürünü.",
+    "images": [
+      "demo-products/5.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 106,
+    "name": "Siyah Rugan Stiletto",
+    "cat": "shoes",
+    "orig": 64,
+    "disc": 0,
+    "stock": {
+      "36": 8,
+      "37": 8,
+      "38": 8,
+      "39": 8,
+      "40": 8
+    },
+    "colors": [
+      [
+        "Siyah",
+        "#171317"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Siyah Rugan Stiletto. Demo katalog ürünü.",
+    "images": [
+      "demo-products/6.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 107,
+    "name": "Pudra Mini Omuz Çantası",
+    "cat": "bags",
+    "orig": 45,
+    "disc": 0,
+    "stock": {
+      "Tek Beden": 8
+    },
+    "colors": [
+      [
+        "Pudra",
+        "#E7B8BE"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Pudra Mini Omuz Çantası. Demo katalog ürünü.",
+    "images": [
+      "demo-products/7.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 108,
+    "name": "Siyah Yapılı Tote Çanta",
+    "cat": "bags",
+    "orig": 62,
+    "disc": 0,
+    "stock": {
+      "Tek Beden": 8
+    },
+    "colors": [
+      [
+        "Siyah",
+        "#171317"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Siyah Yapılı Tote Çanta. Demo katalog ürünü.",
+    "images": [
+      "demo-products/8.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 109,
+    "name": "Altın Tonlu Halka Küpe",
+    "cat": "accessories",
+    "orig": 19,
+    "disc": 0,
+    "stock": {
+      "Tek Beden": 8
+    },
+    "colors": [
+      [
+        "Altın",
+        "#C9A14A"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Altın Tonlu Halka Küpe. Demo katalog ürünü.",
+    "images": [
+      "demo-products/9.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 110,
+    "name": "İnci Kolye",
+    "cat": "accessories",
+    "orig": 29,
+    "disc": 0,
+    "stock": {
+      "Tek Beden": 8
+    },
+    "colors": [
+      [
+        "İnci",
+        "#EFE3D3"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "İnci Kolye. Demo katalog ürünü.",
+    "images": [
+      "demo-products/10.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 111,
+    "name": "Yüz Bakım Serumu",
+    "cat": "care",
+    "orig": 22,
+    "disc": 0,
+    "stock": {
+      "30 ml": 8
+    },
+    "colors": [
+      [
+        "Amber",
+        "#9F6637"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Yüz Bakım Serumu. Demo katalog ürünü.",
+    "images": [
+      "demo-products/11.jpg"
+    ],
+    "demo": true
+  },
+  {
+    "id": 112,
+    "name": "Günlük Yüz Kremi",
+    "cat": "care",
+    "orig": 18,
+    "disc": 0,
+    "stock": {
+      "50 ml": 8
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#F4BFD0"
+      ]
+    ],
+    "isNew": true,
+    "best": false,
+    "brand": "AYMELEK",
+    "desc": "Günlük Yüz Kremi. Demo katalog ürünü.",
+    "images": [
+      "demo-products/12.jpg"
+    ],
+    "demo": true
+  }
+].map(norm).concat(P);
 window.AYMELEK_WL=wl;window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
 function go(){var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
