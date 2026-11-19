@@ -105,8 +105,7 @@ pages.wishlist=function(){var ids=rd('aymelek_wishlist'),l=ids.map(pid).filter(B
  $$('[data-mv]').forEach(function(b){b.onclick=function(){var id=+b.dataset.mv,p=pid(id),s=$('[data-s="'+id+'"]').value;if(!s){$('#m'+id).textContent='Lütfen beden seçin.';return}
   addCart(id,s,p.colors[0][0],1);var w=rd('aymelek_wishlist');w.splice(w.indexOf(id),1);wr('aymelek_wishlist',w);pages.wishlist()}})};
 pages.static=function(){};
-var defaultShowcaseOrder={41:1,42:2,45:3};
-function norm(p){if(p.showcaseOrder==null&&p.bottle&&defaultShowcaseOrder[p.id]){p.showcaseOrder=defaultShowcaseOrder[p.id];p.showcaseModel='spray'}p.stock=p.stock||{};p.sizes=Object.keys(p.stock);p.disc=+p.disc||0;p.orig=Number(p.orig)*(p.currency==='TRY'?1:50);p.currency='TRY';p.price=Math.round(p.orig*(100-p.disc)/100);p.avail=p.sizes.some(function(k){return p.stock[k]>0});p.colors=p.colors&&p.colors.length?p.colors:[COL[0]];return p}
+function norm(p){p.stock=p.stock||{};p.sizes=Object.keys(p.stock);p.disc=+p.disc||0;p.orig=Number(p.orig)*(p.currency==='TRY'?1:50);p.currency='TRY';p.price=Math.round(p.orig*(100-p.disc)/100);p.avail=p.sizes.some(function(k){return p.stock[k]>0});p.colors=p.colors&&p.colors.length?p.colors:[COL[0]];return p}
 [['Yeşil','#2E7D32','yesil'],['Pembe','#F4BFD0','pembe'],['Mor','#8E5BB8','mor'],['Mavi','#8FB3D9','mavi'],['Turuncu','#C9772B','turuncu']].forEach(function(c,j){var st={'100 ml':24};P.push({id:41+j,name:'Biberiye Suyu · '+c[0],cat:'care',orig:15,disc:0,price:15,sizes:['100 ml'],stock:st,colors:[[c[0],c[1]]],isNew:j<2,best:j==0,brand:'AYMELEK',avail:true,mat:MAT.care,desc:'AYMELEK Hidrosel Saç ve Cilt Bakımı, 100 ml sprey şişede. (Örnek ürün ve örnek fiyat)',images:['bakim-'+c[2]+'.jpg'],bottle:{Yeşil:'#2E7D32',Pembe:'#E58AA8',Mor:'#8E5BB8',Mavi:'#2F6FA8',Turuncu:'#B8641F'}[c[0]],label:'BİBERİYE SUYU'})});
 P=[
   {
@@ -413,8 +412,153 @@ P=[
     ],
     "demo": true
   }
-].concat(P).map(norm);
+].concat([
+  {
+    "id": 201,
+    "name": "Gül Suyu Yüz Spreyi",
+    "cat": "care",
+    "orig": 390,
+    "currency": "TRY",
+    "stock": {
+      "100 ml": 12
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#b75d7d"
+      ]
+    ],
+    "showcaseModel": "spray",
+    "showcaseOrder": 1,
+    "brand": "AYMELEK",
+    "isNew": true,
+    "disc": 0,
+    "desc": "100 ml · Demo bakım ürünü.",
+    "volume": "100 ml"
+  },
+  {
+    "id": 202,
+    "name": "C Vitamini Serumu",
+    "cat": "care",
+    "orig": 690,
+    "currency": "TRY",
+    "stock": {
+      "30 ml": 12
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#a86230"
+      ]
+    ],
+    "showcaseModel": "dropper",
+    "showcaseOrder": 2,
+    "brand": "AYMELEK",
+    "isNew": true,
+    "disc": 0,
+    "desc": "30 ml · Demo bakım ürünü.",
+    "volume": "30 ml"
+  },
+  {
+    "id": 203,
+    "name": "Yumuşak Yüz Temizleme Jeli",
+    "cat": "care",
+    "orig": 490,
+    "currency": "TRY",
+    "stock": {
+      "150 ml": 12
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#536b63"
+      ]
+    ],
+    "showcaseModel": "pump",
+    "showcaseOrder": 3,
+    "brand": "AYMELEK",
+    "isNew": true,
+    "disc": 0,
+    "desc": "150 ml · Demo bakım ürünü.",
+    "volume": "150 ml"
+  },
+  {
+    "id": 204,
+    "name": "Günlük Nemlendirici Losyon",
+    "cat": "care",
+    "orig": 590,
+    "currency": "TRY",
+    "stock": {
+      "50 ml": 12
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#786782"
+      ]
+    ],
+    "showcaseModel": "airless",
+    "showcaseOrder": 4,
+    "brand": "AYMELEK",
+    "isNew": true,
+    "disc": 0,
+    "desc": "50 ml · Demo bakım ürünü.",
+    "volume": "50 ml"
+  },
+  {
+    "id": 205,
+    "name": "Bitkisel Saç Bakım Yağı",
+    "cat": "care",
+    "orig": 540,
+    "currency": "TRY",
+    "stock": {
+      "50 ml": 12
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#7b522a"
+      ]
+    ],
+    "showcaseModel": "oil",
+    "showcaseOrder": 5,
+    "brand": "AYMELEK",
+    "isNew": true,
+    "disc": 0,
+    "desc": "50 ml · Demo bakım ürünü.",
+    "volume": "50 ml"
+  },
+  {
+    "id": 206,
+    "name": "Misel Temizleme Suyu",
+    "cat": "care",
+    "orig": 440,
+    "currency": "TRY",
+    "stock": {
+      "200 ml": 12
+    },
+    "colors": [
+      [
+        "Pembe",
+        "#406a84"
+      ]
+    ],
+    "showcaseModel": "flip",
+    "showcaseOrder": 6,
+    "brand": "AYMELEK",
+    "isNew": true,
+    "disc": 0,
+    "desc": "200 ml · Demo bakım ürünü.",
+    "volume": "200 ml"
+  }
+],P).map(norm);
 window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
-function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=local.map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&p.showcaseModel==='spray'&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=3}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,3);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+function mergeShowcaseDemo(local){
+ if(localStorage.getItem('aymelek_showcase_six')||local.some(function(p){return p.id>=201&&p.id<=206}))return local;
+ var samples=window.AYMELEK_DEFAULTS.filter(function(p){return p.id>=201&&p.id<=206});
+ return local.map(function(p){return [41,42,45].includes(p.id)?Object.assign({},p,{showcaseOrder:0,showcaseModel:''}):p}).concat(samples);
+}
+window.AYMELEK_MERGE_SHOWCASE=mergeShowcaseDemo;
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
 fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.length)P=j.map(norm)}).catch(function(){}).then(go);})();

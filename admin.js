@@ -1,14 +1,14 @@
 (function(){
 var COL=window.AYMELEK_COL,CN=window.AYMELEK_CN,KEY='aymelek_admin_draft',$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
-var SZ={care:['100 ml'],shoes:['36','37','38','39','40','41'],bags:['Tek Beden'],accessories:['Tek Beden']};function sizesOf(c){return SZ[c]||['XS','S','M','L','XL']}
+var SZ={care:['30 ml','50 ml','100 ml','150 ml','200 ml'],shoes:['36','37','38','39','40','41'],bags:['Tek Beden'],accessories:['Tek Beden']};function sizesOf(c){return SZ[c]||['XS','S','M','L','XL']}
 var list=[],tab='dash',edit=null,note='';
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function f(n){return new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+' TL'}
 function price(p){return Math.round(p.orig*(100-p.disc)/100)}
 function total(p){return Object.keys(p.stock).reduce(function(s,k){return s+p.stock[k]},0)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(list));return true}catch(e){return false}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(list));try{localStorage.setItem('aymelek_showcase_six','1')}catch(e){}return true}catch(e){return false}}
 function init(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY))}catch(e){}
- if(Array.isArray(d)){list=d.map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
+ if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d).map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
  fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){list=Array.isArray(j)&&j.length?j.map(window.AYMELEK_NORMALIZE_PRODUCT):JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note=Array.isArray(j)&&j.length?'Yayındaki products.json yüklendi.':'Örnek ürünler yüklendi (yayında products.json yok).'}).catch(function(){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note='Örnek ürünler yüklendi.'}).then(draw)}
 function img(p){return p.images&&p.images[0]?p.images[0]:'logo.png'}
 function dash(){var units=0,val=0,out=[],low=[],dc=0,by={};list.forEach(function(p){var t=total(p);units+=t;val+=t*price(p);if(p.disc)dc++;by[p.cat]=(by[p.cat]||0)+1;if(t==0)out.push(p);else if(Object.keys(p.stock).some(function(k){return p.stock[k]>0&&p.stock[k]<=2}))low.push(p)});
@@ -106,8 +106,8 @@ function bind(){
  var cx=$('#cx');if(cx)cx.onclick=function(){edit=null;draw()};
  var sv=$('#sv');if(sv)sv.onclick=function(){read();var e=$('#fe'),p=edit;if(!p.name.trim()){e.textContent='Ürün adı gerekli.';return}if(!(p.orig>0)){e.textContent='Fiyat 0’dan büyük olmalı.';return}if(p.disc<0||p.disc>90){e.textContent='İndirim 0–90 arasında olmalı.';return}if(!p.colors.length){e.textContent='En az bir renk seçin.';return}
   if(p.cat!=='care'){p.showcaseOrder=0;p.showcaseModel=''}
-  if(p.showcaseOrder&&(!Number.isInteger(p.showcaseOrder)||p.showcaseOrder<1||p.showcaseOrder>3||p.showcaseModel!=='spray')){e.textContent='Vitrin için şişe modelini ve 1–3 arası bir sıra seçin.';return}
-  if(p.showcaseOrder&&list.filter(function(item){return item.id!==p.id&&item.cat==='care'&&item.showcaseOrder&&Object.values(item.stock).some(function(q){return q>0})}).length>=3&&Object.values(p.stock).some(function(q){return q>0})){e.textContent='Vitrinde en fazla üç stoktaki şişe gösterilir. Önce birini çıkarın veya stok durumunu güncelleyin.';return}
+  if(p.showcaseOrder&&(!Number.isInteger(p.showcaseOrder)||p.showcaseOrder<1||p.showcaseOrder>6||!p.showcaseModel)){e.textContent='Vitrin sırası geçersiz.';return}
+  if(p.showcaseOrder&&list.filter(function(item){return item.id!==p.id&&item.cat==='care'&&item.showcaseOrder&&Object.values(item.stock).some(function(q){return q>0})}).length>=6&&Object.values(p.stock).some(function(q){return q>0})){e.textContent='Vitrinde en fazla altı stoktaki şişe gösterilir. Önce birini çıkarın veya stok durumunu güncelleyin.';return}
   var previous=list,isNew=p._new,saved=Object.assign({},p);delete saved._new;
   list=list.some(function(x){return x.id===p.id})?list.map(function(x){return x.id===p.id?saved:x}):list.concat(saved);
   if(!save()){list=previous;e.textContent='Tarayıcıda yer kalmadı. Daha az fotoğrafla tekrar deneyin.';return}
@@ -117,8 +117,8 @@ function bind(){
  var im=$('#im');if(im)im.onchange=function(){var r=new FileReader();r.onload=function(){try{var j=JSON.parse(r.result);if(!Array.isArray(j)||!j.every(function(p){return p&&p.name&&p.cat&&p.orig>0&&p.stock}))throw 0;list=j.map(window.AYMELEK_NORMALIZE_PRODUCT);save();note='İçe aktarıldı.';tab='prod';draw()}catch(e){alert('Geçersiz products.json dosyası.')}};r.readAsText(im.files[0])};
  var rs=$('#rs');if(rs)rs.onclick=function(){if(confirm('Taslak silinip örnek ürünlere dönülsün mü?')){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));save();note='Örnek ürünlere sıfırlandı.';draw()}}}
 function read(){var p=edit;p.name=$('#f_name').value;var category=$('#f_cat').value;p.cat=category==='showcase'?'care':category;p.brand=$('#f_brand').value||'AYMELEK';p.orig=+$('#f_orig').value;p.disc=+$('#f_disc').value||0;p.isNew=$('#f_new').checked;p.best=$('#f_best').checked;p.desc=$('#f_desc').value;p.mat=$('#f_mat').value;
- p.showcaseOrder=category==='showcase'?(p.showcaseOrder||[1,2,3].find(function(slot){return !list.some(function(item){return item.id!==p.id&&item.showcaseOrder===slot&&Object.values(item.stock||{}).some(function(q){return q>0})})})||1):0;
- p.showcaseModel=category==='showcase'?'spray':'';
+ p.showcaseOrder=category==='showcase'?(p.showcaseOrder||[1,2,3,4,5,6].find(function(slot){return !list.some(function(item){return item.id!==p.id&&item.showcaseOrder===slot&&Object.values(item.stock||{}).some(function(q){return q>0})})})||1):0;
+ p.showcaseModel=category==='showcase'?(p.showcaseModel||'spray'):'';
  p.colors=COL.filter(function(c){return $$('input[name=fc]:checked').some(function(i){return i.value==c[0]})});
  var st={};$$('[data-s]').forEach(function(i){st[i.dataset.s]=Math.max(0,parseInt(i.value)||0)});p.stock=st}
 loadDemo();init()})();
