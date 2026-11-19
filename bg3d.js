@@ -13,7 +13,7 @@ function size(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTra
 function draw(t){x.clearRect(0,0,W,H);var m=W<700,i,q;
  for(i=0;i<st.length;i++){q=st[i];var yy=((q[1]*H-sc*.04*q[2])%H+H)%H,a=q[4]*(.45+.55*Math.sin(t*.0015+q[3]));x.fillStyle='rgba(255,255,255,'+(a*.7)+')';x.beginPath();x.arc(q[0]*W,yy,q[2],0,6.283);x.fill()}
  var lh=Math.min(H*(m?.45:.63),W*(m?.8:.47)),lw=lh*ar,cx=W*(m?.5:.67),cy=H*(m?.44:.5)+Math.sin(t*.0009)*H*.008;
- var g=x.createRadialGradient(cx,cy,0,cx,cy,lh*.9);g.addColorStop(0,'rgba(244,191,208,.16)');g.addColorStop(1,'rgba(244,191,208,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+ var g=x.createRadialGradient(cx,cy,0,cx,cy,lh*.9);g.addColorStop(0,'rgba(116,255,237,.20)');g.addColorStop(1,'rgba(116,255,237,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
  if(B){var ry=red?-.35:Math.sin(t*.00021)*.42+Math.sin(sc*.0008)*.3+mx*.3,cs=Math.cos(ry),sn=Math.sin(ry),sx=(Math.abs(cs)<.07?.07:Math.abs(cs))*(cs<0?-1:1),T=lw*.055,n=N;
   for(q=0;q<n;q++){var zi=cs>=0?q:n-1-q,z=(zi/(n-1)-.5)*T,dd=(n-1-q)/(n-1),bm=q==n-1?B[0]:(dd<.45?B[1]:B[2]);
    x.save();x.translate(cx+z*sn,cy-my*z*.5);x.scale(sx,1);x.drawImage(bm,-lw/2,-lh/2,lw,lh);x.restore()}
