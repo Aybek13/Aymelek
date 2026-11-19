@@ -133,33 +133,34 @@ body:not([data-page=admin]) .category-section .cc,body:not([data-page=admin]) .p
 body:not([data-page=admin]) .pv #bvnxt.btn:not(.wa):not(.p){color:var(--jade)!important;border-color:var(--jade)!important}
 body:not([data-page=admin]) .hero :focus-visible,body:not([data-page=admin]) .category-section :focus-visible,body:not([data-page=admin]) .pv :focus-visible{outline-color:var(--jade)}
 
-/* Translucent plum storefront palette */
+/* Translucent night-sky storefront palette */
 html:has(body:not([data-page=admin])) {
-  background: radial-gradient(ellipse at 76% 28%, #67415f, transparent 58%),
-              linear-gradient(170deg, #241326, #45243e);
+  background: radial-gradient(ellipse at 76% 22%, rgba(130, 107, 205, .42), transparent 58%),
+              radial-gradient(ellipse at 14% 50%, rgba(77, 107, 185, .4), transparent 62%),
+              linear-gradient(160deg, #182344, #242951 48%, #3d305e);
 }
 body:not([data-page=admin]) {
-  --midnight: #281529;
-  --pink: #edbfd1;
-  --jade: #f0c9dd;
+  --midnight: #1c2545;
+  --pink: #ecd0e7;
+  --jade: #dad3ff;
   --ink: #fff5e8;
-  --mut: #ead6e1;
-  --pnl: #452740;
-  --ln: rgba(237, 191, 209, .28);
+  --mut: #e0dcef;
+  --pnl: #34345d;
+  --ln: rgba(218, 211, 255, .30);
 }
 body:not([data-page=admin]) :is(.ann, .hdr, .msb, footer) {
-  background: rgba(40, 21, 41, .74);
+  background: rgba(45, 52, 93, .48);
 }
 body:not([data-page=admin]) .ann {
   color: var(--pink);
   border-bottom-color: var(--ln);
 }
 body:not([data-page=admin]) .hero .txt {
-  background: linear-gradient(90deg, rgba(40, 21, 41, .58), transparent) !important;
+  background: linear-gradient(90deg, rgba(31, 38, 77, .32), transparent) !important;
 }
 body:not([data-page=admin]) section.category-section.s,
 body:not([data-page=admin]) section.pv.s {
-  background: rgba(65, 34, 61, .48);
+  background: rgba(151, 139, 210, .16);
 }
 body:not([data-page=admin]) .category-section .cc,
 body:not([data-page=admin]) .pv .bottle-card[aria-pressed=true] {
