@@ -74,7 +74,7 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 @media(max-width:1000px){.hero{grid-template-areas:"photo" "copy";grid-template-columns:1fr}}
 .mp .wrap{display:grid;grid-template-columns:1fr 1.5fr;gap:36px;align-items:stretch}.mp h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.2vw,40px);margin-bottom:14px}.mp address{font-style:normal;margin-bottom:18px}.mp .btn{margin:0 8px 10px 0;color:var(--black);border-color:var(--black);height:46px}.mp .btn.wa{background:#25D366;border-color:#25D366;color:#fff}.mp iframe{display:block;width:100%;height:220px;border:0}.map-social{margin-top:16px}
 .cc,.pc{transition:transform .25s ease,box-shadow .25s ease}.cc.tl{box-shadow:0 18px 30px rgba(23,19,23,.14)}
-@media(max-width:900px){.d3 .wrap,.mp .wrap{grid-template-columns:1fr}.d3 .wrap{padding-top:40px}}.pv{background:var(--lpink)}.pv .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}#bv{width:100%;height:min(600px,110vw);display:block;cursor:grab;touch-action:pan-y}.pv h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.4vw,44px);line-height:1.1}.pv p{color:#4b444a;margin:14px 0 18px;max-width:420px}.sws{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}.sws button{width:44px;height:44px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #d9c3cb}.sws button.on{box-shadow:0 0 0 2px var(--black)}.pv .btn{color:var(--black);border-color:var(--black)}@media(max-width:900px){.pv .wrap{grid-template-columns:1fr}.cg{grid-template-columns:repeat(2,1fr)}}</style><link rel="stylesheet" href="dark.css"></head><body>
+@media(max-width:900px){.d3 .wrap,.mp .wrap{grid-template-columns:1fr}.d3 .wrap{padding-top:40px}}.pv{background:var(--lpink)}.pv .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}.bottle-stage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:4px}.bottle-card{grid-row:1;border:1px solid transparent;border-radius:12px;background:transparent;color:inherit;min-width:0;display:grid;justify-items:center;gap:4px;padding:4px 2px 10px;cursor:pointer}.bottle-card[aria-pressed=true]{border-color:var(--pink)}.bottle-card canvas{display:block;width:100%;height:clamp(125px,24vw,280px)}.bottle-card span{font-size:clamp(11px,1.3vw,14px);overflow-wrap:anywhere}.bottle-card[aria-pressed=true] canvas{height:clamp(175px,32vw,350px)}.pv h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.4vw,44px);line-height:1.1}.pv p{color:#4b444a;margin:14px 0 18px;max-width:420px}.sws{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}.sws button{width:44px;height:44px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #d9c3cb}.sws button.on{box-shadow:0 0 0 2px var(--black)}.pv .btn{color:var(--black);border-color:var(--black)}@media(max-width:900px){.pv .wrap{grid-template-columns:1fr}.cg{grid-template-columns:repeat(2,1fr)}}</style><link rel="stylesheet" href="dark.css"></head><body>
 <div class="ann" aria-live="polite"><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo</p><p>Yeni sezon modelleri burada</p><p>AYMELEK'e katıl, ilk siparişinde %10 indirim kazan</p></div>
 <header class="hdr"><div class="wrap"><div class="main">
 <div><button class="ib burger" aria-label="Menüyü aç"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><form class="search" role="search" action="products.html"><label class="sr" for="qd">Ara</label><input id="qd" name="q" type="search" placeholder="Elbise, ayakkabı, çanta ara…" autocomplete="off"><button aria-label="Ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></form></div>
@@ -91,7 +91,7 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 <div class="pic"><img src="hero-woman.jpg" alt="AYMELEK kampanyası — gülümseyen kadın" width="960" height="1131" fetchpriority="high"></div></section>
 <section class="s category-section"><div class="wrap"><div class="sh"><h2>Kategoriye Göre Alışveriş</h2><p>Yeni favori parçanı bul</p></div><div class="cg"><a class="cc has-photo" style="--category-photo:url('demo-products/1.jpg')" href="products.html?cat=clothing"><span>GİYİM</span></a><a class="cc has-photo" style="--category-photo:url('demo-products/3.jpg')" href="products.html?cat=dresses"><span>ELBİSELER</span></a><a class="cc has-photo" style="--category-photo:url('demo-products/5.jpg')" href="products.html?cat=shoes"><span>AYAKKABI</span></a><a class="cc has-photo" style="--category-photo:url('demo-products/7.jpg')" href="products.html?cat=bags"><span>ÇANTA</span></a><a class="cc has-photo" style="--category-photo:url('demo-products/9.jpg')" href="products.html?cat=accessories"><span>AKSESUAR</span></a><a class="cc has-photo" style="--category-photo:url('demo-products/11.jpg')" href="products.html?cat=care"><span>BAKIM</span></a></div>
 </div></section>
-<section class="s pv" id="urun3d"><div class="wrap"><canvas id="bv" aria-label="Dönen 3 boyutlu ürün" role="img"></canvas><div><small style="letter-spacing:.2em;color:#858085">3D ÜRÜN</small><h2 id="bvn">Biberiye Suyu</h2><p>Hidrosel saç ve cilt bakımı, 100 ml. Şişeyi sürükleyerek her açıdan inceleyin, renk seçenekleri arasında geçiş yapın.</p><div class="sws" role="group" aria-label="Renk seç"></div><a class="btn" id="bvl" href="product.html?id=41">ÜRÜNÜ İNCELE</a></div></div></section>
+<section class="s pv" id="urun3d" hidden><div class="wrap"><div class="bottle-stage" role="group" aria-label="Vitrindeki bakım ürünleri"></div><div><h2 id="bvn" aria-live="polite"></h2><p id="bvd"></p><a class="btn" id="bvl">ÜRÜNÜ İNCELE</a></div></div></section>
 <section class="s mp" id="konum"><div class="wrap"><div><h2>Bizi Ziyaret Edin</h2><a class="btn" href="https://www.google.com/maps/search/?api=1&query=G%C3%BCltepe%2C%20T%C3%BCre%20Sk.%20No%3A1%2C%2034295%20K%C3%BC%C3%A7%C3%BCk%C3%A7ekmece/%C4%B0stanbul" target="_blank" rel="noopener">YOL TARİFİ AL</a><div class="map-social"><span class="sl"><a class="so" href="https://wa.me/905079613036?text=Merhaba%20AYMELEK" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.500-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800 0-1.400.7-2 1-2.300.3-.3.6-.3.800-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400z"/></svg></a><a class="so" href="https://www.instagram.com/sahra_garajayeva_93" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.500" cy="6.500" r="1" fill="currentColor"/></svg></a><a class="so" href="https://www.tiktok.com/@sahra_garajayeva" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.500 3c.3 2.200 1.700 3.700 3.800 3.900v3a7 7 0 0 1-3.800-1.200v6.300A5.800 5.800 0 1 1 10.700 9v3.100a2.700 2.700 0 1 0 2.100 2.600V3h3.700z"/></svg></a></span></div></div><iframe title="AYMELEK konum haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=G%C3%BCltepe%2C%20T%C3%BCre%20Sk.%20No%3A1%2C%2034295%20K%C3%BC%C3%A7%C3%BCk%C3%A7ekmece/%C4%B0stanbul&output=embed"></iframe></div></section>
 </main>
 <footer><div class="wrap"><div class="f"><img src="logo-light.png" alt="AYMELEK" width="90" height="80" style="height:64px;width:auto"><nav><a href="about.html">Hakkımızda</a><a href="contact.html">İletişim</a><a href="shipping-returns.html">Kargo ve İade</a><a href="privacy.html">Gizlilik</a><a href="terms.html">Koşullar</a><a href="pre-information.html">Ön Bilgilendirme</a><a href="distance-sales.html">Mesafeli Satış</a><a href="cookies.html">Çerez Politikası</a></nav></div><small>© <span id="y"></span> AYMELEK. Tüm hakları saklıdır.</small></div></footer>
@@ -119,15 +119,15 @@ function mount(cv,o){o=o||{};var color=o.color||'#2E7D32',label=o.label||'BİBER
   f.fillStyle='#777';f.font='38px Arial,sans-serif';f.fillText('Hidrosel',210,1440);f.fillText('Saç ve Cilt Bakımı',210,1490);
   var s=fS.getContext('2d');s.fillStyle='#f3f3f3';s.fillRect(0,0,300,1560);s.fillStyle=color;s.fillRect(0,0,300,26);s.fillStyle='#999';s.textAlign='center';s.font='34px Arial,sans-serif';s.fillText('AYMELEK',150,800);s.font='26px Arial,sans-serif';s.fillText('100 ml',150,850)}
  build();if(o.logo){var im=new Image();im.onload=function(){logo=im;build();if(W)draw()};im.src=o.logo}
- function size(){var r=cv.getBoundingClientRect();W=Math.max(1,r.width);H=Math.max(1,r.height);cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);u=Math.min(H/100,W/58)}
+ function size(){var r=cv.getBoundingClientRect();W=Math.max(1,r.width);H=Math.max(1,r.height);cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);u=Math.min(H/(o.bottleOnly?74:100),W/(o.bottleOnly?22:58))}
  function shade(px,py,w,h,k){var g=x.createLinearGradient(px,0,px+w,0);g.addColorStop(0,'rgba(0,0,0,'+.55*k+')');g.addColorStop(.2,'rgba(0,0,0,0)');g.addColorStop(.26,'rgba(255,255,255,'+.38*k+')');g.addColorStop(.32,'rgba(255,255,255,0)');g.addColorStop(.7,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,'+.6*k+')');x.fillStyle=g;x.fillRect(px,py,w,h)}
  function cyl(cx,ybot,R,h,fill,k){var g=x.createLinearGradient(cx-R,0,cx+R,0);g.addColorStop(0,dark(fill,.5));g.addColorStop(.28,dark(fill,1.1));g.addColorStop(.55,fill);g.addColorStop(1,dark(fill,.45));x.fillStyle=g;x.fillRect(cx-R,ybot-h,2*R,h)}
- function draw(){x.clearRect(0,0,W,H);var gy=H/2+40*u,bx=W*.66,cxb=W*.34;
+ function draw(){x.clearRect(0,0,W,H);var gy=H/2+(o.bottleOnly?30:40)*u,bx=W*(o.bottleOnly?.5:.66),cxb=W*.34;
   var sh=x.createRadialGradient(W/2,gy+2*u,2,W/2,gy+2*u,34*u);sh.addColorStop(0,'rgba(23,19,23,.28)');sh.addColorStop(1,'rgba(23,19,23,0)');x.save();x.translate(0,0);x.scale(1,1);x.fillStyle=sh;x.beginPath();x.ellipse(W/2,gy+2*u,34*u,4*u,0,0,6.283);x.fill();x.restore();
   /* kutu */
   var bw=10.5*u,bd=7.5*u,bh=78*u,c=Math.cos(ang),s=Math.sin(ang),fc=[
    {n:c,a:[-bw,bd],b:[bw,bd],t:fF},{n:-s,a:[bw,bd],b:[bw,-bd],t:fS},{n:-c,a:[bw,-bd],b:[-bw,-bd],t:fS},{n:s,a:[-bw,-bd],b:[-bw,bd],t:fS}];
-  fc.forEach(function(f){if(f.n<=.001)return;var x1=cxb+f.a[0]*c+f.a[1]*s,x2=cxb+f.b[0]*c+f.b[1]*s,l=Math.min(x1,x2),w=Math.abs(x2-x1);if(w<1)return;x.drawImage(f.t,l,gy-bh,w,bh);x.fillStyle='rgba(0,0,0,'+(.34*(1-f.n)+(f.t===fS?.12:0))+')';x.fillRect(l,gy-bh,w,bh)});
+  if(!o.bottleOnly)fc.forEach(function(f){if(f.n<=.001)return;var x1=cxb+f.a[0]*c+f.a[1]*s,x2=cxb+f.b[0]*c+f.b[1]*s,l=Math.min(x1,x2),w=Math.abs(x2-x1);if(w<1)return;x.drawImage(f.t,l,gy-bh,w,bh);x.fillStyle='rgba(0,0,0,'+(.34*(1-f.n)+(f.t===fS?.12:0))+')';x.fillRect(l,gy-bh,w,bh)});
   /* şişe */
   var R=7.4*u,bodyH=40*u,top=gy-bodyH,Rpx=R;
   x.save();x.beginPath();x.moveTo(bx-R,top);x.lineTo(bx-R,gy-R*.35);x.quadraticCurveTo(bx-R,gy,bx-R*.65,gy);x.lineTo(bx+R*.65,gy);x.quadraticCurveTo(bx+R,gy,bx+R,gy-R*.35);x.lineTo(bx+R,top);x.closePath();x.clip();
@@ -143,18 +143,42 @@ function mount(cv,o){o=o||{};var color=o.color||'#2E7D32',label=o.label||'BİBER
   var gy3=gy2-7*u,Rp=3*u;cyl(bx,gy3,Rp,10*u,'#f4f4f4');shade(bx-Rp,gy3-10*u,2*Rp,10*u,.9);
   x.fillStyle='#e6e6e6';x.fillRect(bx-Rp*1.15,gy3-12.4*u,Rp*2.3,2.4*u);x.fillStyle='#d9d9d9';x.fillRect(bx+Rp*.6,gy3-11.8*u,Rp*1.6,1.4*u)}
  function loop(){if(dead)return;if(vis){if(!drag){ang+=vel;vel+=(.006-vel)*.03}draw()}raf=requestAnimationFrame(loop)}
- function dn(e){drag=true;lx=e.clientX;cv.setPointerCapture&&cv.setPointerCapture(e.pointerId)}
+ function dn(e){if(o.bottleOnly)return;drag=true;lx=e.clientX;cv.setPointerCapture&&cv.setPointerCapture(e.pointerId)}
  function mv(e){if(!drag)return;var d=e.clientX-lx;ang+=d*.012;vel=d*.004;lx=e.clientX;if(red)draw()}
  function up(){drag=false}
  cv.addEventListener('pointerdown',dn);cv.addEventListener('pointermove',mv);cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
  var onr=function(){size();draw()};addEventListener('resize',onr);size();draw();
  var io=null;if('IntersectionObserver'in window){io=new IntersectionObserver(function(e){vis=e[0].isIntersecting});io.observe(cv)}
- if(!red)raf=requestAnimationFrame(loop);
- return{setColor:function(c){color=c;build();draw()},stop:function(){dead=true;cancelAnimationFrame(raf);removeEventListener('resize',onr);io&&io.disconnect()}}}
+ if(!red&&o.rotate!==false)raf=requestAnimationFrame(loop);
+ return{setActive:function(active){drag=false;cancelAnimationFrame(raf);if(!active){ang=0;vel=.006}else if(!red){raf=requestAnimationFrame(loop)}onr()},setColor:function(c){color=c;build();draw()},stop:function(){dead=true;cancelAnimationFrame(raf);removeEventListener('resize',onr);io&&io.disconnect()}}}
 window.Bottle3D={mount:mount}})();
 
-(function(){var V=[['Yeşil','#2E7D32',41],['Pembe','#E58AA8',42],['Mor','#8E5BB8',43],['Mavi','#2F6FA8',44],['Turuncu','#B8641F',45]],cv=document.getElementById("bv"),v=Bottle3D.mount(cv,{color:V[0][1],logo:document.querySelector(".logo img").src}),w=document.querySelector(".sws");
-V.forEach(function(c,k){var b=document.createElement("button");b.type="button";b.style.background=c[1];b.title=c[0];b.setAttribute("aria-label",c[0]);if(!k)b.className="on";b.onclick=function(){v.setColor(c[1]);document.getElementById("bvn").textContent="Biberiye Suyu · "+c[0];document.getElementById("bvl").href="product.html?id="+c[2];[].forEach.call(w.children,function(x){x.className=""});b.className="on"};w.appendChild(b)})})();</script><a class="wf" href="https://wa.me/905079613036?text=Merhaba%20AYMELEK" target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.500-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800 0-1.400.7-2 1-2.300.3-.3.6-.3.800-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400z"/></svg></a><script>document.getElementById("y").textContent=new Date().getFullYear()</script>
+document.addEventListener('aymelek:showcase',function(event){
+ var products=event.detail,section=document.getElementById('urun3d'),stage=section.querySelector('.bottle-stage');
+ if(!products.length)return;
+ section.hidden=false;
+ var cards=products.map(function(p){
+  var button=document.createElement('button'),canvas=document.createElement('canvas'),label=document.createElement('span');
+  button.type='button';button.className='bottle-card';button.setAttribute('aria-pressed','false');
+  canvas.setAttribute('aria-hidden','true');label.textContent=p.name;button.append(canvas,label);stage.appendChild(button);
+  var candidate=p.colors&&p.colors[0]&&p.colors[0][1],color=/^#[0-9a-f]{6}$/i.test(candidate||'')?candidate:'#2E7D32';
+  var model=Bottle3D.mount(canvas,{bottleOnly:true,rotate:false,color:color,label:p.name,logo:document.querySelector('.logo img').src});
+  var card={button:button,model:model,product:p};button.onclick=function(){select(card)};return card;
+ });
+ function select(current){
+  var sides=[1,3];
+  var p=current.product;
+  cards.forEach(function(card){
+   var active=card===current;card.button.style.gridColumn=active?2:sides.shift();
+   card.button.setAttribute('aria-pressed',String(active));
+  });
+  cards.forEach(function(card){card.model.setActive(card===current)});
+  document.getElementById('bvn').textContent=p.name;
+  document.getElementById('bvd').textContent=p.desc||'';
+  document.getElementById('bvl').href='product.html?id='+encodeURIComponent(p.id);
+ }
+ select(cards[0]);
+},{once:true});</script><a class="wf" href="https://wa.me/905079613036?text=Merhaba%20AYMELEK" target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.500-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800 0-1.400.7-2 1-2.300.3-.3.6-.3.800-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400z"/></svg></a><script>document.getElementById("y").textContent=new Date().getFullYear()</script>
 <script>(function(){
 function read(k){try{var v=JSON.parse(localStorage.getItem(k));return Array.isArray(v)?v:[]}catch(e){return[]}}
 function counters(){
@@ -175,4 +199,4 @@ d.querySelector('.x').addEventListener('click',function(){tg(false)});
 addEventListener('keydown',function(e){if(e.key==='Escape')tg(false)});
 document.querySelector('.msearch').addEventListener('click',function(){var b=document.querySelector('.msb');b.classList.toggle('open');if(b.classList.contains('open'))b.querySelector('input').focus()});
 })();
-</script><script src="bg3d.js?v=compact-hero" defer></script></body></html>
+</script><script src="bg3d.js?v=compact-hero" defer></script><script src="shop.js?v=showcase" defer></script></body></html>
