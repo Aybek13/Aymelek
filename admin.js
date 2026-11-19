@@ -16,7 +16,19 @@ function dash(){var units=0,val=0,out=[],low=[],dc=0,by={};list.forEach(function
  '<div class="card"><h3>Düşük stok ve tükenenler</h3>'+((low.length+out.length)?'<table class="tb">'+out.concat(low).map(function(p){return'<tr><td>'+esc(p.name)+'</td><td>'+(total(p)?'<span class="low">Az kaldı</span>':'<span class="low">Tükendi</span>')+'</td><td><button class="ab" data-e="'+p.id+'">Düzenle</button></td></tr>'}).join('')+'</table>':'<p>Düşük stoklu ürün yok.</p>')+'</div>'+
  '<div class="card"><h3>Kategorilere göre ürün</h3>'+Object.keys(CN).map(function(k){return CN[k]+': <b>'+(by[k]||0)+'</b>'}).join(' &nbsp;·&nbsp; ')+'</div>'+
  '<div class="card"><h3>Siparişler ve satışlar</h3><p style="color:#858085;font-size:14px"><b>Demo:</b> Sipariş, ciro ve iade ekranlarını üstteki <b>SİPARİŞLER</b> ve <b>RAPORLAR</b> sekmelerinde görebilirsiniz. Veriler örnektir; gerçek siparişler için veritabanı bağlantısı kurulacak.</p></div>'}
-function prods(){return(edit?form():'')+'<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px"><input id="sq" placeholder="Ürün ara…" style="padding:9px;border:1px solid #e6d6dc;min-width:220px"><button class="ab pr" id="new">+ Yeni ürün</button></div><div style="overflow-x:auto"><table class="tb"><tr><th></th><th>Ürün</th><th>Kategori</th><th>Fiyat</th><th>Stok</th><th></th></tr>'+list.map(function(p){return'<tr data-n="'+esc(p.name.toLowerCase())+'"><td><img src="'+esc(img(p))+'" alt=""></td><td>'+esc(p.name)+(p.isNew?' <small>YENİ</small>':'')+'</td><td>'+(CN[p.cat]||p.cat)+'</td><td>'+(p.disc?'<s>'+f(+p.orig)+'</s> ':'')+f(price(p))+'</td><td class="'+(total(p)<1?'low':'')+'">'+total(p)+'</td><td style="white-space:nowrap"><button class="ab" data-e="'+p.id+'">Düzenle</button><button class="ab d" data-d="'+p.id+'">Sil</button></td></tr>'}).join('')+'</table></div></div>'}
+function prods(){
+ var stockCount=list.reduce(function(sum,p){return sum+total(p)},0),out=list.filter(function(p){return total(p)<1}).length;
+ var categories=Object.keys(CN).map(function(k){return '<option value="'+esc(k)+'">'+esc(CN[k])+'</option>'}).join('');
+ var cards=list.map(function(p){
+  var quantity=total(p),category=p.showcaseOrder?'3D Vitrin':(CN[p.cat]||p.cat);
+  return '<article class="admin-product" data-n="'+esc(p.name.toLocaleLowerCase('tr'))+'" data-cat="'+esc(p.showcaseOrder?'showcase':p.cat)+'">'+
+   '<img src="'+esc(img(p))+'" alt="" loading="lazy"><small>'+esc(category)+'</small><h2>'+esc(p.name)+'</h2>'+
+   '<div>'+(p.disc?'<s>'+f(+p.orig)+'</s> ':'')+'<strong>'+f(price(p))+'</strong></div><small class="stock'+(quantity<1?' low':'')+'">'+(quantity<1?'Tükendi':'Stok: '+quantity)+'</small>'+
+   '<div class="admin-actions"><button type="button" class="ab" data-e="'+esc(p.id)+'">Düzenle</button><button type="button" class="ab d" data-d="'+esc(p.id)+'">Sil</button></div></article>';
+ }).join('');
+ return (edit?form():'')+'<section class="card admin-catalog"><div class="admin-toolbar"><h1>Ürünler</h1><div class="admin-tools"><input id="sq" type="search" aria-label="Ürün ara" placeholder="Ürün ara…"><select id="admin-cat" aria-label="Kategori filtrele"><option value="">Tüm kategoriler</option>'+categories+'<option value="showcase">3D Vitrin</option></select><button type="button" class="ab pr" id="new">+ Yeni ürün</button></div></div>'+
+ '<div class="admin-content"><div><div class="admin-grid">'+cards+'</div><p id="admin-empty" hidden>Bu filtreye uyan ürün yok.</p></div><aside class="admin-summary" aria-label="Stok özeti"><h2>Stok özeti</h2><dl><div><dt>Ürün</dt><dd>'+list.length+'</dd></div><div><dt>Toplam adet</dt><dd>'+stockCount+'</dd></div><div><dt>Tükenen</dt><dd>'+out+'</dd></div></dl></aside></div></section>';
+}
 function form(){var p=edit,sz=sizesOf(p.cat),cn=p.colors.map(function(c){return c[0]});
  return'<div class="card" id="fm"><h3>'+(p._new?'Yeni ürün':'Ürünü düzenle')+'</h3><div class="fg"><label>Ürün adı<input id="f_name" value="'+esc(p.name)+'"></label><label>Kategori<select id="f_cat">'+Object.keys(CN).map(function(k){return'<option value="'+k+'"'+(k===p.cat&&!p.showcaseOrder?' selected':'')+'>'+CN[k]+'</option>'}).join('')+'<option value="showcase"'+(p.showcaseOrder?' selected':'')+'>3D Vitrin</option></select></label>'+
  '<label>Marka<input id="f_brand" value="'+esc(p.brand)+'"></label><label>Fiyat (TL)<input id="f_orig" type="number" min="0" step="1" value="'+esc(p.orig)+'"></label><label>İndirim (%)<input id="f_disc" type="number" min="0" max="90" step="1" value="'+esc(p.disc)+'"></label><label>İndirimli fiyat<input value="'+f(price(p))+'" disabled></label>'+
@@ -101,7 +113,11 @@ function bind(){
  var rd=$('#rd');if(rd)rd.onclick=function(){orders=mkDemo();saveDemo();of='';note='Demo verisi yenilendi.';draw()};$$('[data-e]').forEach(function(b){b.onclick=function(){var p=list.filter(function(x){return x.id==b.dataset.e})[0];edit=JSON.parse(JSON.stringify(p));tab='prod';draw();scrollTo(0,0)}});
  $$('[data-d]').forEach(function(b){b.onclick=function(){var p=list.filter(function(x){return x.id==b.dataset.d})[0];if(confirm('“'+p.name+'” silinsin mi?')){list=list.filter(function(x){return x!==p});save();note='Ürün silindi (taslak).';draw()}}});
  var n=$('#new');if(n)n.onclick=function(){edit={id:Math.max.apply(0,list.map(function(p){return p.id}).concat(0))+1,_new:1,name:'',cat:'dresses',brand:'AYMELEK',orig:2500,currency:'TRY',disc:0,colors:[COL[0]],stock:{XS:0,S:5,M:5,L:5,XL:0},isNew:true,best:false,images:[],desc:'',mat:''};draw();scrollTo(0,0)};
- var q=$('#sq');if(q)q.oninput=function(){$$('tr[data-n]').forEach(function(r){r.hidden=r.dataset.n.indexOf(q.value.toLowerCase())<0})};
+ var q=$('#sq'),filter=$('#admin-cat');
+ if(q&&filter){
+  function applyFilters(){var visible=0,term=q.value.trim().toLocaleLowerCase('tr');$$('.admin-product[data-n]').forEach(function(card){card.hidden=!card.dataset.n.includes(term)||(filter.value!==''&&card.dataset.cat!==filter.value);if(!card.hidden)visible++});$('#admin-empty').hidden=visible>0}
+  q.oninput=applyFilters;filter.onchange=applyFilters;applyFilters();
+ }
  var c=$('#f_cat');if(c)c.onchange=function(){if($('#sv').disabled){c.value=edit.showcaseOrder?'showcase':edit.cat;return}read();var s=sizesOf(edit.cat),o={};s.forEach(function(k){o[k]=edit.stock[k]||0});edit.stock=o;draw()};
  var cx=$('#cx');if(cx)cx.onclick=function(){edit=null;draw()};
  var sv=$('#sv');if(sv)sv.onclick=function(){read();var e=$('#fe'),p=edit;if(!p.name.trim()){e.textContent='Ürün adı gerekli.';return}if(!(p.orig>0)){e.textContent='Fiyat 0’dan büyük olmalı.';return}if(p.disc<0||p.disc>90){e.textContent='İndirim 0–90 arasında olmalı.';return}if(!p.colors.length){e.textContent='En az bir renk seçin.';return}
