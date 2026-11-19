@@ -413,6 +413,6 @@ P=[
   }
 ].map(norm).concat(P);
 window.AYMELEK_WL=wl;window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
-function go(){var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=local.map(norm)}catch(e){}var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
 fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.length)P=j.map(norm)}).catch(function(){}).then(go);})();

@@ -6,9 +6,9 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return
 function f(n){return n.toFixed(2).replace('.',',')+' €'}
 function price(p){return Math.round(p.orig*(100-p.disc)/100)}
 function total(p){return Object.keys(p.stock).reduce(function(s,k){return s+p.stock[k]},0)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(list))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(list));return true}catch(e){return false}}
 function init(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY))}catch(e){}
- if(Array.isArray(d)&&d.length){list=d;note='Bu tarayıcıdaki kaydedilmemiş taslak yüklendi.';draw();return}
+ if(Array.isArray(d)){list=d;note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
  fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){list=Array.isArray(j)&&j.length?j:JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note=Array.isArray(j)&&j.length?'Yayındaki products.json yüklendi.':'Örnek ürünler yüklendi (yayında products.json yok).'}).catch(function(){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note='Örnek ürünler yüklendi.'}).then(draw)}
 function img(p){return p.images&&p.images[0]?p.images[0]:'logo.png'}
 function dash(){var units=0,val=0,out=[],low=[],dc=0,by={};list.forEach(function(p){var t=total(p);units+=t;val+=t*price(p);if(p.disc)dc++;by[p.cat]=(by[p.cat]||0)+1;if(t==0)out.push(p);else if(Object.keys(p.stock).some(function(k){return p.stock[k]>0&&p.stock[k]<=2}))low.push(p)});
@@ -22,8 +22,8 @@ function form(){var p=edit,sz=sizesOf(p.cat),cn=p.colors.map(function(c){return 
  '<div class="w ck"><label style="color:#858085;font-size:12px;letter-spacing:.08em;display:block">RENKLER</label>'+COL.map(function(c){return'<label><input type="checkbox" name="fc" value="'+c[0]+'"'+(cn.indexOf(c[0])>-1?' checked':'')+'>'+c[0]+'</label>'}).join('')+'</div>'+
  '<div class="w"><label>STOK (beden başına adet)</label>'+sz.map(function(s){return'<span class="st">'+s+'<input type="number" min="0" data-s="'+s+'" value="'+(p.stock[s]||0)+'"></span>'}).join('')+'</div>'+
  '<div class="w ck"><label><input type="checkbox" id="f_new"'+(p.isNew?' checked':'')+'>Yeni gelen</label><label><input type="checkbox" id="f_best"'+(p.best?' checked':'')+'>Çok satan</label></div>'+
- '<label class="w">Görseller (dosya adları veya adresler, virgülle ayırın; dosyaları GitHub’a yüklemeyi unutmayın)<input id="f_img" value="'+esc((p.images||[]).join(', '))+'" placeholder="elbise1.jpg, elbise2.jpg, elbise3.jpg"></label><label class="w">Açıklama<textarea id="f_desc" rows="3">'+esc(p.desc)+'</textarea></label><label class="w">Malzeme ve bakım<textarea id="f_mat" rows="2">'+esc(p.mat)+'</textarea></label></div><div id="fe" class="msg" role="alert"></div><button class="ab pr" id="sv">Kaydet</button><button class="ab" id="cx">Vazgeç</button></div>'}
-function pub(){return'<div class="card"><h3>Ürünleri yayınlama</h3><ol style="padding-left:20px;line-height:1.9;font-size:14px"><li>Ürünlerde yaptığınız değişiklikler önce <b>bu tarayıcıda taslak</b> olarak kaydedilir; ziyaretçiler görmez.</li><li><b>products.json dosyasını indirin.</b></li><li>GitHub’da depoya gidin: <b>Add file → Upload files</b>, indirdiğiniz <code>products.json</code> dosyasını (ve yeni ürün görsellerini) yükleyin, <b>Commit changes</b>.</li><li>1–2 dakika sonra site yeni ürünleri gösterir.</li></ol><button class="ab pr" id="dl">products.json indir</button> <label class="ab" style="display:inline-block;cursor:pointer">İçe aktar<input id="im" type="file" accept="application/json" hidden></label> <button class="ab d" id="rs">Örnek ürünlere sıfırla</button></div><div class="warn"><b>Güvenlik notu:</b> Site GitHub Pages’te yayınlandığı için sunucusu yoktur; bu panelde gerçek bir giriş (şifre) koruması <b>olamaz</b>, sahte bir şifre ekranı da koymadık. Panel yalnızca sizin tarayıcınızda çalışır ve siteyi değiştiremez. Değişikliğin yayına çıkması için GitHub hesabınıza girmek gerekir, asıl koruma budur. Sipariş yönetimi, indirim kodları, banner düzenleme ve gerçek yönetici girişi için ayrı bir sunucu ve veritabanı gerekir.</div>'}
+ '<div class="w"><label>Ürün fotoğrafları<input id="f_files" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><p>JPEG, PNG veya WebP. Fotoğraflar bu tarayıcıya kaydedilir.</p><div id="f_photos" style="display:flex;gap:10px;flex-wrap:wrap"></div></div><label class="w">Açıklama<textarea id="f_desc" rows="3">'+esc(p.desc)+'</textarea></label><label class="w">Malzeme ve bakım<textarea id="f_mat" rows="2">'+esc(p.mat)+'</textarea></label></div><div id="fe" class="msg" role="alert"></div><button class="ab pr" id="sv">Kaydet</button><button class="ab" id="cx">Vazgeç</button></div>'}
+function pub(){return'<div class="card"><h3>Demo kataloğu</h3><p>Ürünler ve fotoğraflar bu tarayıcıdaki mağazaya yansır.</p><a class="ab pr" href="products.html">Mağazayı aç</a> <button class="ab" id="dl">Katalog yedeğini indir</button> <label class="ab" style="display:inline-block;cursor:pointer">Yedek yükle<input id="im" type="file" accept="application/json" hidden></label> <button class="ab d" id="rs">Örnek ürünlere sıfırla</button></div>'}
 
 var DK='aymelek_demo_orders',orders=[],per='day',of='';
 var ST={beklemede:'Beklemede',hazirlaniyor:'Hazırlanıyor',kargoda:'Kargoda',teslim:'Teslim edildi',iptal:'İptal',iade_talebi:'İade talebi',iade:'İade edildi'};
@@ -57,7 +57,43 @@ function repTab(){var now=new Date(),t=sumRange(sod(now).getTime()),w=sumRange(m
  '<div class="card" style="overflow-x:auto"><table class="tb"><tr><th>Dönem</th><th>Sipariş</th><th>Ciro</th><th>Bekleyen</th><th>İade</th><th>İade tutarı</th></tr>'+bk.slice().reverse().map(function(b){return'<tr><td>'+b.l+'</td><td>'+b.n+'</td><td><b>'+f(b.rev)+'</b></td><td>'+b.pend+'</td><td>'+b.ret+'</td><td>'+(b.retAmt?f(b.retAmt):'—')+'</td></tr>'}).join('')+'</table><p style="font-size:12px;color:#858085;margin-top:10px">Ciro: iptal, iade ve iade talebi olan siparişler hariçtir. Hafta pazartesi başlar.</p></div>'}
 function draw(){$$('.ah [data-t]').forEach(function(b){b.classList.toggle('on',b.dataset.t==tab)});
  $('#app').innerHTML=(note?'<div class="dm" style="margin-bottom:16px">'+esc(note)+'</div>':'')+(tab=='dash'?dash():tab=='ord'?ordTab():tab=='rep'?repTab():tab=='prod'?prods():pub());bind()}
+function preparePhoto(file){
+ return new Promise(function(resolve,reject){
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)||file.size>15000000){reject(new Error('JPEG, PNG veya WebP seçin. Dosya sınırı 15 MB.'));return}
+  var url=URL.createObjectURL(file),img=new Image();
+  img.onerror=function(){URL.revokeObjectURL(url);reject(new Error('Fotoğraf açılamadı.'))};
+  img.onload=function(){
+   URL.revokeObjectURL(url);
+   try{
+    var scale=Math.min(1,960/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');
+    c.width=Math.max(1,Math.round(img.naturalWidth*scale));c.height=Math.max(1,Math.round(img.naturalHeight*scale));
+    var ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);
+    resolve(c.toDataURL('image/jpeg',.76));
+   }catch(e){reject(new Error('Fotoğraf işlenemedi.'))}
+  };
+  img.src=url;
+ })
+}
+function showPhotos(){
+ var box=$('#f_photos');if(!box)return;
+ box.innerHTML=(edit.images||[]).map(function(src,i){return '<div><img src="'+esc(src)+'" alt="" width="68" height="76" style="object-fit:cover;display:block"><button type="button" class="ab" data-remove-photo="'+i+'">Kaldır</button></div>'}).join('');
+ $('[data-remove-photo]',box).forEach(function(button){button.onclick=function(){edit.images.splice(+button.dataset.removePhoto,1);showPhotos()}});
+}
 function bind(){
+ var files=$('#f_files');
+ if(files){
+  showPhotos();
+  files.onchange=function(){
+   var selected=Array.from(files.files),product=edit,button=$('#sv'),error=$('#fe');
+   if(!selected.length)return;
+   if((product.images||[]).length+selected.length>8){error.textContent='Bir ürüne en fazla 8 fotoğraf eklenebilir.';files.value='';return}
+   button.disabled=true;files.disabled=true;error.textContent='Fotoğraflar hazırlanıyor…';
+   Promise.all(selected.map(preparePhoto)).then(function(photos){
+    product.images=(product.images||[]).concat(photos);
+    if(edit===product){showPhotos();if(error.isConnected)error.textContent=''}
+   }).catch(function(e){if(error.isConnected)error.textContent=e.message}).finally(function(){files.value='';files.disabled=false;button.disabled=false})
+  };
+ }
  $$('[data-per]').forEach(function(b){b.onclick=function(){per=b.dataset.per;draw()}});
  var ofs=$('#of');if(ofs)ofs.onchange=function(){of=ofs.value;draw()};
  $$('[data-os]').forEach(function(sel){sel.onchange=function(){var o=orders.filter(function(x){return x.id==sel.dataset.os})[0];o.status=sel.value;saveDemo();note='Demo: #'+o.id+' durumu “'+ST[o.status]+'” yapıldı.';draw()}});
@@ -65,15 +101,19 @@ function bind(){
  $$('[data-d]').forEach(function(b){b.onclick=function(){var p=list.filter(function(x){return x.id==b.dataset.d})[0];if(confirm('“'+p.name+'” silinsin mi?')){list=list.filter(function(x){return x!==p});save();note='Ürün silindi (taslak).';draw()}}});
  var n=$('#new');if(n)n.onclick=function(){edit={id:Math.max.apply(0,list.map(function(p){return p.id}).concat(0))+1,_new:1,name:'',cat:'dresses',brand:'AYMELEK',orig:50,disc:0,colors:[COL[0]],stock:{XS:0,S:5,M:5,L:5,XL:0},isNew:true,best:false,images:[],desc:'',mat:''};draw();scrollTo(0,0)};
  var q=$('#sq');if(q)q.oninput=function(){$$('tr[data-n]').forEach(function(r){r.hidden=r.dataset.n.indexOf(q.value.toLowerCase())<0})};
- var c=$('#f_cat');if(c)c.onchange=function(){read();var s=sizesOf(edit.cat),o={};s.forEach(function(k){o[k]=edit.stock[k]||0});edit.stock=o;draw()};
+ var c=$('#f_cat');if(c)c.onchange=function(){if($('#sv').disabled){c.value=edit.cat;return}read();var s=sizesOf(edit.cat),o={};s.forEach(function(k){o[k]=edit.stock[k]||0});edit.stock=o;draw()};
  var cx=$('#cx');if(cx)cx.onclick=function(){edit=null;draw()};
  var sv=$('#sv');if(sv)sv.onclick=function(){read();var e=$('#fe'),p=edit;if(!p.name.trim()){e.textContent='Ürün adı gerekli.';return}if(!(p.orig>0)){e.textContent='Fiyat 0’dan büyük olmalı.';return}if(p.disc<0||p.disc>90){e.textContent='İndirim 0–90 arasında olmalı.';return}if(!p.colors.length){e.textContent='En az bir renk seçin.';return}
-  var isNew=p._new;delete p._new;var i=list.map(function(x){return x.id}).indexOf(p.id);i>-1?list[i]=p:list.push(p);save();edit=null;note=isNew?'Ürün eklendi (taslak). Yayınlamak için “Yayınla” sekmesine bakın.':'Ürün güncellendi (taslak).';draw()};
+  if(!(p.images||[]).length){e.textContent='En az bir ürün fotoğrafı seçin.';return}
+  var previous=list,isNew=p._new,saved=Object.assign({},p);delete saved._new;
+  list=list.some(function(x){return x.id===p.id})?list.map(function(x){return x.id===p.id?saved:x}):list.concat(saved);
+  if(!save()){list=previous;e.textContent='Tarayıcıda yer kalmadı. Daha az fotoğrafla tekrar deneyin.';return}
+  edit=null;note=isNew?'Ürün demo mağazasına eklendi.':'Ürün demo mağazasında güncellendi.';draw()};
  $$('.ah [data-t]').forEach(function(b){b.onclick=function(){tab=b.dataset.t;edit=null;note='';draw()}});
  var dl=$('#dl');if(dl)dl.onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(list.map(function(p){var o=JSON.parse(JSON.stringify(p));delete o._new;return o}),null,1)],{type:'application/json'}));a.download='products.json';a.click()};
  var im=$('#im');if(im)im.onchange=function(){var r=new FileReader();r.onload=function(){try{var j=JSON.parse(r.result);if(!Array.isArray(j)||!j.every(function(p){return p&&p.name&&p.cat&&p.orig>0&&p.stock}))throw 0;list=j;save();note='İçe aktarıldı.';tab='prod';draw()}catch(e){alert('Geçersiz products.json dosyası.')}};r.readAsText(im.files[0])};
  var rs=$('#rs');if(rs)rs.onclick=function(){if(confirm('Taslak silinip örnek ürünlere dönülsün mü?')){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));save();note='Örnek ürünlere sıfırlandı.';draw()}}}
 function read(){var p=edit;p.name=$('#f_name').value;p.cat=$('#f_cat').value;p.brand=$('#f_brand').value||'AYMELEK';p.orig=+$('#f_orig').value;p.disc=+$('#f_disc').value||0;p.isNew=$('#f_new').checked;p.best=$('#f_best').checked;p.desc=$('#f_desc').value;p.mat=$('#f_mat').value;
- p.images=$('#f_img').value.split(',').map(function(s){return s.trim()}).filter(Boolean);p.colors=COL.filter(function(c){return $$('input[name=fc]:checked').some(function(i){return i.value==c[0]})});
+ p.colors=COL.filter(function(c){return $$('input[name=fc]:checked').some(function(i){return i.value==c[0]})});
  var st={};$$('[data-s]').forEach(function(i){st[i.dataset.s]=Math.max(0,parseInt(i.value)||0)});p.stock=st}
 loadDemo();init()})();
