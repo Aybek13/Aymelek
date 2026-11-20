@@ -55,7 +55,7 @@ function addCart(id,size,color,qty){var c=rd('aymelek_cart'),m=c.filter(function
  if(m)m.qty=Math.min(mx,m.qty+qty);else c.push({id:id,size:size,color:color,qty:Math.min(mx,qty)});wr('aymelek_cart',c)}
 var pages={};
 pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.get('cat')||'all',q:(u.get('q')||'').trim(),sort:'rec'};
- var G={clothing:['clothing','dresses','tops','bottoms']};var T={all:'Tüm Ürünler','new-arrivals':'Yeni Gelenler',sale:'İndirim',clothing:'Giyim'};Object.keys(CN).forEach(function(k){T[k]=T[k]||CN[k]});
+ var T={all:'Tüm Ürünler','new-arrivals':'Yeni Gelenler',sale:'İndirim',clothing:'Giyim'};Object.keys(CN).forEach(function(k){T[k]=T[k]||CN[k]});
  var sizes=[],cols=COL.map(function(c){return c[0]});P.forEach(function(p){p.sizes.forEach(function(s){if(sizes.indexOf(s)<0)sizes.push(s)})});
  var cats=[['all','Tümü'],['new-arrivals','Yeni Gelenler'],['clothing','Giyim'],['dresses','Elbiseler'],['tops','Üstler'],['bottoms','Alt Giyim'],['shoes','Ayakkabı'],['bags','Çanta'],['accessories','Aksesuar'],['care','Saç ve Cilt Bakımı'],['sale','İndirim']];
  var maxPrice=Math.max(10000,...P.map(function(p){return p.price}));
@@ -64,7 +64,7 @@ pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.ge
  function run(){var d=new FormData(fl),cat=d.get('cat'),mx=+d.get('pr'),sz=d.getAll('sz'),co=d.getAll('co'),br=d.getAll('br'),q=S.q.toLowerCase();
   $('#prv').textContent=f(mx);
   var r=P.filter(function(p){var cn=(CN[p.cat]||'').toLowerCase();
-   if(cat=='new-arrivals'&&!p.isNew)return 0;if(cat=='sale'&&!p.disc)return 0;if(G[cat]&&G[cat].indexOf(p.cat)<0)return 0;if(CN[cat]&&!G[cat]&&p.cat!=cat)return 0;
+   if(!inCategory(p,cat))return 0;
    if(q&&(p.name+' '+cn+' '+p.brand).toLowerCase().indexOf(q)<0)return 0;if(p.price>mx)return 0;
    if(sz.length&&!sz.some(function(s){return p.stock[s]>0}))return 0;if(co.length&&!p.colors.some(function(c){return co.indexOf(c[0])>-1}))return 0;
    if(br.length&&br.indexOf(p.brand)<0)return 0;if(d.get('av')&&!p.avail)return 0;if(d.get('di')&&!p.disc)return 0;if(d.get('nw')&&!p.isNew)return 0;return 1});
@@ -588,6 +588,104 @@ function mergeShowcaseDemo(local){
  return local.map(function(p){return [41,42,45].includes(p.id)?Object.assign({},p,{showcaseOrder:0,showcaseModel:''}):p}).concat(samples);
 }
 window.AYMELEK_MERGE_SHOWCASE=mergeShowcaseDemo;
-function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local.filter(validateProduct)).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+function inCategory(p,cat){
+ if(cat==='new-arrivals')return Boolean(p.isNew);
+ if(cat==='sale')return Boolean(p.disc);
+ if(cat==='clothing')return ['clothing','dresses','tops','bottoms'].includes(p.cat);
+ return !CN[cat]||p.cat===cat;
+}
+function homeProducts(){
+ const section=$('#kategoriler[data-product-stage]');
+ if(!section)return;
+ const track=$('.product-stage-track',section), heading=$('h2',section);
+ const status=$('[role=status]',section), detail=$('.product-stage-detail',section);
+ const controls=$('.product-stage-controls',section);
+ const links=[...document.querySelectorAll('.cats a,.drawer a,.hero .btns a')].filter(a=>a.getAttribute('href').startsWith('products.html'));
+ let items=[], index=0, drag=null, dragged=false;
+
+ function draw(){
+  track.replaceChildren();
+  controls.hidden=items.length<2;
+  detail.hidden=!items.length;
+  if(!items.length){status.textContent='Bu kategoride ürün bulunamadı.';return}
+  const active=items[index];
+  const slots=items.length===1?[0]:items.length===2?[0,1]:[-1,0,1];
+  slots.forEach(offset=>{
+   const item=items[(index+offset+items.length)%items.length];
+   const tile=document.createElement(offset===0?'a':'button');
+   tile.className='product-stage-tile';
+   tile.dataset.offset=offset;
+   if(offset===0)tile.href='product.html?id='+item.id;
+   else{tile.type='button';tile.setAttribute('aria-label',item.name+' ürününü göster')}
+   const photo=new Image();
+   photo.src=img(item);
+   photo.alt=item.name;
+   photo.draggable=false;
+   tile.append(photo);
+   track.append(tile);
+  });
+  detail.href='product.html?id='+active.id;
+  $('.product-stage-name',detail).textContent=active.name;
+  $('.product-stage-price',detail).textContent=f(active.price);
+  status.textContent=(index+1)+' / '+items.length+' · '+active.name;
+ }
+ function move(offset,focus){
+  if(items.length<2)return;
+  index=(index+offset+items.length)%items.length;
+  draw();
+  if(focus)$('[data-offset="0"]',track).focus({preventScroll:true});
+ }
+ function select(cat,scroll){
+  heading.textContent=CN[cat]||({'new-arrivals':'Yeni Gelenler',sale:'İndirim'}[cat])||'Tüm Ürünler';
+  items=P.filter(p=>inCategory(p,cat));
+  index=0;
+  links.forEach(a=>{
+   if((new URL(a.href).searchParams.get('cat')||'all')===cat)a.setAttribute('aria-current','true');
+   else a.removeAttribute('aria-current');
+  });
+  draw();
+  if(scroll){
+   section.scrollIntoView({block:'start'});
+   heading.focus({preventScroll:true});
+  }
+ }
+ links.forEach(a=>a.addEventListener('click',e=>{
+  if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+  e.preventDefault();
+  const drawer=$('.drawer');
+  if(drawer.classList.contains('open'))$('.drawer .x').click();
+  select(new URL(a.href).searchParams.get('cat')||'all',true);
+ }));
+ controls.addEventListener('click',e=>{
+  const button=e.target.closest('[data-step]');
+  if(button)move(Number(button.dataset.step),false);
+ });
+ track.addEventListener('click',e=>{
+  if(dragged&&e.detail){e.preventDefault();return}
+  const tile=e.target.closest('button[data-offset]');
+  if(tile)move(Number(tile.dataset.offset),e.detail===0);
+ });
+ section.addEventListener('keydown',e=>{
+  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+  e.preventDefault();
+  move(e.key==='ArrowLeft'?-1:1,track.contains(document.activeElement));
+ });
+ track.addEventListener('pointerdown',e=>{
+  if(!e.isPrimary||e.button!==0)return;
+  dragged=false;
+  drag={id:e.pointerId,x:e.clientX,y:e.clientY};
+ });
+ window.addEventListener('pointerup',e=>{
+  if(drag?.id!==e.pointerId)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  drag=null;
+  if(Math.abs(dx)<38||Math.abs(dx)<=Math.abs(dy))return;
+  dragged=true;
+  move(dx<0?1:-1,false);
+ });
+ track.addEventListener('pointercancel',()=>{drag=null;dragged=false});
+ select('all',false);
+}
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local.filter(validateProduct)).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
 fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.some(validateProduct))P=j.filter(validateProduct).map(norm)}).catch(function(){}).then(go);})();
