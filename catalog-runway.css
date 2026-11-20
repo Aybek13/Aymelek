@@ -68,3 +68,64 @@ body.aymelek-catalog :is(.ann, .hdr, .cats, .drawer nav, footer) {
 @media (prefers-reduced-motion: reduce) {
   .aymelek-catalog .pc .pi img { transition: none; transform: none; }
 }
+
+@media (max-width: 1000px) {
+  body.aymelek-catalog .cats {
+    display: block;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    border-top-color: var(--ln);
+  }
+  body.aymelek-catalog .cats .wrap { min-width: max-content; padding-inline: 12px; }
+  body.aymelek-catalog .cats ul {
+    width: max-content;
+    justify-content: flex-start;
+    min-height: 44px;
+    height: auto;
+    gap: 15px;
+  }
+  body.aymelek-catalog .cats a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    white-space: nowrap;
+    padding: 0 3px;
+    font-size: 12px;
+    letter-spacing: .06em;
+  }
+  body.aymelek-catalog .cats a[aria-current=true] { color: #ffc2df; }
+  body.aymelek-runway-home .hero .txt {
+    padding: 14px 16px 16px;
+    background: linear-gradient(110deg, #542b4c, transparent 92%) !important;
+  }
+  body.aymelek-runway-home .hero .eyebrow { margin-bottom: 5px; }
+  body.aymelek-runway-home .hero h1 { font-size: clamp(26px, 7vw, 42px); }
+  body.aymelek-runway-home .hero h1 br { display: none; }
+  body.aymelek-runway-home .hero .sub { font-size: 14px; margin: 6px 0 11px; }
+  body.aymelek-runway-home .hero .btns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  body.aymelek-runway-home .hero .btns .btn {
+    width: 100%;
+    min-height: 44px;
+    height: auto;
+    padding: 6px 9px;
+    font-size: 11px;
+    letter-spacing: .04em;
+    text-align: center;
+  }
+  body.aymelek-runway-home .hero .perks { margin-top: 11px; gap: 4px 10px; font-size: 11px; }
+  body.aymelek-runway-home .hero-location {
+    align-self: stretch;
+    margin-top: 9px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto minmax(0,1fr);
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 3px;
+    justify-items: start;
+  }
+  body.aymelek-runway-home .hero-location .sl { grid-row: span 2; }
+  body.aymelek-runway-home .hero-location iframe { height: 54px; }
+  body.aymelek-runway-home .hero-location > a { color: #ffd4ea; }
+  body.aymelek-runway-home .home-runway { scroll-margin-top: 122px; }
+}
