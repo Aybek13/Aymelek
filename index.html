@@ -90,7 +90,7 @@ body.aymelek-runway-home .hero .txt{background:rgba(254,129,209,.78)!important}
 
 .home-runway{color:#fff2fa;font:1rem system-ui,sans-serif;margin:0 auto;max-width:90rem;padding:clamp(.75rem,2vw,1.5rem) clamp(.75rem,4vw,4rem) 1.25rem}
 .home-runway .caption h2{margin:.55rem 0 0}
-.home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .model img{border-radius:.85rem;background:#fae8f3}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{background:transparent;border-radius:0;filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}</style></head><body class="aymelek-runway-home aymelek-catalog">
+.home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}</style></head><body class="aymelek-runway-home aymelek-catalog">
 <div class="ann" aria-live="polite"><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo</p><p>Yeni sezon modelleri burada</p><p>AYMELEK'e katıl, ilk siparişinde %10 indirim kazan</p></div>
 <header class="hdr"><div class="wrap"><div class="main">
 <div><button class="ib burger" aria-label="Menüyü aç"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><form class="search" role="search" action="products.html"><label class="sr" for="qd">Ara</label><input id="qd" name="q" type="search" placeholder="Elbise, ayakkabı, çanta ara…" autocomplete="off"><button aria-label="Ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></form></div>
@@ -184,66 +184,6 @@ let previousTime = 0;
 let selected = -1;
 let drag = null;
 
-const cutouts = new Map();
-function transparentProduct(source) {
-  if (cutouts.has(source)) return cutouts.get(source);
-  const result = new Promise(resolve=>{
-    const image = new Image();
-    if (new URL(source,location.href).origin !== location.origin && !source.startsWith('data:')) {
-      image.crossOrigin = 'anonymous';
-    }
-    image.onerror = ()=>resolve(source);
-    image.onload = ()=>{
-      try {
-        const scale = Math.min(1,520/Math.max(image.naturalWidth,image.naturalHeight));
-        const canvas = document.createElement('canvas');
-        const w = canvas.width = Math.max(1,Math.round(image.naturalWidth*scale));
-        const h = canvas.height = Math.max(1,Math.round(image.naturalHeight*scale));
-        const ctx = canvas.getContext('2d',{willReadFrequently:true});
-        ctx.drawImage(image,0,0,w,h);
-        const pixels = ctx.getImageData(0,0,w,h);
-        const rgba = pixels.data;
-        const corners = [0,w-1,w*(h-1),w*h-1].map(i=>rgba.slice(i*4,i*4+4));
-        if (corners.some(pixel=>pixel[3]<250)) return resolve(source);
-        const distance = (a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
-        const reference = corners.find(a=>corners.filter(b=>distance(a,b)<48).length>=3);
-        if (!reference) return resolve(source);
-        const seen = new Uint8Array(w*h);
-        const queue = new Uint32Array(w*h);
-        let end = 0;
-        const visit = i=>{
-          if (seen[i]) return;
-          seen[i] = 1;
-          const p = i*4;
-          if (Math.hypot(rgba[p]-reference[0],rgba[p+1]-reference[1],rgba[p+2]-reference[2])>50) return;
-          queue[end++] = i;
-        };
-        for(let x=0;x<w;x++){visit(x);visit(w*(h-1)+x);}
-        for(let y=0;y<h;y++){visit(y*w);visit(y*w+w-1);}
-        for(let n=0;n<end;n++){
-          const i=queue[n], x=i%w;
-          rgba[i*4+3]=0;
-          if(x>0)visit(i-1);
-          if(x<w-1)visit(i+1);
-          if(i>=w)visit(i-w);
-          if(i<w*(h-1))visit(i+w);
-        }
-        if(end<w*h*.07 || end>w*h*.92) return resolve(source);
-        ctx.putImageData(pixels,0,0);
-        resolve(canvas.toDataURL('image/webp',.87));
-      } catch { resolve(source); }
-    };
-    image.src = source;
-  });
-  if (cutouts.size>=48) cutouts.delete(cutouts.keys().next().value);
-  cutouts.set(source,result);
-  return result;
-}
-function showProduct(photo,source){
-  photo.src = source;
-  transparentProduct(source).then(url=>{if(url!==source)photo.src=url});
-}
-
 function paint() {
   if (!count()) return;
   const width = stage.clientWidth;
@@ -254,7 +194,7 @@ function paint() {
     node.hidden = depth >= stops.length - 1;
     if (node.hidden) return;
     const photo = node.querySelector('img[data-src]');
-    if (photo) { showProduct(photo,photo.dataset.src); delete photo.dataset.src; }
+    if (photo) { photo.src = photo.dataset.src; delete photo.dataset.src; }
     const lower = Math.floor(depth);
     const upper = Math.min(lower + 1, stops.length - 1);
     const mix = column => stops[lower][column] + (stops[upper][column]-stops[lower][column])*(depth-lower);
