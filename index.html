@@ -90,7 +90,17 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 
 .home-runway{color:#fff2fa;font:1rem system-ui,sans-serif;margin:0 auto;max-width:90rem;padding:clamp(.75rem,2vw,1.5rem) clamp(.75rem,4vw,4rem) 1.25rem}
 .home-runway .caption h2{margin:.55rem 0 0}
-.home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}.home-runway .piece:has(> a){background:#28172b;color:#fff2fa}</style><style>.footer-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.25rem;margin:0 0 .75rem}.footer-contact a{color:inherit;text-decoration:underline;text-underline-offset:.2em}</style></head><body class="aymelek-runway-home aymelek-catalog">
+.home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}.home-runway .piece:has(> a){background:#28172b;color:#fff2fa}</style><style>.footer-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.25rem;margin:0 0 .75rem}.footer-contact a{color:inherit;text-decoration:underline;text-underline-offset:.2em}</style><style>
+.home-runway .runway-main{display:flex;flex-direction:column;gap:.8rem;min-width:0}
+.home-runway .runway-main .stage{flex:none}
+.home-runway .runway-edit{display:grid;grid-template-columns:minmax(0,1fr) clamp(5rem,16vw,10rem);align-items:center;flex:1;min-height:8rem;overflow:hidden;border:1px solid #86506f;border-radius:1rem;color:#fff2fa;background:radial-gradient(ellipse at 87% 62%,#784063 0%,transparent 52%),linear-gradient(110deg,#241426,#43233d);transition:border-color .2s}
+.home-runway .runway-edit:hover{border-color:#ffc2df}
+.home-runway .runway-edit-copy{display:grid;gap:.36rem;padding:.85rem clamp(.85rem,3vw,2rem)}
+.home-runway .runway-edit-season{font-size:.72rem;color:#ffd4ea;letter-spacing:.09em;text-transform:uppercase}
+.home-runway .runway-edit-copy strong{font:clamp(1.35rem,3vw,2.35rem)/1.05 Georgia,serif}
+.home-runway .runway-edit-action{font-size:.85rem;color:#ffd4ea;text-decoration:underline;text-underline-offset:.24em}
+.home-runway .runway-edit img{width:100%;height:clamp(7.25rem,12vw,10rem);object-fit:contain;object-position:center bottom;padding:.4rem .65rem 0;align-self:end;filter:drop-shadow(0 .25rem .8rem #1b0a1b)}
+</style></head><body class="aymelek-runway-home aymelek-catalog">
 <div class="ann" aria-live="polite"><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo</p><p>Yeni sezon modelleri burada</p><p>AYMELEK'e katıl, ilk siparişinde %10 indirim kazan</p></div>
 <header class="hdr"><div class="wrap"><div class="main">
 <div><button class="ib burger" aria-label="Menüyü aç"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><form class="search" role="search" action="products.html"><label class="sr" for="qd">Ara</label><input id="qd" name="q" type="search" placeholder="Elbise, ayakkabı, çanta ara…" autocomplete="off"><button aria-label="Ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></form></div>
@@ -108,12 +118,18 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 
 <section class="home-runway" aria-label="AYMELEK Defile" id="magaza-defile">
 <div class="grid">
+<div class="runway-main">
 <section class="stage" id="stage" tabindex="0" aria-label="Defile. Sürükleyin veya yön tuşlarını kullanın.">
 <div class="stars" id="stars" aria-hidden="true"></div><div class="line" id="line" aria-hidden="true"></div>
 <button class="season-return" type="button" hidden>Defileye dön</button><div class="caption"><p>İlkbahar / Yaz 2027</p><h2 tabindex="-1">AYMELEK Defile</h2></div>
 <div class="controls"><button type="button" id="prev" aria-label="Önceki kombin">‹</button><span class="counter" id="counter" role="status"></span><button type="button" id="next" aria-label="Sonraki kombin">›</button></div>
 <p class="fallback" id="fallback" hidden>Podyum görselleri yüklenemedi. Kombin parçalarını inceleyebilir veya mağazaya dönebilirsiniz.</p>
 </section>
+<a class="runway-edit" href="products.html?cat=new-arrivals">
+  <span class="runway-edit-copy"><span class="runway-edit-season">İlkbahar / Yaz 2027</span><strong>Yeni sezonu keşfet</strong><span class="runway-edit-action">Yeni gelenleri gör <span aria-hidden="true">→</span></span></span>
+  <img src="dress-assets/dress-1.webp" alt="" width="100" height="150" loading="lazy">
+</a>
+</div>
 <aside class="rail" aria-label="Kombin parçaları"><h2>Kombinin parçaları</h2><figure class="piece"></figure><figure class="piece"></figure>
 <div class="runway-cart" hidden aria-label="Podyum alışverişi">
   <div class="runway-cart-actions">
