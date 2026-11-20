@@ -137,35 +137,26 @@ body.aymelek-runway-home .hero .txt {
   .aymelek-runway-home .home-location iframe { height: 82px; }
 }
 
-.home-runway .runway-cart {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .65rem 1rem;
-  margin-top: .6rem;
-  padding: .7rem;
-  border: 1px solid #704360;
-  border-radius: .8rem;
-  background: #211322;
-}
-.home-runway .runway-item { display: grid; min-width: 0; gap: .2rem; }
+.home-runway .rail.rail-shopping { grid-template-rows: auto minmax(0, 1fr) auto; }
+.home-runway .rail [hidden] { display: none !important; }
+.home-runway .runway-cart { display: grid; gap: .55rem; }
+.home-runway .runway-item { display: grid; gap: .2rem; }
 .home-runway .runway-item span { color: #ffd4ea; font-size: .9rem; }
-.home-runway .runway-cart-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-inline-start: auto; }
+.home-runway .runway-cart-actions { display: flex; flex-wrap: wrap; gap: .45rem; }
 .home-runway .runway-cart-actions > * {
-  display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: .3rem;
-  border: 1px solid #936281; border-radius: .55rem; padding: .45rem .7rem; color: #fff2fa; font: inherit;
+  display: inline-flex; flex: 1 1 auto; min-height: 44px; align-items: center; justify-content: center;
+  border: 1px solid #936281; border-radius: .55rem; padding: .45rem .55rem;
+  color: #fff2fa; font: inherit; text-align: center;
 }
-.home-runway .runway-cart-actions :is(.runway-add,.runway-product):first-child,
+.home-runway .runway-add,
 .home-runway .runway-add[hidden] + .runway-product { background: #ffc2df; color: #291425; }
-.home-runway .runway-cart [hidden] { display: none; }
-.home-runway .runway-cart-message { width: 100%; color: #b6f4cb; font-size: .9rem; }
+.home-runway .runway-cart-message { margin: 0; color: #b6f4cb; font-size: .9rem; }
 .home-runway .runway-cart-message:empty { display: none; }
 #satin-al { scroll-margin-top: 9rem; }
 @media (max-width: 720px) {
-  .home-runway .runway-cart { position: sticky; bottom: max(.4rem,env(safe-area-inset-bottom)); z-index: 6; }
-  .home-runway .runway-cart-actions { width: 100%; }
-  .home-runway .runway-cart-actions > * { flex: 1 1 auto; font-size: .9rem; }
+  .home-runway .rail.rail-shopping { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 8rem auto; }
 }
-
-.product-basket-link{display:flex;justify-content:center;align-items:center;gap:.25em;width:100%;margin-top:10px;color:#171317;border-color:#171317;box-sizing:border-box}
+.purchase-star {
+  position: fixed; z-index: 10000; pointer-events: none; color: #ffd3ee;
+  text-shadow: 0 0 7px #ff72c5; line-height: 1;
+}
