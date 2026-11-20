@@ -116,3 +116,25 @@ dialog input{flex:1;min-width:0;padding:.7rem;background:#171217;color:var(--ink
   .shoe-strip{grid-auto-columns:80%;scroll-padding-inline-start:0}
   .orbit-mark{width:74px}
 }
+
+.orbit-showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,5vw,76px);padding-block:clamp(3rem,7vw,6rem);border-bottom:1px solid var(--line)}
+.product-dial{min-width:0;scroll-margin-top:18px;text-align:center}
+.product-dial h2{font-size:clamp(3rem,5vw,6rem)}
+.dial-stage{position:relative;isolation:isolate;height:clamp(280px,34vw,480px);touch-action:pan-y;cursor:grab;user-select:none}
+.dial-stage:active{cursor:grabbing}
+.dial-item{position:absolute;width:34%;height:58%;translate:-50% -50%;transform-origin:center;display:block}
+.dial-item[hidden]{display:none}
+.dial-item img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+.dial-item.is-front img{filter:drop-shadow(0 20px 22px #0007)}
+.dial-controls{display:flex;align-items:center;justify-content:center;gap:12px}
+.dial-controls .icon{font-size:1.75rem}
+.dial-controls .icon:disabled{opacity:.3}
+.dial-controls a{min-height:44px;display:grid;place-items:center;color:var(--rose)}
+.dial-status{margin:.2rem 0 0;font-size:.875rem;color:var(--muted)}
+.collection-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:760px){
+ .orbit-showcase{grid-template-columns:1fr}
+ .dial-stage{height:clamp(270px,77vw,390px)}
+ .collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .category-main{grid-column:auto;min-height:245px}
+}
