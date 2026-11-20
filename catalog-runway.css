@@ -47,7 +47,7 @@ body.aymelek-catalog :is(.ann, .hdr, .cats, .drawer nav, footer) {
   outline-offset: 3px;
 }
 .aymelek-runway-home .hero .txt {
-  background: radial-gradient(ellipse at 16% 32%, #542b4c, transparent 75%) !important;
+  background: linear-gradient(110deg, #542b4c, transparent 92%) !important;
 }
 .aymelek-runway-home .hero :is(h1, h1 em, .sub, .eyebrow, .perks) { color: #fff2fa; }
 .aymelek-runway-home .home-runway .caption h2 {
@@ -96,7 +96,6 @@ body.aymelek-catalog :is(.ann, .hdr, .cats, .drawer nav, footer) {
   body.aymelek-catalog .cats a[aria-current=true] { color: #ffc2df; }
   body.aymelek-runway-home .hero .txt {
     padding: 14px 16px 16px;
-    background: linear-gradient(110deg, #542b4c, transparent 92%) !important;
   }
   body.aymelek-runway-home .hero .eyebrow { margin-bottom: 5px; }
   body.aymelek-runway-home .hero h1 { font-size: clamp(26px, 7vw, 42px); }
@@ -113,19 +112,27 @@ body.aymelek-catalog :is(.ann, .hdr, .cats, .drawer nav, footer) {
     text-align: center;
   }
   body.aymelek-runway-home .hero .perks { margin-top: 11px; gap: 4px 10px; font-size: 11px; }
-  body.aymelek-runway-home .hero-location {
-    align-self: stretch;
-    margin-top: 9px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto minmax(0,1fr);
-    align-items: center;
-    column-gap: 12px;
-    row-gap: 3px;
-    justify-items: start;
-  }
-  body.aymelek-runway-home .hero-location .sl { grid-row: span 2; }
-  body.aymelek-runway-home .hero-location iframe { height: 54px; }
-  body.aymelek-runway-home .hero-location > a { color: #ffd4ea; }
+  body.aymelek-runway-home .hero-location { align-self: flex-start; margin-top: 9px; justify-items: start; }
   body.aymelek-runway-home .home-runway { scroll-margin-top: 122px; }
+}
+
+.aymelek-runway-home .home-location {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 1.3fr);
+  align-items: center;
+  gap: 1rem;
+  width: min(calc(100% - 32px), 680px);
+  margin: .75rem auto 1.5rem;
+  padding: 1rem;
+  border: 1px solid #704360;
+  border-radius: .8rem;
+  background: #211322aa;
+}
+.aymelek-runway-home .home-location h2 { margin: 0 0 .4rem; font: 1.15rem Georgia,serif; color: #fff2fa; }
+.aymelek-runway-home .home-location a { color: #ffd4ea; text-decoration: underline; }
+.aymelek-runway-home .home-location iframe { width: 100%; height: 108px; display: block; border: 0; border-radius: .5rem; opacity: .58; }
+.aymelek-runway-home .home-location iframe:is(:hover,:focus) { opacity: .9; }
+@media (max-width: 560px) {
+  .aymelek-runway-home .home-location { grid-template-columns: 1fr; gap: .65rem; }
+  .aymelek-runway-home .home-location iframe { height: 82px; }
 }
