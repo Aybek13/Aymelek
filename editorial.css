@@ -143,3 +143,6 @@ dialog input{flex:1;min-width:0;padding:.7rem;background:#171217;color:var(--ink
 .category[data-collection="intimates"]{background:radial-gradient(ellipse at 30% 26%,#714458,#291e2b 68%)}
 @media(max-width:900px){.top nav{gap:.8rem}.top nav a{font-size:.9rem}}
 @media(max-width:760px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top nav{justify-content:flex-start}}
+
+.dial-stage canvas{display:block;width:100%;height:100%;pointer-events:none}
+.model-hotspot{position:absolute;translate:-50% -50%;width:44px;height:44px;border:0;border-radius:50%;background:transparent}
