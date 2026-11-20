@@ -89,3 +89,30 @@ dialog input{flex:1;min-width:0;padding:.7rem;background:#171217;color:var(--ink
 }
 @media(max-width:430px){.section-head{align-items:start;flex-direction:column;gap:4px}.campaign{min-height:560px}.campaign-actions .text-link{min-height:34px}.category{min-height:180px}.category-main{min-height:310px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+
+/* Give the campaign ornament depth without altering the product photography. */
+.orbit-mark{
+  transform:translate3d(var(--drift-x,0px),var(--drift-y,0px),0);
+  transform-style:preserve-3d;
+  transition:transform .28s cubic-bezier(.22,.61,.36,1);
+  opacity:.82;
+}
+.orbit-mark::before{
+  content:"";position:absolute;inset:24%;border-radius:50%;
+  background:radial-gradient(circle at 31% 28%,#ffdfeb,#bc6b8e 18%,#572c47 46%,#160e19 73%);
+  box-shadow:0 0 24px #bf65854d,inset -7px -9px 17px #100913b3;
+}
+.orbit-mark i{border-color:#f9bdd68c;box-shadow:0 0 7px #ea90ae44;animation-name:editorial-orbit}
+@keyframes editorial-orbit{
+  from{transform:rotateZ(-25deg) rotateX(58deg)}
+  to{transform:rotateZ(335deg) rotateX(58deg)}
+}
+.shoe-strip figure{scroll-snap-stop:always;border:1px solid #473540}
+.shoe-strip img{background:#fff}
+.shoe-controls .icon:not(:disabled):hover{border-color:#e9a9bd;color:#f3c5d2}
+.shoe-strip:focus-visible{outline-offset:3px}
+@media(max-width:760px){
+  .shoe-strip{grid-auto-columns:80%;scroll-padding-inline-start:0}
+  .orbit-mark{width:74px}
+}
