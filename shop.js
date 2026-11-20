@@ -588,6 +588,45 @@ function mergeShowcaseDemo(local){
  return local.map(function(p){return [41,42,45].includes(p.id)?Object.assign({},p,{showcaseOrder:0,showcaseModel:''}):p}).concat(samples);
 }
 window.AYMELEK_MERGE_SHOWCASE=mergeShowcaseDemo;
-function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local.filter(validateProduct)).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+
+function mountHomeLook() {
+ const form = document.getElementById('ay-look-form');
+ if (!form) return;
+ const sets = [['clothing', 'tops'], ['bottoms'], ['shoes']];
+ const preferred = [20, 15, 25];
+ const pieces = sets.map((categories, i) => {
+  const item = pid(preferred[i]);
+  return item && item.avail && categories.includes(item.cat)
+   ? item : P.find(product => product.avail && categories.includes(product.cat));
+ }).filter(Boolean);
+ if (!pieces.length) return;
+ const rows = form.querySelector('[data-look-pieces]');
+ pieces.forEach(item => {
+  const row = document.createElement('div');
+  const link = document.createElement('a');
+  const photo = document.createElement('img');
+  photo.src = img(item, 0);
+  photo.alt = '';
+  link.href = 'product.html?id=' + encodeURIComponent(item.id);
+  link.append(photo, item.name);
+  const select = document.createElement('select');
+  select.name = 'size-' + item.id;
+  select.required = true;
+  select.setAttribute('aria-label', item.name + ' beden veya numara');
+  select.add(new Option('Seç', ''));
+  item.sizes.filter(size => item.stock[size] > 0).forEach(size => select.add(new Option(size, size)));
+  row.append(link, select);
+  rows.append(row);
+ });
+ form.hidden = false;
+ form.addEventListener('submit', event => {
+  event.preventDefault();
+  const sizes = new FormData(form);
+  pieces.forEach(item => addCart(item.id, sizes.get('size-' + item.id), item.colors[0][0], 1));
+  location.href = 'cart.html';
+ });
+}
+
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local.filter(validateProduct)).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}mountHomeLook();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
 fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.some(validateProduct))P=j.filter(validateProduct).map(norm)}).catch(function(){}).then(go);})();
