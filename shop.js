@@ -595,96 +595,24 @@ function inCategory(p,cat){
  return !CN[cat]||p.cat===cat;
 }
 function homeProducts(){
- const section=$('#kategoriler[data-product-stage]');
- if(!section)return;
- const track=$('.product-stage-track',section), heading=$('h2',section);
- const status=$('[role=status]',section), detail=$('.product-stage-detail',section);
- const controls=$('.product-stage-controls',section);
+ const runway=$('#magaza-defile');
+ if(!runway)return;
  const links=[...document.querySelectorAll('.cats a,.drawer a,.hero .btns a')].filter(a=>a.getAttribute('href').startsWith('products.html'));
- let items=[], index=0, drag=null, dragged=false;
-
- function draw(){
-  track.replaceChildren();
-  controls.hidden=items.length<2;
-  detail.hidden=!items.length;
-  if(!items.length){status.textContent='Bu kategoride ürün bulunamadı.';return}
-  const active=items[index];
-  const slots=items.length===1?[0]:items.length===2?[0,1]:[-1,0,1];
-  slots.forEach(offset=>{
-   const item=items[(index+offset+items.length)%items.length];
-   const tile=document.createElement(offset===0?'a':'button');
-   tile.className='product-stage-tile';
-   tile.dataset.offset=offset;
-   if(offset===0)tile.href='product.html?id='+item.id;
-   else{tile.type='button';tile.setAttribute('aria-label',item.name+' ürününü göster')}
-   const photo=new Image();
-   photo.src=img(item);
-   photo.alt=item.name;
-   photo.draggable=false;
-   tile.append(photo);
-   track.append(tile);
-  });
-  detail.href='product.html?id='+active.id;
-  $('.product-stage-name',detail).textContent=active.name;
-  $('.product-stage-price',detail).textContent=f(active.price);
-  status.textContent=(index+1)+' / '+items.length+' · '+active.name;
- }
- function move(offset,focus){
-  if(items.length<2)return;
-  index=(index+offset+items.length)%items.length;
-  draw();
-  if(focus)$('[data-offset="0"]',track).focus({preventScroll:true});
- }
- function select(cat,scroll){
-  heading.textContent=CN[cat]||({'new-arrivals':'Yeni Gelenler',sale:'İndirim'}[cat])||'Tüm Ürünler';
-  items=P.filter(p=>inCategory(p,cat));
-  index=0;
-  links.forEach(a=>{
-   if((new URL(a.href).searchParams.get('cat')||'all')===cat)a.setAttribute('aria-current','true');
-   else a.removeAttribute('aria-current');
-  });
-  draw();
-  if(scroll){
-   section.scrollIntoView({block:'start'});
-   heading.focus({preventScroll:true});
-  }
- }
- links.forEach(a=>a.addEventListener('click',e=>{
-  if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
-  e.preventDefault();
+ const category=a=>new URL(a.href).searchParams.get('cat')||'all';
+ links.forEach(a=>a.addEventListener('click',event=>{
+  if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  const cat=category(a);
   const drawer=$('.drawer');
-  if(drawer.classList.contains('open'))$('.drawer .x').click();
-  select(new URL(a.href).searchParams.get('cat')||'all',true);
+  if(drawer?.classList.contains('open'))$('.drawer .x').click();
+  links.forEach(link=>{
+   if(category(link)===cat)link.setAttribute('aria-current','true');
+   else link.removeAttribute('aria-current');
+  });
+  const title=CN[cat]||({'new-arrivals':'Yeni Gelenler',sale:'İndirim'}[cat])||'Tüm Ürünler';
+  const products=P.filter(p=>inCategory(p,cat)).map(p=>({id:p.id,name:p.name,image:img(p),price:f(p.price)}));
+  runway.dispatchEvent(new CustomEvent('aymelek:category',{detail:{title,products}}));
  }));
- controls.addEventListener('click',e=>{
-  const button=e.target.closest('[data-step]');
-  if(button)move(Number(button.dataset.step),false);
- });
- track.addEventListener('click',e=>{
-  if(dragged&&e.detail){e.preventDefault();return}
-  const tile=e.target.closest('button[data-offset]');
-  if(tile)move(Number(tile.dataset.offset),e.detail===0);
- });
- section.addEventListener('keydown',e=>{
-  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
-  e.preventDefault();
-  move(e.key==='ArrowLeft'?-1:1,track.contains(document.activeElement));
- });
- track.addEventListener('pointerdown',e=>{
-  if(!e.isPrimary||e.button!==0)return;
-  dragged=false;
-  drag={id:e.pointerId,x:e.clientX,y:e.clientY};
- });
- window.addEventListener('pointerup',e=>{
-  if(drag?.id!==e.pointerId)return;
-  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-  drag=null;
-  if(Math.abs(dx)<38||Math.abs(dx)<=Math.abs(dy))return;
-  dragged=true;
-  move(dx<0?1:-1,false);
- });
- track.addEventListener('pointercancel',()=>{drag=null;dragged=false});
- select('all',false);
 }
 function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local.filter(validateProduct)).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
