@@ -166,28 +166,3 @@ body:not([data-page=admin]) .category-section .cc,
 body:not([data-page=admin]) .pv .bottle-card[aria-pressed=true] {
   border-color: var(--ln);
 }
-
-/* Editorial storefront palette. The admin retains its own interface. */
-body:not([data-page=admin]) {
-  --midnight:#141014;
-  --pink:#e9a9bd;
-  --jade:#e9a9bd;
-  --ink:#f7ede8;
-  --mut:#d0bfc5;
-  --pnl:#261d25;
-  --ln:#493743;
-  --soft:#1b151c;
-  --lpink:#30252e;
-  --serif:"Playfair Display",Georgia,serif;
-  background:#141014!important;
-}
-body:not([data-page=admin]) .hdr,
-body:not([data-page=admin]) .msb,
-body:not([data-page=admin]) footer {background:#1a131a}
-body:not([data-page=admin]) .drawer nav {background:#241924}
-body:not([data-page=admin]) .search input::placeholder {color:#cbb9c2}
-body:not([data-page=admin]) .wb {background:#211820de}
-body:not([data-page=admin]) .btn.wa {color:#0c2919!important}
-body:not([data-page=admin]) > canvas[aria-hidden=true]:first-child {display:none}
-body:not([data-page=admin]) :focus-visible {outline-color:#e9a9bd}
-@media(prefers-reduced-motion:reduce) {html {scroll-behavior:auto}}
