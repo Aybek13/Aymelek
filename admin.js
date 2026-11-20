@@ -8,9 +8,9 @@ function price(p){return Math.round(p.orig*(100-p.disc)/100)}
 function total(p){return Object.keys(p.stock).reduce(function(s,k){return s+p.stock[k]},0)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(list));try{localStorage.setItem('aymelek_showcase_six','1');localStorage.setItem('aymelek_shoes_2026','1');localStorage.setItem('aymelek_new_categories_2026','1')}catch(e){}return true}catch(e){return false}}
 function init(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY))}catch(e){}
- if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d);if(!localStorage.getItem('aymelek_shoes_2026'))list=window.AYMELEK_INCLUDE_LAUNCH_SHOES(list);if(!localStorage.getItem('aymelek_new_categories_2026'))list=window.AYMELEK_INCLUDE_NEW_CATEGORIES(list);list=list.map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
- fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){list=Array.isArray(j)&&j.length?j.map(window.AYMELEK_NORMALIZE_PRODUCT):JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note=Array.isArray(j)&&j.length?'Yayındaki products.json yüklendi.':'Örnek ürünler yüklendi (yayında products.json yok).'}).catch(function(){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note='Örnek ürünler yüklendi.'}).then(draw)}
-function img(p){return p.images&&p.images[0]?p.images[0]:'logo.png'}
+ if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d);if(!localStorage.getItem('aymelek_shoes_2026'))list=window.AYMELEK_INCLUDE_LAUNCH_SHOES(list);if(!localStorage.getItem('aymelek_new_categories_2026'))list=window.AYMELEK_INCLUDE_NEW_CATEGORIES(list);list=window.AYMELEK_APPLY_CATALOG_IMAGES(list.map(window.AYMELEK_NORMALIZE_PRODUCT));note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
+ fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){list=Array.isArray(j)&&j.length?window.AYMELEK_APPLY_CATALOG_IMAGES(j.map(window.AYMELEK_NORMALIZE_PRODUCT)):JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note=Array.isArray(j)&&j.length?'Yayındaki products.json yüklendi.':'Örnek ürünler yüklendi (yayında products.json yok).'}).catch(function(){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note='Örnek ürünler yüklendi.'}).then(draw)}
+function img(p){return p.images?.[0]||''}
 function dash(){var units=0,val=0,out=[],low=[],dc=0,by={};list.forEach(function(p){var t=total(p);units+=t;val+=t*price(p);if(p.disc)dc++;by[p.cat]=(by[p.cat]||0)+1;if(t==0)out.push(p);else if(Object.keys(p.stock).some(function(k){return p.stock[k]>0&&p.stock[k]<=2}))low.push(p)});
  return'<div class="kp"><div><span>ÜRÜN</span><b>'+list.length+'</b></div><div><span>TOPLAM STOK</span><b>'+units+'</b></div><div><span>STOK DEĞERİ</span><b>'+f(val)+'</b></div><div><span>İNDİRİMLİ</span><b>'+dc+'</b></div><div><span>TÜKENEN</span><b class="'+(out.length?'low':'')+'">'+out.length+'</b></div></div>'+
  '<div class="card"><h3>Düşük stok ve tükenenler</h3>'+((low.length+out.length)?'<table class="tb">'+out.concat(low).map(function(p){return'<tr><td>'+esc(p.name)+'</td><td>'+(total(p)?'<span class="low">Az kaldı</span>':'<span class="low">Tükendi</span>')+'</td><td><button class="ab" data-e="'+p.id+'">Düzenle</button></td></tr>'}).join('')+'</table>':'<p>Düşük stoklu ürün yok.</p>')+'</div>'+
@@ -22,7 +22,7 @@ function prods(){
  var cards=list.map(function(p){
   var quantity=total(p),category=p.showcaseOrder?'3D Vitrin':(CN[p.cat]||p.cat);
   return '<article class="admin-product" data-n="'+esc(p.name.toLocaleLowerCase('tr'))+'" data-cat="'+esc(p.showcaseOrder?'showcase':p.cat)+'">'+
-   '<img src="'+esc(img(p))+'" alt="" loading="lazy"><small>'+esc(category)+'</small><h2>'+esc(p.name)+'</h2>'+
+   (img(p)?'<img src="'+esc(img(p))+'" alt="" loading="lazy">':'<p class="admin-no-photo">Ürün görseli yok</p>')+'<small>'+esc(category)+'</small><h2>'+esc(p.name)+'</h2>'+
    '<div>'+(p.disc?'<s>'+f(+p.orig)+'</s> ':'')+'<strong>'+(p.orig>0?f(price(p)):'Fiyat yakında')+'</strong></div><small class="stock'+(quantity<1?' low':'')+'">'+(quantity<1?'Tükendi':'Stok: '+quantity)+'</small>'+
    '<div class="admin-actions"><button type="button" class="ab" data-e="'+esc(p.id)+'">Düzenle</button><button type="button" class="ab d" data-d="'+esc(p.id)+'">Sil</button></div></article>';
  }).join('');
@@ -35,7 +35,7 @@ function form(){var p=edit,sz=sizesOf(p.cat),cn=p.colors.map(function(c){return 
  '<div class="w ck"><label style="color:#858085;font-size:12px;letter-spacing:.08em;display:block">RENKLER</label>'+COL.map(function(c){return'<label><input type="checkbox" name="fc" value="'+c[0]+'"'+(cn.indexOf(c[0])>-1?' checked':'')+'>'+c[0]+'</label>'}).join('')+'</div>'+
  '<div class="w"><label>STOK (beden başına adet)</label>'+sz.map(function(s){return'<span class="st">'+s+'<input type="number" min="0" data-s="'+s+'" value="'+(p.stock[s]||0)+'"></span>'}).join('')+'</div>'+
  '<div class="w ck"><label><input type="checkbox" id="f_new"'+(p.isNew?' checked':'')+'>Yeni gelen</label><label><input type="checkbox" id="f_best"'+(p.best?' checked':'')+'>Çok satan</label></div>'+
- '<div class="w"><label>Ürün fotoğrafları (isteğe bağlı)<input id="f_files" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><p>JPEG, PNG veya WebP. Fotoğraf eklenmezse örnek görsel kullanılır.</p><div id="f_photos" style="display:flex;gap:10px;flex-wrap:wrap"></div></div><label class="w">Açıklama<textarea id="f_desc" rows="3">'+esc(p.desc)+'</textarea></label><label class="w">Malzeme ve bakım<textarea id="f_mat" rows="2">'+esc(p.mat)+'</textarea></label></div><div id="fe" class="msg" role="alert"></div><button class="ab pr" id="sv">Kaydet</button><button class="ab" id="cx">Vazgeç</button></div>'}
+ '<div class="w"><label>Ürün fotoğrafları (isteğe bağlı)<input id="f_files" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><p>JPEG, PNG veya WebP. Yüklenen fotoğraflar WebP olarak kaydedilir.</p><div id="f_photos" style="display:flex;gap:10px;flex-wrap:wrap"></div></div><label class="w">Açıklama<textarea id="f_desc" rows="3">'+esc(p.desc)+'</textarea></label><label class="w">Malzeme ve bakım<textarea id="f_mat" rows="2">'+esc(p.mat)+'</textarea></label></div><div id="fe" class="msg" role="alert"></div><button class="ab pr" id="sv">Kaydet</button><button class="ab" id="cx">Vazgeç</button></div>'}
 function pub(){return'<div class="card"><h3>Demo kataloğu</h3><p>Ürünler ve fotoğraflar bu tarayıcıdaki mağazaya yansır.</p><a class="ab pr" href="products.html">Mağazayı aç</a> <button class="ab" id="dl">Katalog yedeğini indir</button> <label class="ab" style="display:inline-block;cursor:pointer">Yedek yükle<input id="im" type="file" accept="application/json" hidden></label> <button class="ab d" id="rs">Örnek ürünlere sıfırla</button></div>'}
 
 var DK='aymelek_demo_orders',orders=[],per='day',of='';
@@ -81,8 +81,9 @@ function preparePhoto(file){
     var scale=Math.min(1,960/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');
     c.width=Math.max(1,Math.round(img.naturalWidth*scale));c.height=Math.max(1,Math.round(img.naturalHeight*scale));
     var ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);
-    // WebP keeps transparency. Browsers without a WebP encoder fall back to PNG.
-    resolve(file.type==='image/jpeg'?c.toDataURL('image/jpeg',.76):c.toDataURL('image/webp',.88));
+    var photo=c.toDataURL('image/webp',.88);
+    if(!photo.startsWith('data:image/webp;base64,')){reject(new Error('Bu tarayıcı WebP olarak kaydedemiyor.'));return}
+    resolve(photo);
    }catch(e){reject(new Error('Fotoğraf işlenemedi.'))}
   };
   img.src=url;

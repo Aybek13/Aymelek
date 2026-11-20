@@ -988,6 +988,7 @@ function applyCatalogImages(products){
 }
 P=applyCatalogImages(P);
 window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
+window.AYMELEK_APPLY_CATALOG_IMAGES=applyCatalogImages;
 window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_VALIDATE_PRODUCT=validateProduct;
 function mergeShowcaseDemo(local){
  if(localStorage.getItem('aymelek_showcase_six')||local.some(function(p){return p.id>=201&&p.id<=206}))return local.map(function(p){var demo=window.AYMELEK_DEFAULTS.find(function(item){return item.id===p.id&&item.id>=201&&item.id<=206});if(!demo||p.images&&p.images.length)return p;return Object.assign({},p,{images:demo.images})});
