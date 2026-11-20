@@ -80,8 +80,9 @@ function preparePhoto(file){
    try{
     var scale=Math.min(1,960/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');
     c.width=Math.max(1,Math.round(img.naturalWidth*scale));c.height=Math.max(1,Math.round(img.naturalHeight*scale));
-    var ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);
-    resolve(c.toDataURL('image/jpeg',.76));
+    var ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);
+    // WebP keeps transparency. Browsers without a WebP encoder fall back to PNG.
+    resolve(file.type==='image/jpeg'?c.toDataURL('image/jpeg',.76):c.toDataURL('image/webp',.88));
    }catch(e){reject(new Error('Fotoğraf işlenemedi.'))}
   };
   img.src=url;
