@@ -22,6 +22,7 @@ function rd(k){try{var v=JSON.parse(localStorage.getItem(k));return Array.isArra
 function wr(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}counters()}
 function counters(){var c=rd('aymelek_cart').reduce(function(s,i){return s+i.qty},0),w=rd('aymelek_wishlist').length;
  $$('[data-count=cart]').forEach(function(e){e.textContent=c;e.dataset.n=c});$$('[data-count=wish]').forEach(function(e){e.textContent=w;e.dataset.n=w})}
+function productPrice(p){return p.price>0?f(p.price):'Fiyat yakında'}
 function pid(id){return P.filter(function(p){return p.id==id})[0]}
 function img(p,ci,v){if(p.images&&safeImage(p.images[v||0]))return p.images[v||0];var c=p.colors[ci||0][1],dk=c=='#171317'||c=='#7A2237',t=dk?'#fff':'#171317',v=v||0;
  var sh=v==0?'<circle cx="150" cy="170" r="90" fill="#fff" opacity=".3"/>':v==1?'<rect x="70" y="80" width="160" height="200" fill="#fff" opacity=".3" transform="rotate(8 150 180)"/>':'<circle cx="110" cy="150" r="55" fill="#fff" opacity=".3"/><circle cx="190" cy="220" r="55" fill="#fff" opacity=".3"/>';
@@ -48,7 +49,7 @@ function chrome(){
 function htmlText(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function safeImage(value){if(typeof value!=='string')return false;if(/^data:image\/(?:png|jpeg|webp|gif|avif);base64,[a-z0-9+/=]+$/i.test(value))return true;try{var url=new URL(value,location.href);return url.protocol==='https:'&&!url.username&&!url.password}catch(e){return false}}
 function card(p,extra){var w=rd('aymelek_wishlist').indexOf(p.id)>-1;
- return'<article class="pc"><a class="pi" href="product.html?id='+htmlText(p.id)+'"><img loading="lazy" src="'+htmlText(img(p))+'" alt="'+htmlText(p.name)+'" width="300" height="400">'+(p.isNew?'<span class="tag">YENİ</span>':p.best?'<span class="tag">ÇOK SATAN</span>':'')+(p.disc?'<span class="off">-%'+p.disc+'</span>':'')+'</a><button class="wb'+(w?' on':'')+'" data-w="'+htmlText(p.id)+'" aria-label="Favorilere ekle/çıkar" aria-pressed="'+w+'">'+ic('h')+'</button><div class="pn">'+htmlText(p.name)+'</div><div class="pp">'+(p.disc?'<b class="r">'+f(p.price)+'</b><s>'+f(p.orig)+'</s>':'<b>'+f(p.price)+'</b>')+'</div><div class="sw">'+p.colors.map(function(c){return'<i title="'+htmlText(c[0])+'" style="background:'+( /^#[0-9a-f]{3,8}$/i.test(c[1]) ? c[1] : '#888' )+'"></i>'}).join('')+'</div><div class="sz">'+(p.avail?p.sizes.join(' · '):'Tükendi')+'</div>'+(extra||'')+'</article>'}
+ return'<article class="pc"><a class="pi" href="product.html?id='+htmlText(p.id)+'"><img loading="lazy" src="'+htmlText(img(p))+'" alt="'+htmlText(p.name)+'" width="300" height="400">'+(p.isNew?'<span class="tag">YENİ</span>':p.best?'<span class="tag">ÇOK SATAN</span>':'')+(p.disc?'<span class="off">-%'+p.disc+'</span>':'')+'</a><button class="wb'+(w?' on':'')+'" data-w="'+htmlText(p.id)+'" aria-label="Favorilere ekle/çıkar" aria-pressed="'+w+'">'+ic('h')+'</button><div class="pn">'+htmlText(p.name)+'</div><div class="pp">'+(p.disc?'<b class="r">'+productPrice(p)+'</b><s>'+f(p.orig)+'</s>':'<b>'+productPrice(p)+'</b>')+'</div><div class="sw">'+p.colors.map(function(c){return'<i title="'+htmlText(c[0])+'" style="background:'+( /^#[0-9a-f]{3,8}$/i.test(c[1]) ? c[1] : '#888' )+'"></i>'}).join('')+'</div><div class="sz">'+(p.avail?p.sizes.join(' · '):'Tükendi')+'</div>'+(extra||'')+'</article>'}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-w]');if(!b)return;var id=+b.dataset.w,w=rd('aymelek_wishlist'),i=w.indexOf(id);i>-1?w.splice(i,1):w.push(id);wr('aymelek_wishlist',w);
  if(document.body.dataset.page=='wishlist')return pages.wishlist();$$('[data-w="'+id+'"]').forEach(function(x){x.classList.toggle('on',i<0);x.setAttribute('aria-pressed',i<0)})});
 function addCart(id,size,color,qty){var c=rd('aymelek_cart'),m=c.filter(function(x){return x.id==id&&x.size==size&&x.color==color})[0],mx=pid(id).stock[size];
@@ -78,10 +79,10 @@ pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.ge
  fl.addEventListener('change',function(){if(innerWidth>1000)fl.classList.remove('open')});run()};
 pages.product=function(){var p=pid(new URLSearchParams(location.search).get('id')),app=$('#app');
  if(!p){app.innerHTML='<div class="wrap pw empty"><p>Ürün bulunamadı.</p><a class="btn o" href="products.html">TÜM ÜRÜNLER</a></div>';return}
- document.title=p.name+' — AYMELEK';try{var ld=document.createElement('script');ld.type='application/ld+json';ld.textContent=JSON.stringify({'@context':'https://schema.org','@type':'Product',name:p.name,description:p.desc,brand:{'@type':'Brand',name:p.brand},image:(p.images&&p.images.length?[new URL(p.images[0],location.href).href]:[]),offers:{'@type':'Offer',priceCurrency:'TRY',price:String(p.price),availability:p.avail?'https://schema.org/InStock':'https://schema.org/OutOfStock',url:location.href}});document.head.appendChild(ld)}catch(e){}var S={size:p.sizes.length==1&&p.stock[p.sizes[0]]>0?p.sizes[0]:null,ci:p.colors.length==1?0:-1,qty:1,v:0,d3:false},w=rd('aymelek_wishlist').indexOf(p.id)>-1;
+ document.title=p.name+' — AYMELEK';try{var ld=document.createElement('script');ld.type='application/ld+json';ld.textContent=JSON.stringify({'@context':'https://schema.org','@type':'Product',name:p.name,description:p.desc,brand:{'@type':'Brand',name:p.brand},image:(p.images&&p.images.length?[new URL(p.images[0],location.href).href]:[]),offers:p.price>0?{'@type':'Offer',priceCurrency:'TRY',price:String(p.price),availability:p.avail?'https://schema.org/InStock':'https://schema.org/OutOfStock',url:location.href}:undefined});document.head.appendChild(ld)}catch(e){}var S={size:p.sizes.length==1&&p.stock[p.sizes[0]]>0?p.sizes[0]:null,ci:p.colors.length==1?0:-1,qty:1,v:0,d3:false},w=rd('aymelek_wishlist').indexOf(p.id)>-1;
  var rel=P.filter(function(x){return x.cat==p.cat&&x.id!=p.id}).slice(0,4);
  function draw(){if(window.__b3){window.__b3.stop();window.__b3=null}var ci=Math.max(S.ci,0),tot=S.size?p.stock[S.size]:0;
-  app.innerHTML='<div class="wrap pw"><p class="ps"><a href="index.html">Ana Sayfa</a> / <a href="products.html?cat='+htmlText(p.cat)+'">'+CN[p.cat]+'</a> / '+htmlText(p.name)+'</p><div class="pd"><div class="gal"><div class="th">'+(p.images&&p.images.length?p.images.map(function(_,i){return i}):[0,1,2]).map(function(v){return'<button type="button" data-v="'+v+'" class="'+(v===S.v?'on':'')+'" aria-label="Görsel '+(v+1)+'"><img src="'+htmlText(img(p,ci,v))+'" alt=""></button>'}).join('')+(p.bottle?'<button type="button" data-v="d" class="'+(S.v==='d'?'on':'')+'" aria-label="3D görünüm" style="font-size:13px;letter-spacing:.1em;border:1px solid #171317;aspect-ratio:3/4">3D</button>':'')+'</div>'+(S.v==='d'?'<div class="mn" id="mn3" style="cursor:grab;position:relative;background:#FCE8EF"><canvas id="bc" style="width:100%;height:100%;display:block;touch-action:pan-y" aria-label="Dönen 3 boyutlu ürün" role="img"></canvas><span style="position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.12em;color:#858085">DÖNDÜRMEK İÇİN SÜRÜKLEYİN</span></div>':'<div class="mn" id="mn"><img src="'+htmlText(img(p,ci,S.v))+'" alt="'+htmlText(p.name)+'" width="300" height="400"></div>')+'</div><div class="info"><h1>'+htmlText(p.name)+'</h1><div class="pp">'+(p.disc?'<b class="r">'+f(p.price)+'</b><s>'+f(p.orig)+'</s> <span style="color:#F4A3BE;font-size:14px">-%'+p.disc+'</span>':'<b>'+f(p.price)+'</b>')+'</div><div class="dm">Örnek ürün ve örnek görsel.</div><h4>RENK'+(S.ci>-1?': '+htmlText(p.colors[S.ci][0].toUpperCase()):'')+'</h4><div class="row" style="display:flex;gap:6px;flex-wrap:wrap">'+p.colors.map(function(c,i){return'<label class="chip"><input type="radio" name="co" value="'+i+'"'+(i==S.ci?' checked':'')+'><span class="dot" title="'+htmlText(c[0])+'" style="background:'+( /^#[0-9a-f]{3,8}$/i.test(c[1]) ? c[1] : '#888' )+'"></span></label>'}).join('')+'</div><h4>BEDEN</h4><div style="display:flex;gap:6px;flex-wrap:wrap">'+p.sizes.map(function(s){var o=p.stock[s]<1;return'<label class="chip"><input type="radio" name="sz" value="'+htmlText(s)+'"'+(o?' disabled':'')+(s==S.size?' checked':'')+'><span style="'+(o?'opacity:.35;text-decoration:line-through;cursor:not-allowed':'')+'">'+htmlText(s)+'</span></label>'}).join('')+'</div><div class="stk'+(S.size&&tot<=3&&tot>0?' lo':'')+'">'+(!p.avail?'Tükendi':S.size?(tot<=3?'Son '+tot+' adet!':'Stokta var'):'Stokta var — beden seçin')+'</div><h4>ADET</h4><div class="qty"><button type="button" id="qm" aria-label="Azalt">−</button><span>'+S.qty+'</span><button type="button" id="qp" aria-label="Artır">+</button></div><div class="msg" id="msg" role="alert"></div><button class="btn add" id="add"'+(p.avail?'':' disabled')+'>'+(p.avail?'SEPETE EKLE':'TÜKENDİ')+'</button><button class="btn o" id="wl" type="button" style="width:100%;margin-top:10px;color:#171317;border-color:#171317">'+(w?'♥ FAVORİLERDEN ÇIKAR':'♡ FAVORİLERE EKLE')+'</button><h4 style="margin-top:28px">AÇIKLAMA</h4><p style="font-size:14px">'+htmlText(p.desc)+'</p><details><summary>MALZEME VE BAKIM</summary><p>'+htmlText(p.mat)+'</p></details><details><summary>KARGO VE İADE</summary><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo. Altındaki siparişlerde kargo ücreti '+f(SHIP)+'. Kolay iade (örnek metin).</p></details></div></div>'+(rel.length?'<h2 class="pt" style="margin-top:64px;font-size:26px">Bunları da beğenebilirsin</h2><div class="pg" style="margin-top:20px">'+rel.map(function(x){return card(x)}).join('')+'</div>':'')+'</div>';
+  app.innerHTML='<div class="wrap pw"><p class="ps"><a href="index.html">Ana Sayfa</a> / <a href="products.html?cat='+htmlText(p.cat)+'">'+CN[p.cat]+'</a> / '+htmlText(p.name)+'</p><div class="pd"><div class="gal"><div class="th">'+(p.images&&p.images.length?p.images.map(function(_,i){return i}):[0,1,2]).map(function(v){return'<button type="button" data-v="'+v+'" class="'+(v===S.v?'on':'')+'" aria-label="Görsel '+(v+1)+'"><img src="'+htmlText(img(p,ci,v))+'" alt=""></button>'}).join('')+(p.bottle?'<button type="button" data-v="d" class="'+(S.v==='d'?'on':'')+'" aria-label="3D görünüm" style="font-size:13px;letter-spacing:.1em;border:1px solid #171317;aspect-ratio:3/4">3D</button>':'')+'</div>'+(S.v==='d'?'<div class="mn" id="mn3" style="cursor:grab;position:relative;background:#FCE8EF"><canvas id="bc" style="width:100%;height:100%;display:block;touch-action:pan-y" aria-label="Dönen 3 boyutlu ürün" role="img"></canvas><span style="position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.12em;color:#858085">DÖNDÜRMEK İÇİN SÜRÜKLEYİN</span></div>':'<div class="mn" id="mn"><img src="'+htmlText(img(p,ci,S.v))+'" alt="'+htmlText(p.name)+'" width="300" height="400"></div>')+'</div><div class="info"><h1>'+htmlText(p.name)+'</h1><div class="pp">'+(p.disc?'<b class="r">'+productPrice(p)+'</b><s>'+f(p.orig)+'</s> <span style="color:#F4A3BE;font-size:14px">-%'+p.disc+'</span>':'<b>'+productPrice(p)+'</b>')+'</div><div class="dm">Örnek ürün ve örnek görsel.</div><h4>RENK'+(S.ci>-1?': '+htmlText(p.colors[S.ci][0].toUpperCase()):'')+'</h4><div class="row" style="display:flex;gap:6px;flex-wrap:wrap">'+p.colors.map(function(c,i){return'<label class="chip"><input type="radio" name="co" value="'+i+'"'+(i==S.ci?' checked':'')+'><span class="dot" title="'+htmlText(c[0])+'" style="background:'+( /^#[0-9a-f]{3,8}$/i.test(c[1]) ? c[1] : '#888' )+'"></span></label>'}).join('')+'</div><h4>BEDEN</h4><div style="display:flex;gap:6px;flex-wrap:wrap">'+p.sizes.map(function(s){var o=p.stock[s]<1;return'<label class="chip"><input type="radio" name="sz" value="'+htmlText(s)+'"'+(o?' disabled':'')+(s==S.size?' checked':'')+'><span style="'+(o?'opacity:.35;text-decoration:line-through;cursor:not-allowed':'')+'">'+htmlText(s)+'</span></label>'}).join('')+'</div><div class="stk'+(S.size&&tot<=3&&tot>0?' lo':'')+'">'+(!p.avail?'Tükendi':S.size?(tot<=3?'Son '+tot+' adet!':'Stokta var'):'Stokta var — beden seçin')+'</div><h4>ADET</h4><div class="qty"><button type="button" id="qm" aria-label="Azalt">−</button><span>'+S.qty+'</span><button type="button" id="qp" aria-label="Artır">+</button></div><div class="msg" id="msg" role="alert"></div><button class="btn add" id="add"'+(p.avail?'':' disabled')+'>'+(p.avail?'SEPETE EKLE':'TÜKENDİ')+'</button><button class="btn o" id="wl" type="button" style="width:100%;margin-top:10px;color:#171317;border-color:#171317">'+(w?'♥ FAVORİLERDEN ÇIKAR':'♡ FAVORİLERE EKLE')+'</button><h4 style="margin-top:28px">AÇIKLAMA</h4><p style="font-size:14px">'+htmlText(p.desc)+'</p><details><summary>MALZEME VE BAKIM</summary><p>'+htmlText(p.mat)+'</p></details><details><summary>KARGO VE İADE</summary><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo. Altındaki siparişlerde kargo ücreti '+f(SHIP)+'. Kolay iade (örnek metin).</p></details></div></div>'+(rel.length?'<h2 class="pt" style="margin-top:64px;font-size:26px">Bunları da beğenebilirsin</h2><div class="pg" style="margin-top:20px">'+rel.map(function(x){return card(x)}).join('')+'</div>':'')+'</div>';
   $$('[data-v]').forEach(function(b){b.onclick=function(){S.v=b.dataset.v=='d'?'d':+b.dataset.v;draw()}});if(S.v==='d'&&window.Bottle3D)window.__b3=Bottle3D.mount($('#bc'),{color:p.bottle,label:p.label,logo:'logo.png'});
   $$('input[name=co]').forEach(function(i){i.onchange=function(){S.ci=+i.value;draw()}});$$('input[name=sz]').forEach(function(i){i.onchange=function(){S.size=i.value;S.qty=Math.min(S.qty,p.stock[S.size]);draw()}});
   $('#qm').onclick=function(){if(S.qty>1){S.qty--;draw()}};$('#qp').onclick=function(){var mx=S.size?p.stock[S.size]:10;if(S.qty<mx){S.qty++;draw()}};
@@ -110,13 +111,13 @@ pages.static=function(){};
 function validateProduct(p){
  if(!p||typeof p!=='object'||!Number.isSafeInteger(Number(p.id))||Number(p.id)<1||
     typeof p.name!=='string'||!p.name.trim()||p.name.length>200||
-    !Object.prototype.hasOwnProperty.call(CN,p.cat)||!Number.isFinite(Number(p.orig))||Number(p.orig)<=0||
+    !Object.prototype.hasOwnProperty.call(CN,p.cat)||!Number.isFinite(Number(p.orig))||Number(p.orig)<0||(Number(p.orig)===0&&p.orig!==0)||
     !p.stock||typeof p.stock!=='object'||Array.isArray(p.stock))return false;
  return Object.keys(p.stock).every(function(size){return size.length<=40&&Number.isSafeInteger(Number(p.stock[size]))&&Number(p.stock[size])>=0});
 }
 function norm(p){p.id=Number(p.id);p.stock=Object.fromEntries(Object.keys(p.stock||{}).map(function(size){return [size,Number(p.stock[size])]}));
  p.colors=Array.isArray(p.colors)?p.colors.filter(function(c){return Array.isArray(c)&&typeof c[0]==='string'&&/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(c[1])}):[];
- p.images=Array.isArray(p.images)?p.images.filter(safeImage):[];p.stock=p.stock||{};p.sizes=Object.keys(p.stock);p.disc=+p.disc||0;p.orig=Number(p.orig)*(p.currency==='TRY'?1:50);p.currency='TRY';p.price=Math.round(p.orig*(100-p.disc)/100);p.avail=p.sizes.some(function(k){return p.stock[k]>0});p.colors=p.colors&&p.colors.length?p.colors:[COL[0]];return p}
+ p.images=Array.isArray(p.images)?p.images.filter(safeImage):[];p.stock=p.stock||{};p.sizes=Object.keys(p.stock);p.disc=+p.disc||0;p.orig=Number(p.orig)*(p.currency==='TRY'?1:50);p.currency='TRY';p.price=Math.round(p.orig*(100-p.disc)/100);p.avail=p.price>0&&p.sizes.some(function(k){return p.stock[k]>0});p.colors=p.colors&&p.colors.length?p.colors:[COL[0]];return p}
 [['Yeşil','#2E7D32','yesil'],['Pembe','#F4BFD0','pembe'],['Mor','#8E5BB8','mor'],['Mavi','#8FB3D9','mavi'],['Turuncu','#C9772B','turuncu']].forEach(function(c,j){var st={'100 ml':24};P.push({id:41+j,name:'Biberiye Suyu · '+c[0],cat:'care',orig:15,disc:0,price:15,sizes:['100 ml'],stock:st,colors:[[c[0],c[1]]],isNew:j<2,best:j==0,brand:'AYMELEK',avail:true,mat:MAT.care,desc:'AYMELEK Hidrosel Saç ve Cilt Bakımı, 100 ml sprey şişede. (Örnek ürün ve örnek fiyat)',images:['bakim-'+c[2]+'.jpg'],bottle:{Yeşil:'#2E7D32',Pembe:'#E58AA8',Mor:'#8E5BB8',Mavi:'#2F6FA8',Turuncu:'#B8641F'}[c[0]],label:'BİBERİYE SUYU'})});
 P=[
   {
@@ -581,6 +582,181 @@ P=[
     ]
   }
 ],P).map(norm);
+var shoeLaunch=[
+  {
+    "id": 301,
+    "name": "ASICS Sneaker · Buz Mavisi",
+    "brand": "ASICS",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Buz Mavisi",
+        "#9bbdce"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Buz Mavisi renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-1.webp"
+    ]
+  },
+  {
+    "id": 302,
+    "name": "On Sneaker · Beyaz / Siyah",
+    "brand": "On",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Beyaz / Siyah",
+        "#ebeaea"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Beyaz / Siyah renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-2.webp"
+    ]
+  },
+  {
+    "id": 303,
+    "name": "adidas x Wales Bonner Sneaker · Bordo / Krem",
+    "brand": "adidas",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Bordo / Krem",
+        "#633238"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Bordo / Krem renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-3.webp"
+    ]
+  },
+  {
+    "id": 304,
+    "name": "Nike ACG Arazi Ayakkabısı · Krem / Adaçayı",
+    "brand": "Nike",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Krem / Adaçayı",
+        "#a6b1a2"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Krem / Adaçayı renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-4.webp"
+    ]
+  },
+  {
+    "id": 305,
+    "name": "Nike ACG Arazi Ayakkabısı · Bordo / Kahve",
+    "brand": "Nike",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Bordo / Kahve",
+        "#57363b"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Bordo / Kahve renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-5.webp"
+    ]
+  },
+  {
+    "id": 306,
+    "name": "New Balance 1906 Sneaker · Gri / Lacivert",
+    "brand": "New Balance",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Gri / Lacivert",
+        "#667284"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Gri / Lacivert renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-6.webp"
+    ]
+  },
+  {
+    "id": 307,
+    "name": "New Balance Sneaker · Kahve / Koyu Yeşil",
+    "brand": "New Balance",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Kahve / Koyu Yeşil",
+        "#51473d"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Kahve / Koyu Yeşil renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-7.webp"
+    ]
+  },
+  {
+    "id": 308,
+    "name": "New Balance 1906 Sneaker · Çiçekli Pembe / Yeşil",
+    "brand": "New Balance",
+    "cat": "shoes",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Çiçekli Pembe / Yeşil",
+        "#ad567e"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Çiçekli Pembe / Yeşil renkli ayakkabı.",
+    "images": [
+      "shoe-assets/sneaker-8.webp"
+    ]
+  }
+];
+P=P.concat(shoeLaunch.map(function(p){return norm(JSON.parse(JSON.stringify(p)))}));
+function includeLaunchShoes(list){
+ return list.concat(shoeLaunch.filter(function(shoe){return !list.some(function(p){return Number(p.id)===shoe.id})}).map(function(p){return JSON.parse(JSON.stringify(p))}));
+}
+window.AYMELEK_INCLUDE_LAUNCH_SHOES=includeLaunchShoes;
 window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_VALIDATE_PRODUCT=validateProduct;window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
 function mergeShowcaseDemo(local){
  if(localStorage.getItem('aymelek_showcase_six')||local.some(function(p){return p.id>=201&&p.id<=206}))return local.map(function(p){var demo=window.AYMELEK_DEFAULTS.find(function(item){return item.id===p.id&&item.id>=201&&item.id<=206});if(!demo||p.images&&p.images.length)return p;return Object.assign({},p,{images:demo.images})});
@@ -610,10 +786,10 @@ function homeProducts(){
    else link.removeAttribute('aria-current');
   });
   const title=CN[cat]||({'new-arrivals':'Yeni Gelenler',sale:'İndirim'}[cat])||'Tüm Ürünler';
-  const products=P.filter(p=>inCategory(p,cat)).map(p=>({id:p.id,name:p.name,image:img(p),price:f(p.price)}));
+  const products=P.filter(p=>inCategory(p,cat)).map(p=>({id:p.id,name:p.name,image:img(p),price:productPrice(p)}));
   runway.dispatchEvent(new CustomEvent('aymelek:category',{detail:{title,products}}));
  }));
 }
-function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=mergeShowcaseDemo(local.filter(validateProduct)).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=(localStorage.getItem('aymelek_shoes_2026')?mergeShowcaseDemo(local.filter(validateProduct)):includeLaunchShoes(mergeShowcaseDemo(local.filter(validateProduct)))).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
 fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.some(validateProduct))P=j.filter(validateProduct).map(norm)}).catch(function(){}).then(go);})();

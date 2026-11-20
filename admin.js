@@ -6,9 +6,9 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return
 function f(n){return new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+' TL'}
 function price(p){return Math.round(p.orig*(100-p.disc)/100)}
 function total(p){return Object.keys(p.stock).reduce(function(s,k){return s+p.stock[k]},0)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(list));try{localStorage.setItem('aymelek_showcase_six','1')}catch(e){}return true}catch(e){return false}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(list));try{localStorage.setItem('aymelek_showcase_six','1');localStorage.setItem('aymelek_shoes_2026','1')}catch(e){}return true}catch(e){return false}}
 function init(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY))}catch(e){}
- if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d).map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
+ if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d);if(!localStorage.getItem('aymelek_shoes_2026'))list=window.AYMELEK_INCLUDE_LAUNCH_SHOES(list);list=list.map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
  fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){list=Array.isArray(j)&&j.length?j.map(window.AYMELEK_NORMALIZE_PRODUCT):JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note=Array.isArray(j)&&j.length?'Yayındaki products.json yüklendi.':'Örnek ürünler yüklendi (yayında products.json yok).'}).catch(function(){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note='Örnek ürünler yüklendi.'}).then(draw)}
 function img(p){return p.images&&p.images[0]?p.images[0]:'logo.png'}
 function dash(){var units=0,val=0,out=[],low=[],dc=0,by={};list.forEach(function(p){var t=total(p);units+=t;val+=t*price(p);if(p.disc)dc++;by[p.cat]=(by[p.cat]||0)+1;if(t==0)out.push(p);else if(Object.keys(p.stock).some(function(k){return p.stock[k]>0&&p.stock[k]<=2}))low.push(p)});
@@ -23,7 +23,7 @@ function prods(){
   var quantity=total(p),category=p.showcaseOrder?'3D Vitrin':(CN[p.cat]||p.cat);
   return '<article class="admin-product" data-n="'+esc(p.name.toLocaleLowerCase('tr'))+'" data-cat="'+esc(p.showcaseOrder?'showcase':p.cat)+'">'+
    '<img src="'+esc(img(p))+'" alt="" loading="lazy"><small>'+esc(category)+'</small><h2>'+esc(p.name)+'</h2>'+
-   '<div>'+(p.disc?'<s>'+f(+p.orig)+'</s> ':'')+'<strong>'+f(price(p))+'</strong></div><small class="stock'+(quantity<1?' low':'')+'">'+(quantity<1?'Tükendi':'Stok: '+quantity)+'</small>'+
+   '<div>'+(p.disc?'<s>'+f(+p.orig)+'</s> ':'')+'<strong>'+(p.orig>0?f(price(p)):'Fiyat yakında')+'</strong></div><small class="stock'+(quantity<1?' low':'')+'">'+(quantity<1?'Tükendi':'Stok: '+quantity)+'</small>'+
    '<div class="admin-actions"><button type="button" class="ab" data-e="'+esc(p.id)+'">Düzenle</button><button type="button" class="ab d" data-d="'+esc(p.id)+'">Sil</button></div></article>';
  }).join('');
  return (edit?form():'')+'<section class="card admin-catalog"><div class="admin-toolbar"><h1>Ürünler</h1><div class="admin-tools"><input id="sq" type="search" aria-label="Ürün ara" placeholder="Ürün ara…"><select id="admin-cat" aria-label="Kategori filtrele"><option value="">Tüm kategoriler</option>'+categories+'<option value="showcase">3D Vitrin</option></select><button type="button" class="ab pr" id="new">+ Yeni ürün</button></div></div>'+
@@ -31,7 +31,7 @@ function prods(){
 }
 function form(){var p=edit,sz=sizesOf(p.cat),cn=p.colors.map(function(c){return c[0]});
  return'<div class="card" id="fm"><h3>'+(p._new?'Yeni ürün':'Ürünü düzenle')+'</h3><div class="fg"><label>Ürün adı<input id="f_name" value="'+esc(p.name)+'"></label><label>Kategori<select id="f_cat">'+Object.keys(CN).map(function(k){return'<option value="'+k+'"'+(k===p.cat&&!p.showcaseOrder?' selected':'')+'>'+CN[k]+'</option>'}).join('')+'<option value="showcase"'+(p.showcaseOrder?' selected':'')+'>3D Vitrin</option></select></label>'+
- '<label>Marka<input id="f_brand" value="'+esc(p.brand)+'"></label><label>Fiyat (TL)<input id="f_orig" type="number" min="0" step="1" value="'+esc(p.orig)+'"></label><label>İndirim (%)<input id="f_disc" type="number" min="0" max="90" step="1" value="'+esc(p.disc)+'"></label><label>İndirimli fiyat<input value="'+f(price(p))+'" disabled></label>'+
+ '<label>Marka<input id="f_brand" value="'+esc(p.brand)+'"></label><label>Fiyat (TL)<input id="f_orig" type="number" min="0" step="1" value="'+esc(p.orig)+'"></label><label>İndirim (%)<input id="f_disc" type="number" min="0" max="90" step="1" value="'+esc(p.disc)+'"></label><label>İndirimli fiyat<input value="'+(p.orig>0?f(price(p)):'Fiyat yakında')+'" disabled></label>'+
  '<div class="w ck"><label style="color:#858085;font-size:12px;letter-spacing:.08em;display:block">RENKLER</label>'+COL.map(function(c){return'<label><input type="checkbox" name="fc" value="'+c[0]+'"'+(cn.indexOf(c[0])>-1?' checked':'')+'>'+c[0]+'</label>'}).join('')+'</div>'+
  '<div class="w"><label>STOK (beden başına adet)</label>'+sz.map(function(s){return'<span class="st">'+s+'<input type="number" min="0" data-s="'+s+'" value="'+(p.stock[s]||0)+'"></span>'}).join('')+'</div>'+
  '<div class="w ck"><label><input type="checkbox" id="f_new"'+(p.isNew?' checked':'')+'>Yeni gelen</label><label><input type="checkbox" id="f_best"'+(p.best?' checked':'')+'>Çok satan</label></div>'+
