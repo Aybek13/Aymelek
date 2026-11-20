@@ -46,7 +46,7 @@ body.aymelek-catalog :is(.ann, .hdr, .cats, .drawer nav, footer) {
   outline: 2px solid #ffb1dc;
   outline-offset: 3px;
 }
-.aymelek-runway-home .hero .txt {
+body.aymelek-runway-home .hero .txt {
   background: linear-gradient(110deg, #542b4c, transparent 92%) !important;
 }
 .aymelek-runway-home .hero :is(h1, h1 em, .sub, .eyebrow, .perks) { color: #fff2fa; }
