@@ -1,0 +1,70 @@
+/* Shared runway palette for the homepage and catalog. */
+html:has(body.aymelek-catalog) {
+  background:
+    radial-gradient(1px 1px at 9% 19%, #ffdaee 78%, transparent),
+    radial-gradient(1px 1px at 72% 34%, #fbc4e3 78%, transparent),
+    radial-gradient(1px 1px at 51% 78%, #fff3fa 78%, transparent),
+    radial-gradient(1px 1px at 92% 89%, #d791bc 78%, transparent),
+    radial-gradient(ellipse at 73% 12%, #3b1d36, transparent 58%),
+    #100b14;
+  background-size: 193px 197px, 211px 241px, 317px 307px, 283px 261px, auto, auto;
+  background-attachment: fixed;
+}
+body.aymelek-catalog {
+  --midnight: #100b14;
+  --pink: #ffc2df;
+  --jade: #ffd4ea;
+  --ink: #fff2fa;
+  --mut: #e6c6d9;
+  --pnl: #211322;
+  --ln: #704360;
+  color-scheme: dark;
+}
+body.aymelek-catalog :is(.ann, .hdr, .cats, .drawer nav, footer) {
+  background: #180f1b;
+}
+.aymelek-catalog .pw > :is(.pt, .ps) { color: #ffd4ea; }
+.aymelek-catalog .pt { font-size: clamp(2rem, 5vw, 4.1rem); }
+.aymelek-catalog :is(.pc, .info) {
+  background: linear-gradient(150deg, #321d32, #1b111e);
+  border: 1px solid var(--ln);
+  border-radius: 1rem;
+  min-width: 0;
+}
+.aymelek-catalog .pc { padding: clamp(.45rem, 1vw, .8rem); }
+.aymelek-catalog .pc :is(.pn, .pp, .sz) { overflow-wrap: anywhere; }
+.aymelek-catalog .info { padding: clamp(1rem, 3vw, 2rem); }
+.aymelek-catalog :is(.pi, .mn, .th button) {
+  background: #fae8f3;
+  border-radius: .7rem;
+  overflow: hidden;
+}
+.aymelek-catalog .pc .wb { background: #321d32; }
+.aymelek-catalog :is(.bar select, .fb, .fl) { background: #211322; }
+.aymelek-catalog .fl { border: 1px solid var(--ln); border-radius: .85rem; padding: 1rem; }
+.aymelek-catalog :focus-visible, .aymelek-runway-home .hero :focus-visible {
+  outline: 2px solid #ffb1dc;
+  outline-offset: 3px;
+}
+.aymelek-runway-home .hero .txt {
+  background: radial-gradient(ellipse at 16% 32%, #542b4c, transparent 75%) !important;
+}
+.aymelek-runway-home .hero :is(h1, h1 em, .sub, .eyebrow, .perks) { color: #fff2fa; }
+.aymelek-runway-home .home-runway .caption h2 {
+  font: clamp(1.8rem, 4.6vw, 4.5rem)/.96 Georgia, serif;
+  margin: .55rem 0 0;
+  max-width: 8ch;
+  color: #fff2fa;
+}
+.aymelek-runway-home #kategoriler { scroll-margin-top: 9rem; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .aymelek-catalog .pc { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+  .aymelek-catalog .pc:hover {
+    transform: translateY(-4px);
+    border-color: #d68fb9;
+    box-shadow: 0 14px 30px #09050a80;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aymelek-catalog .pc .pi img { transition: none; transform: none; }
+}
