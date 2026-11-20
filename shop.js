@@ -2,7 +2,7 @@
 var FREE=5000,SHIP=245;
 var COL=[['Pembe','#F4BFD0'],['Siyah','#171317'],['Beyaz','#FFFFFF'],['Krem','#EFE3D3'],['Bordo','#7A2237'],['Mavi','#8FB3D9'],['Yeşil','#2E7D32'],['Mor','#8E5BB8'],['Turuncu','#C9772B']];
 var CN={clothing:'Giyim',dresses:'Elbiseler',tops:'Üstler',bottoms:'Alt Giyim',shoes:'Ayakkabı',bags:'Çanta',accessories:'Aksesuar',care:'Saç ve Cilt Bakımı',underwear:'İç Giyim',kids:'Çocuk'};
-var NAV=[['YENİ GELENLER','new-arrivals'],['GİYİM','clothing'],['ELBİSELER','dresses'],['ÜSTLER','tops'],['ALT GİYİM','bottoms'],['AYAKKABI','shoes'],['ÇANTA','bags'],['AKSESUAR','accessories'],['İÇ GİYİM','underwear'],['ÇOCUK','kids'],['BAKIM','care'],['İNDİRİM','sale']];
+var NAV=[['YENİ GELENLER','new-arrivals'],['ELBİSELER','dresses'],['ÜSTLER','tops'],['ALT GİYİM','bottoms'],['AYAKKABI','shoes'],['AKSESUAR','accessories'],['İÇ GİYİM','underwear'],['ÇOCUK','kids'],['BAKIM','care'],['İNDİRİM','sale']];
 var L=[['Saten Midi Elbise','dresses',89],['Çiçekli Yazlık Elbise','dresses',69],['Kruvaze Mini Elbise','dresses',59],['Dantelli Abiye Elbise','dresses',149],['Örgü Triko Elbise','dresses',79],['Keten Gömlek Elbise','dresses',74],
 ['İpek Bluz','tops',54],['Basic Pamuklu Tişört','tops',24],['Crop Triko Kazak','tops',49],['Oversize Gömlek','tops',44],['Fırfırlı Bluz','tops',39],['Bodysuit','tops',29],
 ['Yüksek Bel Mom Jean','bottoms',64],['Pileli Midi Etek','bottoms',52],['Kumaş Pantolon','bottoms',58],['Geniş Paça Jean','bottoms',69],['Mini Deri Etek','bottoms',49],['Bol Paça Pantolon','bottoms',56],
@@ -37,7 +37,7 @@ function soc(){var o='<a class="so" href="'+wl()+'" target="_blank" rel="noopene
  if(SO.instagram)o+='<a class="so" href="'+SO.instagram+'" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.500" cy="6.500" r="1" fill="currentColor"/></svg></a>';
  if(SO.tiktok)o+='<a class="so" href="'+SO.tiktok+'" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.500 3c.3 2.200 1.700 3.700 3.800 3.900v3a7 7 0 0 1-3.800-1.200v6.300A5.800 5.800 0 1 1 10.700 9v3.100a2.700 2.700 0 1 0 2.100 2.600V3h3.700z"/></svg></a>';return o}
 function chrome(){
- var nav=NAV.map(function(n){return'<li><a href="products.html?cat='+n[1]+'"'+(n[1]=='sale'?' class="sale"':'')+'>'+n[0]+'</a></li>'}).join(''),dn=NAV.map(function(n){return'<a href="products.html?cat='+n[1]+'">'+n[0]+'</a>'}).join('');
+ var nav='<li><a href="index.html#magaza-defile">DEFİLE</a></li>'+NAV.map(function(n){return'<li><a href="products.html?cat='+n[1]+'"'+(n[1]=='sale'?' class="sale"':'')+'>'+n[0]+'</a></li>'}).join(''),dn='<a href="index.html#magaza-defile">DEFİLE</a>'+NAV.map(function(n){return'<a href="products.html?cat='+n[1]+'">'+n[0]+'</a>'}).join('');
  var q=new URLSearchParams(location.search).get('q')||'';
  var form=function(i){return'<form class="search" role="search" action="products.html"><label class="sr" for="q'+i+'">Ara</label><input id="q'+i+'" name="q" type="search" list="sg" value="'+htmlText(q)+'" placeholder="Elbise, ayakkabı, çanta ara…" autocomplete="off"><button aria-label="Ara">'+ic('s')+'</button></form>'};
  $('#top').innerHTML='<div class="ann"><p class="on">5.000 TL ve üzeri siparişlerde ücretsiz kargo</p></div><header class="hdr"><div class="wrap"><div class="main"><div><button class="ib burger" aria-label="Menüyü aç">'+ic('m')+'</button>'+form('d')+'</div><a class="logo" href="index.html" aria-label="AYMELEK ana sayfa"><img src="logo-light.png" alt="AYMELEK" width="555" height="492"></a><div class="icons"><button class="ib msearch" aria-label="Ara">'+ic('s')+'</button><a class="ib hide-m" href="account.html" aria-label="Hesabım">'+ic('u')+'</a><a class="ib" href="wishlist.html" aria-label="Favorilerim">'+ic('h')+'<span class="cnt" data-count="wish" data-n="0"></span></a><a class="ib" href="cart.html" aria-label="Sepetim">'+ic('b')+'<span class="cnt" data-count="cart" data-n="0"></span></a></div></div></div><div class="msb">'+form('m')+'</div><div class="cats"><div class="wrap"><ul>'+nav+'</ul></div></div></header><datalist id="sg">'+P.map(function(p){return'<option value="'+htmlText(p.name)+'">'}).join('')+'</datalist><div class="drawer"><div class="bg"></div><nav aria-label="Menü"><button class="x" aria-label="Menüyü kapat">×</button>'+dn+'</nav></div>';
@@ -58,7 +58,7 @@ var pages={};
 pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.get('cat')||'all',q:(u.get('q')||'').trim(),sort:'rec'};
  var T={all:'Tüm Ürünler','new-arrivals':'Yeni Gelenler',sale:'İndirim',clothing:'Giyim'};Object.keys(CN).forEach(function(k){T[k]=T[k]||CN[k]});
  var sizes=[],cols=COL.map(function(c){return c[0]});P.forEach(function(p){p.sizes.forEach(function(s){if(sizes.indexOf(s)<0)sizes.push(s)})});
- var cats=[['all','Tümü'],['new-arrivals','Yeni Gelenler'],['clothing','Giyim'],['dresses','Elbiseler'],['tops','Üstler'],['bottoms','Alt Giyim'],['shoes','Ayakkabı'],['bags','Çanta'],['accessories','Aksesuar'],['underwear','İç Giyim'],['kids','Çocuk'],['care','Saç ve Cilt Bakımı'],['sale','İndirim']];
+ var cats=[['all','Tümü'],['new-arrivals','Yeni Gelenler'],['dresses','Elbiseler'],['tops','Üstler'],['bottoms','Alt Giyim'],['shoes','Ayakkabı'],['accessories','Aksesuar'],['underwear','İç Giyim'],['kids','Çocuk'],['care','Saç ve Cilt Bakımı'],['sale','İndirim']];
  var maxPrice=Math.max(10000,...P.map(function(p){return p.price}));
  var app=$('#app');app.innerHTML='<div class="wrap pw"><h1 class="pt" id="ttl"></h1><p class="ps" id="cnt"></p><div class="cl"><form class="fl" id="fl" aria-label="Filtreler"><button type="button" class="x" id="fx" style="display:none;float:right;font-size:24px">×</button><h4>KATEGORİ</h4>'+cats.map(function(c){return'<label><input type="radio" name="cat" value="'+htmlText(c[0])+'"'+(c[0]==S.cat?' checked':'')+'>'+htmlText(c[1])+'</label>'}).join('')+'<h4>FİYAT (EN FAZLA)</h4><input type="range" name="pr" min="0" max="'+maxPrice+'" step="1" value="'+maxPrice+'" style="width:100%;accent-color:#F4A3BE"><div id="prv" style="font-size:13px">'+f(maxPrice)+'</div><h4>BEDEN</h4><div class="row">'+sizes.map(function(s){return'<label class="chip"><input type="checkbox" name="sz" value="'+htmlText(s)+'"><span>'+htmlText(s)+'</span></label>'}).join('')+'</div><h4>RENK</h4><div class="row">'+COL.map(function(c){return'<label class="chip"><input type="checkbox" name="co" value="'+htmlText(c[0])+'"><span class="dot" title="'+htmlText(c[0])+'" style="background:'+( /^#[0-9a-f]{3,8}$/i.test(c[1]) ? c[1] : '#888' )+'"></span></label>'}).join('')+'</div><h4>MARKA</h4><label><input type="checkbox" name="br" value="AYMELEK">AYMELEK</label><label><input type="checkbox" name="br" value="AYMELEK Studio">AYMELEK Studio</label><h4>DİĞER</h4><label><input type="checkbox" name="av">Sadece stokta olanlar</label><label><input type="checkbox" name="di">İndirimli ürünler</label><label><input type="checkbox" name="nw">Yeni gelenler</label><button type="button" class="btn o" id="clr" style="color:#171317;border-color:#171317;margin-top:20px;width:100%;height:44px">TÜM FİLTRELERİ TEMİZLE</button></form><div><div class="bar"><button class="fb" id="fb" type="button">FİLTRELE</button><select id="so" aria-label="Sırala"><option value="rec">Önerilen</option><option value="new">En yeni</option><option value="asc">Fiyat: düşükten yükseğe</option><option value="desc">Fiyat: yüksekten düşüğe</option><option value="best">Çok satanlar</option></select></div><div class="dm">Bu mağazadaki ürünler ve görseller örnektir.</div><div class="pg" id="pg"></div></div></div></div>';
  var fl=$('#fl');
@@ -974,6 +974,17 @@ function includeNewCategories(list){
 }
 P=includeNewCategories(P).map(norm);
 window.AYMELEK_INCLUDE_NEW_CATEGORIES=includeNewCategories;
+var dressImages={"1":{"name":"Saten Midi Elbise","source":"","image":"dress-assets/dress-1.webp"},"2":{"name":"Çiçekli Yazlık Elbise","source":"","image":"dress-assets/dress-2.webp"},"3":{"name":"Kruvaze Mini Elbise","source":"","image":"dress-assets/dress-3.webp"},"4":{"name":"Dantelli Abiye Elbise","source":"","image":"dress-assets/dress-4.webp"},"5":{"name":"Örgü Triko Elbise","source":"","image":"dress-assets/dress-5.webp"},"6":{"name":"Keten Gömlek Elbise","source":"","image":"dress-assets/dress-6.webp"},"103":{"name":"Pudra Saten Midi Elbise","source":"demo-products/3.jpg","image":"dress-assets/dress-103.webp"},"104":{"name":"Çiçek Desenli Midi Elbise","source":"demo-products/4.jpg","image":"dress-assets/dress-104.webp"}};
+function applyDressImages(products){
+ return products.map(function(product){
+  var replacement=dressImages[product.id];
+  if(!replacement||product.cat!=='dresses'||product.name!==replacement.name)return product;
+  var images=Array.isArray(product.images)?product.images:[];
+  if(images.length&&images[0]!==replacement.source)return product;
+  return Object.assign({},product,{images:[replacement.image].concat(images.slice(1)),desc:(product.desc||'')+' Mankenli ürün görseli temsilidir.'});
+ });
+}
+P=applyDressImages(P);
 window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
 window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_VALIDATE_PRODUCT=validateProduct;
 function mergeShowcaseDemo(local){
@@ -983,9 +994,9 @@ function mergeShowcaseDemo(local){
 }
 window.AYMELEK_MERGE_SHOWCASE=mergeShowcaseDemo;
 function inCategory(p,cat){
+ if(['clothing','bags'].includes(p.cat)||['clothing','bags'].includes(cat))return false;
  if(cat==='new-arrivals')return Boolean(p.isNew);
  if(cat==='sale')return Boolean(p.disc);
- if(cat==='clothing')return ['clothing','dresses','tops','bottoms'].includes(p.cat);
  return !CN[cat]||p.cat===cat;
 }
 function homeProducts(){
@@ -1008,6 +1019,6 @@ function homeProducts(){
   runway.dispatchEvent(new CustomEvent('aymelek:category',{detail:{title,products}}));
  }));
 }
-function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local)){var draft=mergeShowcaseDemo(local.filter(validateProduct));if(!localStorage.getItem('aymelek_shoes_2026'))draft=includeLaunchShoes(draft);if(!localStorage.getItem('aymelek_new_categories_2026'))draft=includeNewCategories(draft);P=draft.map(norm)}}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local)){var draft=mergeShowcaseDemo(local.filter(validateProduct));if(!localStorage.getItem('aymelek_shoes_2026'))draft=includeLaunchShoes(draft);if(!localStorage.getItem('aymelek_new_categories_2026'))draft=includeNewCategories(draft);P=applyDressImages(draft.map(norm))}}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
-fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.some(validateProduct))P=j.filter(validateProduct).map(norm)}).catch(function(){}).then(go);})();
+fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.some(validateProduct))P=applyDressImages(j.filter(validateProduct).map(norm))}).catch(function(){}).then(go);})();
