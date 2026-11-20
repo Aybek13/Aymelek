@@ -1,8 +1,8 @@
 (function(){
 var FREE=5000,SHIP=245;
 var COL=[['Pembe','#F4BFD0'],['Siyah','#171317'],['Beyaz','#FFFFFF'],['Krem','#EFE3D3'],['Bordo','#7A2237'],['Mavi','#8FB3D9'],['Yeşil','#2E7D32'],['Mor','#8E5BB8'],['Turuncu','#C9772B']];
-var CN={clothing:'Giyim',dresses:'Elbiseler',tops:'Üstler',bottoms:'Alt Giyim',shoes:'Ayakkabı',bags:'Çanta',accessories:'Aksesuar',care:'Saç ve Cilt Bakımı'};
-var NAV=[['YENİ GELENLER','new-arrivals'],['GİYİM','clothing'],['ELBİSELER','dresses'],['ÜSTLER','tops'],['ALT GİYİM','bottoms'],['AYAKKABI','shoes'],['ÇANTA','bags'],['AKSESUAR','accessories'],['BAKIM','care'],['İNDİRİM','sale']];
+var CN={clothing:'Giyim',dresses:'Elbiseler',tops:'Üstler',bottoms:'Alt Giyim',shoes:'Ayakkabı',bags:'Çanta',accessories:'Aksesuar',care:'Cilt Bakımı ve Kozmetik',intimates:'Pijama ve İç Giyim'};
+var NAV=[['YENİ GELENLER','new-arrivals'],['GİYİM','clothing'],['ELBİSELER','dresses'],['ÜSTLER','tops'],['ALT GİYİM','bottoms'],['AYAKKABI','shoes'],['AKSESUAR','accessories'],['BAKIM','care'],['PİJAMA VE İÇ GİYİM','intimates'],['İNDİRİM','sale']];
 var L=[['Saten Midi Elbise','dresses',89],['Çiçekli Yazlık Elbise','dresses',69],['Kruvaze Mini Elbise','dresses',59],['Dantelli Abiye Elbise','dresses',149],['Örgü Triko Elbise','dresses',79],['Keten Gömlek Elbise','dresses',74],
 ['İpek Bluz','tops',54],['Basic Pamuklu Tişört','tops',24],['Crop Triko Kazak','tops',49],['Oversize Gömlek','tops',44],['Fırfırlı Bluz','tops',39],['Bodysuit','tops',29],
 ['Yüksek Bel Mom Jean','bottoms',64],['Pileli Midi Etek','bottoms',52],['Kumaş Pantolon','bottoms',58],['Geniş Paça Jean','bottoms',69],['Mini Deri Etek','bottoms',49],['Bol Paça Pantolon','bottoms',56],
@@ -55,7 +55,7 @@ function addCart(id,size,color,qty){var c=rd('aymelek_cart'),m=c.filter(function
  if(m)m.qty=Math.min(mx,m.qty+qty);else c.push({id:id,size:size,color:color,qty:Math.min(mx,qty)});wr('aymelek_cart',c)}
 var pages={};
 pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.get('cat')||'all',q:(u.get('q')||'').trim(),sort:'rec'};
- var G={clothing:['clothing','dresses','tops','bottoms']};var T={all:'Tüm Ürünler','new-arrivals':'Yeni Gelenler',sale:'İndirim',clothing:'Giyim'};Object.keys(CN).forEach(function(k){T[k]=T[k]||CN[k]});
+ var G={clothing:['clothing','dresses','tops','bottoms'],accessories:['accessories','bags']};var T={all:'Tüm Ürünler','new-arrivals':'Yeni Gelenler',sale:'İndirim',clothing:'Giyim'};Object.keys(CN).forEach(function(k){T[k]=T[k]||CN[k]});
  var sizes=[],cols=COL.map(function(c){return c[0]});P.forEach(function(p){p.sizes.forEach(function(s){if(sizes.indexOf(s)<0)sizes.push(s)})});
  var cats=[['all','Tümü'],['new-arrivals','Yeni Gelenler'],['clothing','Giyim'],['dresses','Elbiseler'],['tops','Üstler'],['bottoms','Alt Giyim'],['shoes','Ayakkabı'],['bags','Çanta'],['accessories','Aksesuar'],['care','Saç ve Cilt Bakımı'],['sale','İndirim']];
  var maxPrice=Math.max(10000,...P.map(function(p){return p.price}));

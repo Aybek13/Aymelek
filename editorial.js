@@ -9,7 +9,7 @@ searchDialog.addEventListener('click', event => {
 
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const collectionNames = {shoes:'Ayakkabı',clothing:'Giyim',bags:'Çanta',accessories:'Aksesuar'};
+const collectionNames = {shoes:'Ayakkabı',clothing:'Giyim',care:'Bakım',accessories:'Aksesuar',intimates:'Pijama ve İç Giyim'};
 
 function setupDial(root, catalog) {
   const stage = root.querySelector('[data-dial-stage]');
@@ -18,6 +18,7 @@ function setupDial(root, catalog) {
   const status = root.querySelector('[data-dial-status]');
   const prev = root.querySelector('[data-dial-prev]');
   const next = root.querySelector('[data-dial-next]');
+  const groups = {clothing:['clothing','dresses','tops','bottoms'], accessories:['accessories','bags']};
   let items = [];
   let position = 0;
   let frame = 0;
@@ -83,9 +84,7 @@ function setupDial(root, catalog) {
   }
   function setCategory(category) {
     cancelAnimationFrame(frame);
-    items = catalog.filter(item => category === 'clothing'
-      ? ['clothing','dresses','tops','bottoms'].includes(item.category)
-      : item.category === category);
+    items = catalog.filter(item => (groups[category] || [category]).includes(item.category)).slice(0, links.length);
     position = 0;
     title.textContent = collectionNames[category];
     prev.disabled = next.disabled = items.length < 2;
