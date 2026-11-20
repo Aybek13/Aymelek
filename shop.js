@@ -1,8 +1,8 @@
 (function(){
 var FREE=5000,SHIP=245;
 var COL=[['Pembe','#F4BFD0'],['Siyah','#171317'],['Beyaz','#FFFFFF'],['Krem','#EFE3D3'],['Bordo','#7A2237'],['Mavi','#8FB3D9'],['Yeşil','#2E7D32'],['Mor','#8E5BB8'],['Turuncu','#C9772B']];
-var CN={clothing:'Giyim',dresses:'Elbiseler',tops:'Üstler',bottoms:'Alt Giyim',shoes:'Ayakkabı',bags:'Çanta',accessories:'Aksesuar',care:'Saç ve Cilt Bakımı'};
-var NAV=[['YENİ GELENLER','new-arrivals'],['GİYİM','clothing'],['ELBİSELER','dresses'],['ÜSTLER','tops'],['ALT GİYİM','bottoms'],['AYAKKABI','shoes'],['ÇANTA','bags'],['AKSESUAR','accessories'],['BAKIM','care'],['İNDİRİM','sale']];
+var CN={clothing:'Giyim',dresses:'Elbiseler',tops:'Üstler',bottoms:'Alt Giyim',shoes:'Ayakkabı',bags:'Çanta',accessories:'Aksesuar',care:'Saç ve Cilt Bakımı',underwear:'İç Giyim',kids:'Çocuk'};
+var NAV=[['YENİ GELENLER','new-arrivals'],['GİYİM','clothing'],['ELBİSELER','dresses'],['ÜSTLER','tops'],['ALT GİYİM','bottoms'],['AYAKKABI','shoes'],['ÇANTA','bags'],['AKSESUAR','accessories'],['İÇ GİYİM','underwear'],['ÇOCUK','kids'],['BAKIM','care'],['İNDİRİM','sale']];
 var L=[['Saten Midi Elbise','dresses',89],['Çiçekli Yazlık Elbise','dresses',69],['Kruvaze Mini Elbise','dresses',59],['Dantelli Abiye Elbise','dresses',149],['Örgü Triko Elbise','dresses',79],['Keten Gömlek Elbise','dresses',74],
 ['İpek Bluz','tops',54],['Basic Pamuklu Tişört','tops',24],['Crop Triko Kazak','tops',49],['Oversize Gömlek','tops',44],['Fırfırlı Bluz','tops',39],['Bodysuit','tops',29],
 ['Yüksek Bel Mom Jean','bottoms',64],['Pileli Midi Etek','bottoms',52],['Kumaş Pantolon','bottoms',58],['Geniş Paça Jean','bottoms',69],['Mini Deri Etek','bottoms',49],['Bol Paça Pantolon','bottoms',56],
@@ -58,7 +58,7 @@ var pages={};
 pages.products=function(){var u=new URLSearchParams(location.search),S={cat:u.get('cat')||'all',q:(u.get('q')||'').trim(),sort:'rec'};
  var T={all:'Tüm Ürünler','new-arrivals':'Yeni Gelenler',sale:'İndirim',clothing:'Giyim'};Object.keys(CN).forEach(function(k){T[k]=T[k]||CN[k]});
  var sizes=[],cols=COL.map(function(c){return c[0]});P.forEach(function(p){p.sizes.forEach(function(s){if(sizes.indexOf(s)<0)sizes.push(s)})});
- var cats=[['all','Tümü'],['new-arrivals','Yeni Gelenler'],['clothing','Giyim'],['dresses','Elbiseler'],['tops','Üstler'],['bottoms','Alt Giyim'],['shoes','Ayakkabı'],['bags','Çanta'],['accessories','Aksesuar'],['care','Saç ve Cilt Bakımı'],['sale','İndirim']];
+ var cats=[['all','Tümü'],['new-arrivals','Yeni Gelenler'],['clothing','Giyim'],['dresses','Elbiseler'],['tops','Üstler'],['bottoms','Alt Giyim'],['shoes','Ayakkabı'],['bags','Çanta'],['accessories','Aksesuar'],['underwear','İç Giyim'],['kids','Çocuk'],['care','Saç ve Cilt Bakımı'],['sale','İndirim']];
  var maxPrice=Math.max(10000,...P.map(function(p){return p.price}));
  var app=$('#app');app.innerHTML='<div class="wrap pw"><h1 class="pt" id="ttl"></h1><p class="ps" id="cnt"></p><div class="cl"><form class="fl" id="fl" aria-label="Filtreler"><button type="button" class="x" id="fx" style="display:none;float:right;font-size:24px">×</button><h4>KATEGORİ</h4>'+cats.map(function(c){return'<label><input type="radio" name="cat" value="'+htmlText(c[0])+'"'+(c[0]==S.cat?' checked':'')+'>'+htmlText(c[1])+'</label>'}).join('')+'<h4>FİYAT (EN FAZLA)</h4><input type="range" name="pr" min="0" max="'+maxPrice+'" step="1" value="'+maxPrice+'" style="width:100%;accent-color:#F4A3BE"><div id="prv" style="font-size:13px">'+f(maxPrice)+'</div><h4>BEDEN</h4><div class="row">'+sizes.map(function(s){return'<label class="chip"><input type="checkbox" name="sz" value="'+htmlText(s)+'"><span>'+htmlText(s)+'</span></label>'}).join('')+'</div><h4>RENK</h4><div class="row">'+COL.map(function(c){return'<label class="chip"><input type="checkbox" name="co" value="'+htmlText(c[0])+'"><span class="dot" title="'+htmlText(c[0])+'" style="background:'+( /^#[0-9a-f]{3,8}$/i.test(c[1]) ? c[1] : '#888' )+'"></span></label>'}).join('')+'</div><h4>MARKA</h4><label><input type="checkbox" name="br" value="AYMELEK">AYMELEK</label><label><input type="checkbox" name="br" value="AYMELEK Studio">AYMELEK Studio</label><h4>DİĞER</h4><label><input type="checkbox" name="av">Sadece stokta olanlar</label><label><input type="checkbox" name="di">İndirimli ürünler</label><label><input type="checkbox" name="nw">Yeni gelenler</label><button type="button" class="btn o" id="clr" style="color:#171317;border-color:#171317;margin-top:20px;width:100%;height:44px">TÜM FİLTRELERİ TEMİZLE</button></form><div><div class="bar"><button class="fb" id="fb" type="button">FİLTRELE</button><select id="so" aria-label="Sırala"><option value="rec">Önerilen</option><option value="new">En yeni</option><option value="asc">Fiyat: düşükten yükseğe</option><option value="desc">Fiyat: yüksekten düşüğe</option><option value="best">Çok satanlar</option></select></div><div class="dm">Bu mağazadaki ürünler ve görseller örnektir.</div><div class="pg" id="pg"></div></div></div></div>';
  var fl=$('#fl');
@@ -757,7 +757,225 @@ function includeLaunchShoes(list){
  return list.concat(shoeLaunch.filter(function(shoe){return !list.some(function(p){return Number(p.id)===shoe.id})}).map(function(p){return JSON.parse(JSON.stringify(p))}));
 }
 window.AYMELEK_INCLUDE_LAUNCH_SHOES=includeLaunchShoes;
-window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_VALIDATE_PRODUCT=validateProduct;window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
+var newCategoryProducts=[
+  {
+    "id": 401,
+    "name": "Dikişsiz Bralet · Pudra",
+    "brand": "AYMELEK",
+    "cat": "underwear",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Pudra",
+        "#d3a6a6"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/underwear-1.webp"
+    ]
+  },
+  {
+    "id": 402,
+    "name": "Yüksek Bel Dikişsiz Külot · Siyah",
+    "brand": "AYMELEK",
+    "cat": "underwear",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Siyah",
+        "#1d1c1e"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/underwear-2.webp"
+    ]
+  },
+  {
+    "id": 403,
+    "name": "Fitilli Askılı Atlet · Ekru",
+    "brand": "AYMELEK",
+    "cat": "underwear",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Ekru",
+        "#e8dfcd"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/underwear-3.webp"
+    ]
+  },
+  {
+    "id": 404,
+    "name": "Balensiz Yumuşak Sütyen · Lavanta",
+    "brand": "AYMELEK",
+    "cat": "underwear",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Lavanta",
+        "#b2a1cf"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/underwear-4.webp"
+    ]
+  },
+  {
+    "id": 405,
+    "name": "Dikişsiz Boxer Şort · Antrasit",
+    "brand": "AYMELEK",
+    "cat": "underwear",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Antrasit",
+        "#49464b"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/underwear-5.webp"
+    ]
+  },
+  {
+    "id": 406,
+    "name": "Kapüşonlu Fermuarlı Çocuk Sweatshirt · Adaçayı",
+    "brand": "AYMELEK",
+    "cat": "kids",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Adaçayı",
+        "#8b9d82"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/kids-1.webp"
+    ]
+  },
+  {
+    "id": 407,
+    "name": "Gökkuşağı Desenli Çocuk Tişörtü · Krem",
+    "brand": "AYMELEK",
+    "cat": "kids",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Krem",
+        "#e8dfca"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/kids-2.webp"
+    ]
+  },
+  {
+    "id": 408,
+    "name": "Lastik Paça Çocuk Eşofman Altı · Lacivert",
+    "brand": "AYMELEK",
+    "cat": "kids",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Lacivert",
+        "#354761"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/kids-3.webp"
+    ]
+  },
+  {
+    "id": 409,
+    "name": "Kısa Kollu Çocuk Elbisesi · Lila",
+    "brand": "AYMELEK",
+    "cat": "kids",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Lila",
+        "#c0b1db"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/kids-4.webp"
+    ]
+  },
+  {
+    "id": 410,
+    "name": "Düğmeli Çocuk Pijama Takımı · Gök Mavisi",
+    "brand": "AYMELEK",
+    "cat": "kids",
+    "orig": 0,
+    "currency": "TRY",
+    "disc": 0,
+    "stock": {},
+    "colors": [
+      [
+        "Gök Mavisi",
+        "#83a9ca"
+      ]
+    ],
+    "isNew": true,
+    "desc": "Koleksiyon önizlemesi. Ürün görseli temsilidir.",
+    "images": [
+      "category-assets/kids-5.webp"
+    ]
+  }
+];
+function includeNewCategories(list){
+ return list.concat(newCategoryProducts.filter(function(product){return !list.some(function(existing){return Number(existing.id)===product.id})}).map(function(product){return JSON.parse(JSON.stringify(product))}));
+}
+P=includeNewCategories(P).map(norm);
+window.AYMELEK_INCLUDE_NEW_CATEGORIES=includeNewCategories;
+window.AYMELEK_DEFAULTS=JSON.parse(JSON.stringify(P));
+window.AYMELEK_WL=wl;window.AYMELEK_NORMALIZE_PRODUCT=norm;window.AYMELEK_VALIDATE_PRODUCT=validateProduct;
 function mergeShowcaseDemo(local){
  if(localStorage.getItem('aymelek_showcase_six')||local.some(function(p){return p.id>=201&&p.id<=206}))return local.map(function(p){var demo=window.AYMELEK_DEFAULTS.find(function(item){return item.id===p.id&&item.id>=201&&item.id<=206});if(!demo||p.images&&p.images.length)return p;return Object.assign({},p,{images:demo.images})});
  var samples=window.AYMELEK_DEFAULTS.filter(function(p){return p.id>=201&&p.id<=206});
@@ -790,6 +1008,6 @@ function homeProducts(){
   runway.dispatchEvent(new CustomEvent('aymelek:category',{detail:{title,products}}));
  }));
 }
-function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local))P=(localStorage.getItem('aymelek_shoes_2026')?mergeShowcaseDemo(local.filter(validateProduct)):includeLaunchShoes(mergeShowcaseDemo(local.filter(validateProduct)))).map(norm)}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
+function go(){try{var local=JSON.parse(localStorage.getItem('aymelek_admin_draft'));if(Array.isArray(local)){var draft=mergeShowcaseDemo(local.filter(validateProduct));if(!localStorage.getItem('aymelek_shoes_2026'))draft=includeLaunchShoes(draft);if(!localStorage.getItem('aymelek_new_categories_2026'))draft=includeNewCategories(draft);P=draft.map(norm)}}catch(e){}if(document.getElementById('urun3d')){var selected=P.filter(function(p){return p.cat==='care'&&p.avail&&['spray','dropper','pump','airless','oil','flip'].includes(p.showcaseModel)&&Number.isInteger(p.showcaseOrder)&&p.showcaseOrder>=1&&p.showcaseOrder<=6}).sort(function(a,b){return a.showcaseOrder-b.showcaseOrder||a.id-b.id}).slice(0,6);document.dispatchEvent(new CustomEvent('aymelek:showcase',{detail:selected}))}homeProducts();var pg=pages[document.body.dataset.page];if(!pg)return;chrome();pg()}
 if(document.body.dataset.page=='admin'){window.AYMELEK_COL=COL;window.AYMELEK_CN=CN}else
 fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(Array.isArray(j)&&j.some(validateProduct))P=j.filter(validateProduct).map(norm)}).catch(function(){}).then(go);})();

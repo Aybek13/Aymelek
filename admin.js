@@ -1,14 +1,14 @@
 (function(){
 var COL=window.AYMELEK_COL,CN=window.AYMELEK_CN,KEY='aymelek_admin_draft',$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
-var SZ={care:['30 ml','50 ml','100 ml','150 ml','200 ml'],shoes:['36','37','38','39','40','41'],bags:['Tek Beden'],accessories:['Tek Beden']};function sizesOf(c){return SZ[c]||['XS','S','M','L','XL']}
+var SZ={kids:['2–3 Yaş','4–5 Yaş','6–7 Yaş','8–9 Yaş','10–11 Yaş','12–13 Yaş'],care:['30 ml','50 ml','100 ml','150 ml','200 ml'],shoes:['36','37','38','39','40','41'],bags:['Tek Beden'],accessories:['Tek Beden']};function sizesOf(c){return SZ[c]||['XS','S','M','L','XL']}
 var list=[],tab='dash',edit=null,note='';
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function f(n){return new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+' TL'}
 function price(p){return Math.round(p.orig*(100-p.disc)/100)}
 function total(p){return Object.keys(p.stock).reduce(function(s,k){return s+p.stock[k]},0)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(list));try{localStorage.setItem('aymelek_showcase_six','1');localStorage.setItem('aymelek_shoes_2026','1')}catch(e){}return true}catch(e){return false}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(list));try{localStorage.setItem('aymelek_showcase_six','1');localStorage.setItem('aymelek_shoes_2026','1');localStorage.setItem('aymelek_new_categories_2026','1')}catch(e){}return true}catch(e){return false}}
 function init(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY))}catch(e){}
- if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d);if(!localStorage.getItem('aymelek_shoes_2026'))list=window.AYMELEK_INCLUDE_LAUNCH_SHOES(list);list=list.map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
+ if(Array.isArray(d)){list=window.AYMELEK_MERGE_SHOWCASE(d);if(!localStorage.getItem('aymelek_shoes_2026'))list=window.AYMELEK_INCLUDE_LAUNCH_SHOES(list);if(!localStorage.getItem('aymelek_new_categories_2026'))list=window.AYMELEK_INCLUDE_NEW_CATEGORIES(list);list=list.map(window.AYMELEK_NORMALIZE_PRODUCT);note='Bu tarayıcıdaki demo kataloğu yüklendi.';draw();return}
  fetch('products.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){list=Array.isArray(j)&&j.length?j.map(window.AYMELEK_NORMALIZE_PRODUCT):JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note=Array.isArray(j)&&j.length?'Yayındaki products.json yüklendi.':'Örnek ürünler yüklendi (yayında products.json yok).'}).catch(function(){list=JSON.parse(JSON.stringify(window.AYMELEK_DEFAULTS));note='Örnek ürünler yüklendi.'}).then(draw)}
 function img(p){return p.images&&p.images[0]?p.images[0]:'logo.png'}
 function dash(){var units=0,val=0,out=[],low=[],dc=0,by={};list.forEach(function(p){var t=total(p);units+=t;val+=t*price(p);if(p.disc)dc++;by[p.cat]=(by[p.cat]||0)+1;if(t==0)out.push(p);else if(Object.keys(p.stock).some(function(k){return p.stock[k]>0&&p.stock[k]<=2}))low.push(p)});
