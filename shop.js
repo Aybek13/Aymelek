@@ -1005,29 +1005,6 @@ function inCategory(p,cat){
 function homeProducts(){
  const runway=$('#magaza-defile');
  if(!runway)return;
- const shelf=runway.querySelector('.runway-edit');
- if(shelf){
-  const cards=P.filter(p=>inCategory(p,'new-arrivals')&&p.images.length)
-   .sort((a,b)=>Number(b.avail)-Number(a.avail)||b.id-a.id).slice(0,3);
-  shelf.querySelector('.runway-edit-list').replaceChildren(...cards.map(p=>{
-   const item=document.createElement('li');
-   const link=document.createElement('a');
-   link.className='runway-edit-card';
-   link.href='product.html?id='+encodeURIComponent(p.id);
-   const photo=new Image();
-   photo.src=img(p);
-   photo.alt='';
-   photo.loading='lazy';
-   const name=document.createElement('strong');
-   name.textContent=p.name;
-   const price=document.createElement('span');
-   price.textContent=productPrice(p);
-   link.append(photo,name,price);
-   item.append(link);
-   return item;
-  }));
-  shelf.hidden=!cards.length;
- }
  const links=[...document.querySelectorAll('.cats a,.drawer a,.hero .btns a')].filter(a=>a.getAttribute('href').startsWith('products.html'));
  const category=a=>new URL(a.href).searchParams.get('cat')||'all';
  links.forEach(a=>a.addEventListener('click',event=>{
