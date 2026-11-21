@@ -90,7 +90,30 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 
 .home-runway{color:#fff2fa;font:1rem system-ui,sans-serif;margin:0 auto;max-width:90rem;padding:clamp(.75rem,2vw,1.5rem) clamp(.75rem,4vw,4rem) 1.25rem}
 .home-runway .caption h2{margin:.55rem 0 0}
-.home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}.home-runway .piece:has(> a){background:#28172b;color:#fff2fa}</style><style>.footer-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.25rem;margin:0 0 .75rem}.footer-contact a{color:inherit;text-decoration:underline;text-underline-offset:.2em}</style></head><body class="aymelek-runway-home aymelek-catalog">
+.home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}.home-runway .piece:has(> a){background:#28172b;color:#fff2fa}</style><style>.footer-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.25rem;margin:0 0 .75rem}.footer-contact a{color:inherit;text-decoration:underline;text-underline-offset:.2em}</style><style>
+.home-runway .runway-main{display:grid;align-content:start;gap:.85rem;min-width:0}
+.home-runway .care-ritual{padding:clamp(.9rem,2vw,1.5rem);border:1px solid #7a466a;border-radius:1rem;color:#fff2fa;background:radial-gradient(ellipse at 30% 66%,#623456 0%,#2d1833 43%,#1c1221 80%)}
+.home-runway .care-ritual h2{font:clamp(1.45rem,3vw,2.25rem)/1.06 Georgia,serif;margin:0 0 .5rem}
+.care-ritual-display{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);align-items:center;gap:.9rem}
+.care-ritual-products{position:relative;isolation:isolate;height:clamp(9rem,20vw,14rem);perspective:640px}
+.care-ritual-products::before{content:"";position:absolute;z-index:-1;left:7%;right:7%;bottom:8%;height:20%;border-radius:50%;background:radial-gradient(ellipse,#d18ab568,transparent 72%);pointer-events:none}
+.care-ritual-product{position:absolute;z-index:1;inset:4% auto 10% 50%;width:31%;transform:translateX(calc(-50% + var(--care-x))) scale(.72);transition:transform .55s cubic-bezier(.22,.8,.24,1);border-radius:.6rem}
+.care-ritual-product[data-position="left"]{--care-x:-104%}
+.care-ritual-product[data-position="right"]{--care-x:104%}
+.care-ritual-product[aria-pressed="true"]{--care-x:0%;z-index:2;transform:translateX(-50%) scale(1)}
+.care-ritual-product img{width:100%;height:100%;object-fit:contain;filter:brightness(.8) drop-shadow(0 .6rem .65rem #1b0d19);transform:rotateY(var(--care-turn,0deg));transition:transform .55s ease,filter .4s}
+.care-ritual-product[data-position="left"] img{--care-turn:24deg}
+.care-ritual-product[data-position="right"] img{--care-turn:-24deg}
+.care-ritual-product[aria-pressed="true"] img{filter:drop-shadow(0 .55rem .85rem #e29bc55c)}
+.care-ritual-details h3{margin:0 0 .35rem;font:clamp(1.15rem,2.2vw,1.65rem)/1.1 Georgia,serif;overflow-wrap:anywhere}
+.care-ritual-details p{margin:0;color:#ffd4ea}
+.care-ritual-link{display:inline-flex;align-items:center;gap:.45rem;min-height:44px;margin-top:.65rem;padding:0 .8rem;border:1px solid #e6a9ce;border-radius:2rem;text-decoration:none}
+.care-ritual-link:hover{background:#ffd4ea;color:#291629}
+.care-ritual-enter{animation:care-ritual-enter .65s ease-out both}
+@keyframes care-ritual-enter{from{opacity:.2;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:720px){.care-ritual-display{grid-template-columns:minmax(0,1fr);gap:0}.care-ritual-details{text-align:center}}
+@media(prefers-reduced-motion:reduce){.care-ritual-product,.care-ritual-product img{transition:none}.care-ritual-enter{animation:none}}
+</style></head><body class="aymelek-runway-home aymelek-catalog">
 <div class="ann" aria-live="polite"><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo</p><p>Yeni sezon modelleri burada</p><p>AYMELEK'e katıl, ilk siparişinde %10 indirim kazan</p></div>
 <header class="hdr"><div class="wrap"><div class="main">
 <div><button class="ib burger" aria-label="Menüyü aç"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><form class="search" role="search" action="products.html"><label class="sr" for="qd">Ara</label><input id="qd" name="q" type="search" placeholder="Elbise, ayakkabı, çanta ara…" autocomplete="off"><button aria-label="Ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></form></div>
@@ -108,12 +131,24 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 
 <section class="home-runway" aria-label="AYMELEK Defile" id="magaza-defile">
 <div class="grid">
+<div class="runway-main">
 <section class="stage" id="stage" tabindex="0" aria-label="Defile. Sürükleyin veya yön tuşlarını kullanın.">
 <div class="stars" id="stars" aria-hidden="true"></div><div class="line" id="line" aria-hidden="true"></div>
 <button class="season-return" type="button" hidden>Defileye dön</button><div class="caption"><p>İlkbahar / Yaz 2027</p><h2 tabindex="-1">AYMELEK Defile</h2></div>
 <div class="controls"><button type="button" id="prev" aria-label="Önceki kombin">‹</button><span class="counter" id="counter" role="status"></span><button type="button" id="next" aria-label="Sonraki kombin">›</button></div>
 <p class="fallback" id="fallback" hidden>Podyum görselleri yüklenemedi. Kombin parçalarını inceleyebilir veya mağazaya dönebilirsiniz.</p>
 </section>
+<section class="care-ritual" aria-labelledby="care-ritual-title" hidden>
+  <h2 id="care-ritual-title">Bakım Ritüeli</h2>
+  <div class="care-ritual-display">
+    <div class="care-ritual-products" role="group" aria-label="Bakım ürünü seç"></div>
+    <div class="care-ritual-details">
+      <div aria-live="polite"><h3></h3><p></p></div>
+      <a class="care-ritual-link">Ürünü incele <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+</div>
 <aside class="rail" aria-label="Kombin parçaları"><h2>Kombinin parçaları</h2><figure class="piece"></figure><figure class="piece"></figure>
 <div class="runway-cart" hidden aria-label="Podyum alışverişi">
   <div class="runway-cart-actions">
@@ -432,4 +467,4 @@ d.querySelector('.x').addEventListener('click',function(){tg(false)});
 addEventListener('keydown',function(e){if(e.key==='Escape')tg(false)});
 document.querySelector('.msearch').addEventListener('click',function(){var b=document.querySelector('.msb');b.classList.toggle('open');if(b.classList.contains('open'))b.querySelector('input').focus()});
 })();
-</script><script src="bg3d.js?v=midnight-jade" defer></script><script src="shop.js?v=runway-stars" defer></script></body></html>
+</script><script src="bg3d.js?v=midnight-jade" defer></script><script src="shop.js?v=care-ritual" defer></script></body></html>

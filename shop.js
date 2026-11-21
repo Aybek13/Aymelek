@@ -1002,9 +1002,58 @@ function inCategory(p,cat){
  if(cat==='sale')return Boolean(p.disc);
  return !CN[cat]||p.cat===cat;
 }
+function renderCareRitual(runway){
+ const section=runway.querySelector('.care-ritual');
+ if(!section)return;
+ const eligible=P.filter(p=>p.cat==='care'&&p.images.length);
+ const preferred=[202,204,205].map(id=>eligible.find(p=>p.id===id)).filter(Boolean);
+ const products=preferred.concat(eligible.filter(p=>!preferred.includes(p))).slice(0,3);
+ if(!products.length)return;
+ const display=section.querySelector('.care-ritual-display');
+ const group=section.querySelector('.care-ritual-products');
+ const heading=section.querySelector('h3');
+ const price=section.querySelector('.care-ritual-details p');
+ const link=section.querySelector('.care-ritual-link');
+ const buttons=products.map((product,index)=>{
+  const button=document.createElement('button');
+  button.className='care-ritual-product';
+  button.type='button';
+  button.setAttribute('aria-label',product.name);
+  const photo=new Image();
+  photo.src=img(product);
+  photo.alt='';
+  photo.loading='lazy';
+  button.append(photo);
+  button.addEventListener('click',()=>select(index));
+  return button;
+ });
+ function select(index){
+  buttons.forEach((button,i)=>{
+   const offset=(i-index+buttons.length)%buttons.length;
+   button.dataset.position=offset===0?'center':offset===1?'right':'left';
+   button.setAttribute('aria-pressed',String(i===index));
+  });
+  const product=products[index];
+  heading.textContent=product.name;
+  price.textContent=productPrice(product);
+  link.href='product.html?id='+encodeURIComponent(product.id);
+ }
+ group.replaceChildren(...buttons);
+ select(0);
+ section.hidden=false;
+ if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const observer=new IntersectionObserver(entries=>{
+   if(!entries[0].isIntersecting)return;
+   display.classList.add('care-ritual-enter');
+   observer.disconnect();
+  },{threshold:.2});
+  observer.observe(display);
+ }
+}
 function homeProducts(){
  const runway=$('#magaza-defile');
  if(!runway)return;
+ renderCareRitual(runway);
  const links=[...document.querySelectorAll('.cats a,.drawer a,.hero .btns a')].filter(a=>a.getAttribute('href').startsWith('products.html'));
  const category=a=>new URL(a.href).searchParams.get('cat')||'all';
  links.forEach(a=>a.addEventListener('click',event=>{
