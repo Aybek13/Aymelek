@@ -93,12 +93,12 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 .home-runway .caption h2{color:#fff2fa}.home-runway{scroll-margin-top:9rem}.home-runway .model img,.home-runway .piece img{display:block;width:100%;height:100%;object-fit:contain}.home-runway .piece a{min-height:0;display:block}.home-runway .piece[hidden]{display:none}.home-runway .controls[hidden]{display:none}.home-runway .season-return{position:absolute;z-index:111;top:1rem;right:1rem;padding:.65rem .9rem;border:1px solid #c287ac;border-radius:2rem;background:#211124;color:#fff2fa;font:inherit;cursor:pointer}.home-runway .season-return[hidden]{display:none}.home-runway .model img{filter:drop-shadow(0 12px 10px #180b19aa)}.home-runway .stage:has(.season-return:not([hidden])) .caption{top:4rem}.home-runway .piece:has(> a){background:#28172b;color:#fff2fa}</style><style>.footer-contact{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.25rem;margin:0 0 .75rem}.footer-contact a{color:inherit;text-decoration:underline;text-underline-offset:.2em}</style><style>
 </style><style>
 .home-runway .stage .runway-cart{position:absolute;z-index:112;right:1rem;bottom:1rem;max-width:calc(100% - 2rem);gap:.35rem;text-align:right}
-.home-runway .stage .runway-cart [hidden]{display:none}
+.home-runway .runway-cart[hidden],.home-runway .runway-cart [hidden]{display:none}.home-runway .runway-cart-summary{display:none}
 .home-runway .stage .runway-cart-message:not(:empty){padding:.2rem .4rem;border-radius:.35rem;background:#211322;color:#dcffe8}
 .home-runway .stage .runway-product{background:#211322}
 .home-runway .stage .runway-add[hidden]+.runway-product{background:#ffc2df;color:#291425}
 .home-runway .runway-care-entry{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;margin-top:.5rem;color:#ffd4ea;text-decoration:underline;text-underline-offset:.2em}
-@media(max-width:720px){.home-runway .stage .runway-cart{bottom:4.9rem;right:.75rem;max-width:calc(100% - 1.5rem)}}
+@media(max-width:720px){.home-runway .grid > .runway-cart{padding:.8rem 1rem;border:1px solid #63334f;border-radius:1rem;background:#201322;color:#fff2fa}.home-runway .runway-cart-summary{display:block;margin:0;font-weight:600}}
 </style></head><body class="aymelek-runway-home aymelek-catalog">
 <div class="ann" aria-live="polite"><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo</p><p>Yeni sezon modelleri burada</p><p>AYMELEK'e katıl, ilk siparişinde %10 indirim kazan</p></div>
 <header class="hdr"><div class="wrap"><div class="main">
@@ -122,6 +122,7 @@ footer small{display:block;margin-top:28px;color:var(--gray)}
 <button class="season-return" type="button" hidden>Defileye dön</button><div class="caption"><p>İlkbahar / Yaz 2027</p><h2 tabindex="-1">AYMELEK Defile</h2></div>
 <div class="controls"><button type="button" id="prev" aria-label="Önceki kombin">‹</button><span class="counter" id="counter" role="status"></span><button type="button" id="next" aria-label="Sonraki kombin">›</button></div>
 <div class="runway-cart" hidden aria-label="Podyum alışverişi">
+  <p class="runway-cart-summary"></p>
   <div class="runway-cart-actions">
     <button type="button" class="runway-add" hidden>Sepete ekle</button>
     <a class="runway-product" hidden>Ürünü incele</a>
@@ -178,6 +179,14 @@ const shopping = runway.querySelector('.runway-cart');
 const quickAdd = shopping.querySelector('.runway-add');
 const details = shopping.querySelector('.runway-product');
 const feedback = shopping.querySelector('.runway-cart-message');
+const summary = shopping.querySelector('.runway-cart-summary');
+const mobileLayout = matchMedia('(max-width:720px)');
+function placeShopping() {
+  if (mobileLayout.matches) stage.after(shopping);
+  else stage.insertBefore(shopping, get('fallback'));
+}
+mobileLayout.addEventListener('change', placeShopping);
+placeShopping();
 quickAdd.addEventListener('click',()=>{
   const item = catalog?.[selected];
   if (item?.quickAdd) feedback.textContent = item.quickAdd();
@@ -187,9 +196,10 @@ function updateShopping(item){
   shopping.hidden = !item;
   quickAdd.hidden = details.hidden = !item;
   if (!item) return;
+  summary.textContent = item.name+' · '+item.price;
   quickAdd.hidden = !item.quickAdd;
   details.href = 'product.html?id='+encodeURIComponent(item.id)+(item.available&&!item.quickAdd?'#satin-al':'');
-  details.textContent = item.available&&!item.quickAdd ? 'Seçenekleri seç' : 'Ürünü incele';
+  details.textContent = item.available&&!item.quickAdd ? 'Sepete ekle · Seçenekleri seç' : 'Ürünü incele';
 }
 const seasonModels = looks.map(([left,right], index) => {
   const node = document.createElement('div');
