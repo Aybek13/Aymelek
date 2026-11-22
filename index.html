@@ -199,7 +199,7 @@ function updateShopping(item){
   summary.textContent = item.name+' · '+item.price;
   quickAdd.hidden = !item.quickAdd;
   details.href = 'product.html?id='+encodeURIComponent(item.id)+(item.available&&!item.quickAdd?'#satin-al':'');
-  details.textContent = item.available&&!item.quickAdd ? 'Sepete ekle · Seçenekleri seç' : 'Ürünü incele';
+  details.textContent = item.available&&!item.quickAdd ? 'Sepete ekle' : 'Ürünü incele';
 }
 const seasonModels = looks.map(([left,right], index) => {
   const node = document.createElement('div');
