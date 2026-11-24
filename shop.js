@@ -1005,7 +1005,7 @@ function inCategory(p,cat){
 function homeProducts(){
  const runway=$('#magaza-defile');
  if(!runway)return;
- const links=[...document.querySelectorAll('.cats a,.drawer a,.hero .btns a,.runway-care-entry')].filter(a=>a.getAttribute('href').startsWith('products.html'));
+ const links=[...document.querySelectorAll('.cats a,.drawer a,.hero .btns a,.runway-care-entry,.collection-track a')].filter(a=>a.getAttribute('href').startsWith('products.html'));
  const category=a=>new URL(a.href).searchParams.get('cat')||'all';
  links.forEach(a=>a.addEventListener('click',event=>{
   if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
