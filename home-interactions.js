@@ -23,6 +23,7 @@
 
   const track = document.querySelector('#collection-track');
   const controls = document.querySelector('.collection-edit-controls');
+  if (!track || !controls) return;
   const [previous, next] = controls.querySelectorAll('button');
 
   function updateControls() {
