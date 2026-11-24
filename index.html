@@ -116,7 +116,7 @@ html{scroll-behavior:smooth}body{margin:0;background:#110b14;color:#fff;font-fam
 @keyframes aym-breathe{from{transform:scaleX(.65) scale(.95);opacity:.6}to{transform:scaleX(.65) scale(1.1);opacity:1}}
 @media(max-width:760px){.aym-story{height:175vh!important}.aym-story-sticky{height:100svh!important;position:sticky!important;display:flex!important;flex-direction:column!important}.aym-story-visual{height:49svh!important;min-height:220px}.aym-story-content{flex:1;padding:1rem 1.5rem 2rem!important}.aym-story-content h2{font-size:clamp(2.3rem,9vw,4rem)!important;margin:.5rem 0!important}.aym-story-content>p:not(.aym-eyebrow){font-size:13px;line-height:1.5}.aym-story-photo-two{clip-path:inset(calc((1 - var(--scene,0))*100%) 0 0 0)!important}.aym-lookbook-stage{height:570px!important}.aym-lookbook-image img{object-position:center 25%}}
 @media(prefers-reduced-motion:reduce){.aym-intro-glow,.aym-intro .aym-eyebrow,.aym-intro h2,.aym-intro>p:not(.aym-eyebrow),.aym-intro .aym-pill{animation:none!important}.aym-motion .aym-story-content h2,.aym-motion .aym-story-content>p,.aym-motion .aym-lookbook-heading,.aym-motion .aym-finale h2{opacity:1;transform:none}.aym-story-photo-two{clip-path:inset(0)!important}}
-</style></head><body class="aymelek-runway-home aymelek-catalog">
+</style><link rel="stylesheet" href="premium-rails.css?v=1"></head><body class="aymelek-runway-home aymelek-catalog">
 <div class="ann" aria-live="polite"><p>5.000 TL ve üzeri siparişlerde ücretsiz kargo</p><p>Yeni sezon modelleri burada</p><p>AYMELEK'e katıl, ilk siparişinde %10 indirim kazan</p></div>
 <header class="hdr"><div class="wrap"><div class="main">
 <div><button class="ib burger" aria-label="Menüyü aç"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><form class="search" role="search" action="products.html"><label class="sr" for="qd">Ara</label><input id="qd" name="q" type="search" placeholder="Elbise, ayakkabı, çanta ara…" autocomplete="off"><button aria-label="Ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></form></div>
@@ -473,7 +473,7 @@ d.querySelector('.x').addEventListener('click',function(){tg(false)});
 addEventListener('keydown',function(e){if(e.key==='Escape')tg(false)});
 document.querySelector('.msearch').addEventListener('click',function(){var b=document.querySelector('.msb');b.classList.toggle('open');if(b.classList.contains('open'))b.querySelector('input').focus()});
 })();
-</script><script src="bg3d.js?v=midnight-jade" defer></script><script src="shop.js?v=runway-purchase" defer></script><script id="aymelek-motion-2027-script">
+</script><script src="bg3d.js?v=midnight-jade" defer></script><script src="shop.js?v=runway-purchase" defer></script><div id="aym-premium-rails" aria-label="AYMELEK hareketli askılık koleksiyonları"></div><script src="premium-rails.js?v=1" defer></script><script id="aymelek-motion-2027-script">
 (()=>{'use strict';const root=document.getElementById('aymelek-motion-root');if(!root)return;
 const looks=[{title:'Şehrin ritmi',sub:'KADIN GİYİM',img:'https://aybek13.github.io/aymelek/hero-woman.jpg',href:'products.html?cat=dresses'},{title:'Özgür adımlar',sub:'AYAKKABI',img:'https://aybek13.github.io/aymelek/shoe-assets/sneaker-1.webp',href:'products.html?cat=shoes'},{title:'İnce dokunuş',sub:'AKSESUAR',img:'https://aybek13.github.io/aymelek/showcase-photos/1.jpg',href:'products.html?cat=accessories'}];
 root.innerHTML=`<div class="aym-motion">
