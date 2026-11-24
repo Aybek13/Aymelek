@@ -2,6 +2,13 @@
 const sets=[
 {type:'diagonal',ey:'HINA / KIDS EDIT',title:'Minik stiller, büyük hayaller',desc:'Çapraz askılıkta koleksiyonu keşfet.',items:[['Çocuk koleksiyonu · temsili görsel','showcase-photos/1.jpg','products.html?cat=kids'],['Yeni sezon çocuk · temsili görsel','hero-woman.jpg','products.html?cat=kids'],['Çocuk seçkisi · temsili görsel','showcase-photos/1.jpg','products.html?cat=kids']]},
 {type:'offcut',ey:'OFFCUT / 3D RAIL',title:'Stilini çevir, detayları keşfet',desc:'Bir parçaya dokun; askılıktan öne gelsin.',items:[['Saten Midi Elbise · temsili görsel','hero-woman.jpg','product.html?id=1'],['Beyaz Sneaker · temsili görsel','shoe-assets/sneaker-1.webp','product.html?id=25'],['İnci Kolye · temsili görsel','showcase-photos/1.jpg','product.html?id=35']]}];
+
+// Use the existing prompt/demo catalog until a verified published catalog is available.
+const catalog=Array.isArray(window.AYMELEK_DEFAULTS)?window.AYMELEK_DEFAULTS:[];
+function sample(cat,count){return catalog.filter(p=>p.cat===cat&&p.images&&p.images[0]).slice(0,count).map(p=>[p.name+' · örnek ürün',p.images[0],'product.html?id='+encodeURIComponent(p.id)]);}
+const kids=sample('kids',3),fashion=[...sample('dresses',1),...sample('shoes',1),...sample('accessories',1)];
+if(kids.length===3)sets[0].items=kids;
+if(fashion.length===3)sets[1].items=fashion;
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 host.className='aym-rails';host.innerHTML='<div class="aym-rails-inner"><p class="ey">AYMELEK / INTERACTIVE EDIT</p><h2>Moda, hareketle hayat bulur.</h2><p class="lead">Seç, döndür ve koleksiyona geç.</p></div>';
 const inner=host.firstElementChild;
