@@ -436,7 +436,7 @@ paint();
 <script>(function(){
 function read(k){try{var v=JSON.parse(localStorage.getItem(k));return Array.isArray(v)?v:[]}catch(e){return[]}}
 function counters(){
- var c=read('aymelek_cart').reduce(function(s,i){return s+(+i.qty||0)},0),w=read('aymelek_wishlist').length;
+ var c=read('aymelek_cart').reduce(function(s,i){return s+(+i?.qty||0)},0),w=read('aymelek_wishlist').length;
  document.querySelectorAll('[data-count=cart]').forEach(function(e){e.textContent=c;e.dataset.n=c});
  document.querySelectorAll('[data-count=wish]').forEach(function(e){e.textContent=w;e.dataset.n=w});
 }

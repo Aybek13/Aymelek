@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Demo Ödeme — AYMELEK</title>
+  <link rel="icon" href="logo-light.png">
+  <link rel="stylesheet" href="shop.css">
+  <link rel="stylesheet" href="dark.css">
+  <link rel="stylesheet" href="checkout.css">
+  <script src="shop.js" defer></script>
+  <script src="checkout.js" defer></script>
+</head>
+<body data-page="static">
+  <div id="top"></div>
+  <main id="app" class="wrap pw">
+    <a href="cart.html">← Sepete dön</a>
+    <h1 class="pt">Demo ödeme</h1>
+    <p class="dm">Bu sipariş bir simülasyondur. Yalnızca hazır test adresleri kullanılır ve kart bilgisi istenmez.</p>
+    <p id="checkout-message" role="status" aria-live="polite" tabindex="-1">Sipariş özeti yükleniyor…</p>
+    <button class="btn o" id="retry-quote" type="button" hidden>Özeti yeniden yükle</button>
+    <div id="checkout-layout" class="checkout-layout" hidden>
+      <form id="checkout-form" class="checkout-card">
+        <h2>Teslimat adresi</h2>
+        <label for="address">Hazır test adresi</label>
+        <select id="address" required></select>
+        <address id="address-detail"></address>
+
+        <h2>Demo ödeme senaryosu</h2>
+        <label for="scenario">Sonuç</label>
+        <select id="scenario">
+          <option value="success">Başarılı ödeme</option>
+          <option value="failure">Başarısız ödeme</option>
+          <option value="cancel">İptal</option>
+        </select>
+        <button class="btn p" type="submit" id="pay">Demo ödemeyi dene</button>
+      </form>
+      <aside class="checkout-card">
+        <h2>Sipariş özeti</h2>
+        <ul id="checkout-items"></ul>
+        <dl class="checkout-cost">
+          <dt>Ara toplam</dt><dd id="subtotal"></dd>
+          <dt>Kargo</dt><dd id="shipping"></dd>
+          <dt>Toplam</dt><dd id="total"></dd>
+        </dl>
+      </aside>
+    </div>
+    <section id="receipt" class="checkout-card" hidden>
+      <h2 id="receipt-title" tabindex="-1">Demo siparişiniz onaylandı</h2>
+      <p id="receipt-number"></p>
+      <p id="receipt-details"></p>
+      <a class="btn o" href="products.html">Alışverişe devam et</a>
+    </section>
+  </main>
+  <div id="foot"></div>
+</body>
+</html>

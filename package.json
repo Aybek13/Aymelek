@@ -1,0 +1,14 @@
+{
+  "name": "aymelek-demo",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "start": "node demo/server.js",
+    "test": "node --test tests/demo.test.js",
+    "test:browser": "node --test tests/browser.test.js"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

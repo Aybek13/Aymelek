@@ -1,0 +1,4 @@
+.demo-data/
+node_modules/
+playwright-report/
+test-results/

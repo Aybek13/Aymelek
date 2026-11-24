@@ -1,0 +1,35 @@
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+.checkout-layout[hidden] { display: none; }
+.checkout-card {
+  padding: clamp(16px, 4vw, 32px);
+  border: 1px solid var(--ln);
+  background: var(--pnl);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.checkout-card h2 { margin-bottom: 12px; }
+.checkout-card label { display: block; }
+.checkout-card select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin: 6px 0 14px;
+  padding: 8px;
+}
+.checkout-card address { margin-bottom: 24px; white-space: pre-line; }
+.checkout-card ul { list-style: none; margin-bottom: 16px; }
+.checkout-card li { padding: 8px 0; border-bottom: 1px solid var(--ln); }
+.checkout-cost { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.checkout-cost dd { text-align: right; }
+.checkout-cost :nth-last-child(-n+2) { font-weight: bold; }
+#checkout-message { margin: 16px 0; }
+#receipt p { margin-bottom: 12px; }
+@media (max-width: 700px) {
+  .checkout-layout { grid-template-columns: minmax(0, 1fr); }
+  .checkout-layout aside { order: -1; }
+}
