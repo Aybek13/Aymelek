@@ -160,3 +160,24 @@ body.aymelek-runway-home .hero .txt {
   position: fixed; z-index: 10000; pointer-events: none; color: #ffd3ee;
   text-shadow: 0 0 7px #ff72c5; line-height: 1;
 }
+
+/* AYMELEK premium motion refinement: accessible depth and shopping controls */
+.home-runway .stage { perspective: 1100px; box-shadow: inset 0 0 80px rgba(12,5,19,.38), 0 22px 65px rgba(0,0,0,.25); }
+.home-runway .model { backface-visibility: hidden; will-change: transform; filter: drop-shadow(0 16px 18px rgba(0,0,0,.28)); }
+.home-runway .rail { box-shadow: 0 14px 42px rgba(0,0,0,.18); }
+.home-runway .runway-add { min-height: 48px; font-weight: 600; position: relative; z-index: 2; }
+.home-runway .controls button:focus-visible, .home-runway .runway-add:focus-visible { outline: 3px solid #ffe2f3; outline-offset: 3px; }
+@media (hover:hover) and (prefers-reduced-motion:no-preference) {
+  .home-runway .model { transition: filter .3s ease; }
+  .home-runway .model:hover { filter: drop-shadow(0 22px 25px rgba(0,0,0,.48)) brightness(1.09); }
+  .home-runway .runway-add { transition: transform .2s ease, box-shadow .2s ease; }
+  .home-runway .runway-add:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,194,223,.28); }
+}
+@media (max-width:720px) {
+  .home-runway .stage { min-height: 26rem; }
+  .home-runway .controls { bottom: .65rem; left: .65rem; }
+  .home-runway .runway-add { width: 100%; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .home-runway .model, .home-runway .runway-add { transition: none !important; animation: none !important; }
+}
